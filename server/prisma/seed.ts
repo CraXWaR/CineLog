@@ -1,5 +1,5 @@
-import prisma from "../../src/db/prisma.js";
-import {seedUser} from "./user.seed.js";
+import prisma from "../src/db/prisma.js";
+import {seedUser} from "../src/seeders/user.seed.js";
 
 async function run() {
     await seedUser(prisma);
@@ -8,7 +8,7 @@ async function run() {
 }
 
 run().catch((err) => {
-    console.log(err);
+    console.error(err);
     process.exit(1);
 }).finally(async () => {
     await prisma.$disconnect();
