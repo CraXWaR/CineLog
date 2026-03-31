@@ -1,0 +1,12 @@
+model Movie {
+  id     String @id @default(uuid(4))
+  tmdbId String @unique @map("tmdb_id")
+  title  String
+  poster String
+  year   String
+  genre  String
+
+  watched UserWatched[]
+
+  @@map("movies")
+}

@@ -1,0 +1,68 @@
+model Movie {
+  id     String @id @default(uuid(4))
+  tmdbId String @unique @map("tmdb_id")
+  title  String
+  poster String
+  year   String
+  genre  String
+
+  watched UserWatched[]
+
+  @@map("movies")
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       String @id @default(uuid(4))
+  username String
+  email    String @unique
+  password String
+
+  watched  UserWatched[]
+  friends  UserFriends[] @relation("UserFriends")
+  friendOf UserFriends[] @relation("FriendOf")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model UserFriends {
+  id       String @id @default(uuid(4))
+  userId   String @map("user_id")
+  friendId String @map("friend_id")
+  user     User   @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  friend   User   @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
+  status   String @default("pending")
+
+  @@unique([userId, friendId])
+  @@map("user_friends")
+}
+
+model UserWatched {
+  id        String   @id @default(uuid(4))
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  userId    String   @map("user_id")
+  movieId   String   @map("movie_id")
+  rating    Int
+  review    String?
+  watchedAt DateTime @default(now()) @map("watched_at")
+
+  @@map("user_watched")
+}

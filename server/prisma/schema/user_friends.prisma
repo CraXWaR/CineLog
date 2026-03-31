@@ -1,0 +1,11 @@
+model UserFriends {
+  id       String @id @default(uuid(4))
+  userId   String @map("user_id")
+  friendId String @map("friend_id")
+  user     User   @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  friend   User   @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
+  status   String @default("pending")
+
+  @@unique([userId, friendId])
+  @@map("user_friends")
+}

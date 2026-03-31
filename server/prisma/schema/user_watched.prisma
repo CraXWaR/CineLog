@@ -1,0 +1,12 @@
+model UserWatched {
+  id        String   @id @default(uuid(4))
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  userId    String   @map("user_id")
+  movieId   String   @map("movie_id")
+  rating    Int
+  review    String?
+  watchedAt DateTime @default(now()) @map("watched_at")
+
+  @@map("user_watched")
+}
