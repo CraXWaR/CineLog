@@ -1,6 +1,7 @@
 import styles from "./Login.module.css";
 import {Link} from "react-router";
 import {type FormEvent, useState} from "react";
+import FormInput from "../../../components/FormInput/FormInput.tsx";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -53,35 +54,14 @@ export default function Login() {
 
                     <form className={styles.form} onSubmit={handleSubmit}>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="email">
-                                <span className={styles.labelPrefix}>01 /</span> EMAIL
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                className={styles.input}
-                                placeholder="user@domain.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={'EMAIL'} prefix={'01'} value={email}
+                                   onChange={(e) => setEmail(e.target.value)} id={"email"} name={"email"}
+                                   placeholder={"user@domain.com"} type={"email"} variant={"login"}/>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="password">
-                                <span className={styles.labelPrefix}>02 /</span> PASSWORD
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                className={styles.input}
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={"PASSWORD"} prefix={"02"} value={password}
+                                   onChange={(e) => setPassword(e.target.value)}
+                                   id={"password"} name={"password"} placeholder={"••••••••"} type={"password"}
+                                   variant={"login"}/>
 
                         <button type="submit" className={styles.btn}>
                             <span>ACCESS VAULT</span>

@@ -1,0 +1,426 @@
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: var(--z-overlay);
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-8);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+}
+
+.borderBottom {
+    height: 1px;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(0, 240, 255, 0.3) 30%,
+            rgba(255, 45, 120, 0.3) 70%,
+            transparent
+    );
+}
+
+.logo {
+    font-family: var(--font-display), serif;
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-primary);
+    text-shadow: var(--glow-cyan);
+    text-decoration: none;
+    position: relative;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.logo::before,
+.logo::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+}
+
+.logo::before {
+    color: var(--color-neon-cyan);
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    animation: glitchTop 5s infinite steps(1);
+}
+
+.logo::after {
+    color: var(--color-neon-pink);
+    clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+    animation: glitchBottom 5s infinite steps(1);
+}
+
+@keyframes glitchTop {
+    0%, 90%, 100% { opacity: 0; transform: translateX(0); }
+    92% { opacity: 1; transform: translateX(-2px); }
+    94% { opacity: 0; }
+}
+
+@keyframes glitchBottom {
+    0%, 90%, 100% { opacity: 0; transform: translateX(0); }
+    93% { opacity: 1; transform: translateX(2px); }
+    95% { opacity: 0; }
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.navLink {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-base), text-shadow var(--transition-base);
+    position: relative;
+    padding-bottom: var(--space-1);
+}
+
+.navLink::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    transition: width var(--transition-base);
+}
+
+.navLink:hover {
+    color: var(--color-text-primary);
+}
+
+.navLink:hover::after {
+    width: 100%;
+}
+
+.navLinkActive {
+    color: var(--color-neon-cyan);
+    text-shadow: var(--glow-cyan);
+}
+
+.navLinkActive::after {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.btnGhost {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.btnGhost:hover {
+    color: var(--color-neon-cyan);
+    border-color: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    text-shadow: none;
+}
+
+.btnPrimary {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-5);
+    border: 1px solid var(--color-neon-pink);
+    background: var(--color-neon-pink);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--glow-pink);
+    transition: all var(--transition-base);
+}
+
+.btnPrimary:hover {
+    background: transparent;
+    color: var(--color-neon-pink);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: var(--space-2);
+    flex-shrink: 0;
+    transition: border-color var(--transition-base);
+}
+
+.hamburger:hover {
+    border-color: var(--color-neon-pink);
+    box-shadow: var(--glow-pink);
+}
+
+.hamburger svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-neon-cyan);
+    transition: color var(--transition-base);
+}
+
+.hamburgerOpen svg {
+    color: var(--color-neon-pink);
+}
+
+@media (max-width: 768px) {
+    .nav,
+    .actions {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 300px;
+    max-width: 85vw;
+    background: var(--color-bg-secondary);
+    border-left: var(--border-cyan);
+    z-index: var(--z-modal);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.drawerOpen {
+    transform: translateX(0);
+}
+
+.drawerInner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+    gap: var(--space-8);
+}
+
+/* Drawer header */
+.drawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border-cyan);
+}
+
+.drawerLogo {
+    font-family: var(--font-display), serif;
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-neon-cyan);
+    text-shadow: var(--glow-cyan);
+}
+
+.drawerClose {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-neon-pink);
+    box-shadow: var(--glow-pink);
+    border-radius: var(--radius-sm);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+}
+
+.drawerClose:hover {
+    border-color: var(--color-border);
+    box-shadow: none;
+}
+
+.drawerClose svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-neon-pink);
+    transition: color var(--transition-base);
+}
+
+.drawerClose:hover svg {
+    color: var(--color-text-muted);
+}
+
+/* Drawer nav links */
+.drawerNav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+}
+
+.drawerLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-base);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--space-4) var(--space-4);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.drawerLink:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+.drawerLinkActive {
+    color: var(--color-neon-cyan);
+    text-shadow: var(--glow-cyan);
+    border-color: rgba(0, 240, 255, 0.2) !important;
+    background: rgba(0, 240, 255, 0.06) !important;
+}
+
+.drawerPrefix {
+    color: var(--color-neon-pink);
+    text-shadow: var(--glow-pink);
+    font-size: var(--text-xs);
+}
+
+/* Drawer action buttons */
+.drawerActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.drawerBtnGhost {
+    display: block;
+    text-align: center;
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.drawerBtnGhost:hover {
+    color: var(--color-neon-cyan);
+    border-color: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    text-shadow: none;
+}
+
+.drawerBtnPrimary {
+    display: block;
+    text-align: center;
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--color-neon-pink);
+    background: var(--color-neon-pink);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--glow-pink);
+    transition: all var(--transition-base);
+}
+
+.drawerBtnPrimary:hover {
+    background: transparent;
+    color: var(--color-neon-pink);
+}
+
+/* Drawer status bar */
+.drawerStatus {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+    padding-top: var(--space-6);
+    border-top: var(--border-thin);
+}
+
+.drawerDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    flex-shrink: 0;
+}
+
+.drawerDivider {
+    color: var(--color-neon-cyan);
+    font-size: 8px;
+}
+
+.drawerBlink {
+    color: var(--color-neon-pink);
+    text-shadow: var(--glow-pink);
+    animation: blink 1.2s steps(1) infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: calc(var(--z-modal) - 1);
+}

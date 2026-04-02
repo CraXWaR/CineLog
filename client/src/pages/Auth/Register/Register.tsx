@@ -1,6 +1,7 @@
 import styles from "./Register.module.css";
 import {Link} from "react-router";
 import React, {useState} from "react";
+import FormInput from "../../../components/FormInput/FormInput.tsx";
 
 export default function Register() {
     const [username, setUsername] = useState("");
@@ -54,65 +55,21 @@ export default function Register() {
 
                     <form className={styles.form} onSubmit={handleSubmit}>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="username">
-                                <span className={styles.labelPrefix}>01 /</span> USERNAME
-                            </label>
-                            <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                className={styles.input}
-                                placeholder="enter_username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={"USERNAME"} value={username} onChange={(e) => setUsername(e.target.value)}
+                                   id={username} name={username} prefix={"01"} placeholder={"enter_username"}
+                                   variant={"register"}/>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="email">
-                                <span className={styles.labelPrefix}>02 /</span> EMAIL
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                className={styles.input}
-                                placeholder="user@domain.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={"EMAIL"} value={email} onChange={(e) => setEmail(e.target.value)} id={"email"}
+                                   name={"email"} placeholder={"user@domain.com"} variant={"register"} prefix={"02"}/>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="password">
-                                <span className={styles.labelPrefix}>03 /</span> PASSWORD
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                className={styles.input}
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={"PASSWORD"} value={password} onChange={(e) => setPassword(e.target.value)}
+                                   id={"password"} name={"password"} type={"password"} placeholder={"••••••••"}
+                                   variant={"register"} prefix={"03"}/>
 
-                        <div className={styles.field}>
-                            <label className={styles.label} htmlFor="confirm-password">
-                                <span className={styles.labelPrefix}>03 /</span> PASSWORD
-                            </label>
-                            <input
-                                id="confirm-password"
-                                name="confirm-password"
-                                type="password"
-                                className={styles.input}
-                                placeholder="••••••••"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
-                        </div>
+                        <FormInput label={"CONFIRM PASSWORD"} value={confirmPassword}
+                                   onChange={(e) => setConfirmPassword(e.target.value)} id={"confirm-password"}
+                                   name={"confirm-password"} type={"password"} placeholder={"••••••••"}
+                                   variant={"register"} prefix={"04"}/>
 
                         <button type="submit" className={styles.btn}>
                             <span>INITIALIZE ACCOUNT</span>
