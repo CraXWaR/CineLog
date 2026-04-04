@@ -1,35 +1,24 @@
-import styles from "./Register.module.css";
+import {useState} from "react";
 import {Link} from "react-router";
-import React, {useState} from "react";
 import FormInput from "../../../components/FormInput/FormInput.tsx";
+import {
+    RiSkipRightLine,
+    RiCheckboxCircleLine,
+    RiDatabase2Line,
+    RiRecordCircleLine,
+    RiLoginBoxLine
+} from "react-icons/ri";
+
+import {useRegister} from "../../../hooks/useAuth.ts";
+
+import styles from "./Register.module.css";
 
 export default function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
-    const handleRegister = async (data: any) => {
-        try {
-            const response = await fetch("http://localhost:8080/api/register", {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(data)
-            });
-            const json = await response.json();
-            console.log(json);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = {username, email, password, confirmPassword}
-        handleRegister(formData);
-    }
+    const {handleSubmit, errors} = useRegister();
 
     return (
         <div className={styles.page}>
@@ -53,44 +42,46 @@ export default function Register() {
                         <span className={styles.cardLine}/>
                     </div>
 
-                    <form className={styles.form} onSubmit={handleSubmit}>
+                    <form className={styles.form}
+                          onSubmit={(e) => handleSubmit(e, {username, email, password, confirmPassword})}>
 
                         <FormInput label={"USERNAME"} value={username} onChange={(e) => setUsername(e.target.value)}
                                    id={username} name={username} prefix={"01"} placeholder={"enter_username"}
-                                   variant={"register"}/>
+                                   variant={"register"} error={errors.username}/>
 
                         <FormInput label={"EMAIL"} value={email} onChange={(e) => setEmail(e.target.value)} id={"email"}
-                                   name={"email"} placeholder={"user@domain.com"} variant={"register"} prefix={"02"}/>
+                                   name={"email"} placeholder={"user@domain.com"} variant={"register"} prefix={"02"}
+                                   error={errors.email}/>
 
                         <FormInput label={"PASSWORD"} value={password} onChange={(e) => setPassword(e.target.value)}
                                    id={"password"} name={"password"} type={"password"} placeholder={"••••••••"}
-                                   variant={"register"} prefix={"03"}/>
+                                   variant={"register"} prefix={"03"} error={errors.password}/>
 
                         <FormInput label={"CONFIRM PASSWORD"} value={confirmPassword}
                                    onChange={(e) => setConfirmPassword(e.target.value)} id={"confirm-password"}
                                    name={"confirm-password"} type={"password"} placeholder={"••••••••"}
-                                   variant={"register"} prefix={"04"}/>
+                                   variant={"register"} prefix={"04"} error={errors.confirmPassword}/>
 
                         <button type="submit" className={styles.btn}>
                             <span>INITIALIZE ACCOUNT</span>
-                            <span className={styles.btnArrow}>▶▶</span>
+                            <RiSkipRightLine size={20}/>
                         </button>
 
                     </form>
 
                     <div className={styles.footer}>
                         <span className={styles.footerText}>ALREADY HAVE A TAPE?</span>
-                        <Link to="/login" className={styles.footerLink}>SIGN IN →</Link>
+                        <Link to="/login" className={styles.footerLink}>SIGN IN <RiLoginBoxLine size={14}/> </Link>
                     </div>
 
                 </div>
 
                 <div className={styles.statusBar}>
-                    <span>SYS:READY</span>
+                    <span className={styles.statusItem}><RiCheckboxCircleLine/> SYS:READY</span>
                     <span className={styles.statusDivider}>◈</span>
-                    <span>MEM:OK</span>
+                    <span className={styles.statusItem}><RiDatabase2Line/> MEM:OK</span>
                     <span className={styles.statusDivider}>◈</span>
-                    <span className={styles.statusBlink}>● REC</span>
+                    <span className={`${styles.statusItem} ${styles.statusBlink}`}><RiRecordCircleLine/> REC</span>
                 </div>
 
             </div>

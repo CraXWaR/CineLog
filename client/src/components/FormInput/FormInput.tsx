@@ -1,4 +1,5 @@
 import React from "react";
+import {RiErrorWarningLine} from "react-icons/ri";
 import styles from "./FormInput.module.css";
 
 type FormInputProps = {
@@ -11,6 +12,7 @@ type FormInputProps = {
     id: string;
     name: string;
     variant?: "login" | "register";
+    error?: string;
 };
 
 export default function FormInput({
@@ -22,7 +24,8 @@ export default function FormInput({
                                       placeholder,
                                       id,
                                       name,
-                                      variant
+                                      variant,
+                                      error
                                   }: FormInputProps) {
     const prefixClass = variant === "register" ? styles.labelPrefixPink : styles.labelPrefixCyan;
 
@@ -40,6 +43,7 @@ export default function FormInput({
                 value={value}
                 onChange={onChange}
             />
+            {error && (<span className={styles.error}><RiErrorWarningLine size={14}/>{error}</span>)}
         </div>
     );
 }

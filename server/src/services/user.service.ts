@@ -5,7 +5,6 @@ import prisma from "../db/prisma.js";
 export class UserService {
     async register(data: any): Promise<User> {
         const userData = data;
-        //TODO CHECK FOR UNIQUE USER
         userData.password = await bcrypt.hash(data.password, 12);
 
         return prisma.user.create({

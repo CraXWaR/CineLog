@@ -1,34 +1,21 @@
-import styles from "./Login.module.css";
+import {useState} from "react";
 import {Link} from "react-router";
-import {type FormEvent, useState} from "react";
 import FormInput from "../../../components/FormInput/FormInput.tsx";
+import {
+    RiSkipRightLine,
+    RiCheckboxCircleLine,
+    RiDatabase2Line,
+    RiRecordCircleLine, RiUserAddLine
+} from "react-icons/ri";
+
+import {useLogin} from "../../../hooks/useAuth.ts";
+
+import styles from "./Login.module.css";
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleLogin = async (data: any) => {
-        try {
-            const response = await fetch("http://localhost:8080/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data)
-            })
-
-            const json = await response.json();
-            console.log(json);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault()
-        const formData = {email, password}
-        handleLogin(formData);
-    }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const {handleSubmit, errors} = useLogin();
 
     return (
         <div className={styles.page}>
@@ -52,37 +39,38 @@ export default function Login() {
                         <span className={styles.cardLine}/>
                     </div>
 
-                    <form className={styles.form} onSubmit={handleSubmit}>
+                    <form className={styles.form} onSubmit={(e) => handleSubmit(e, {email, password})}>
 
                         <FormInput label={'EMAIL'} prefix={'01'} value={email}
                                    onChange={(e) => setEmail(e.target.value)} id={"email"} name={"email"}
-                                   placeholder={"user@domain.com"} type={"email"} variant={"login"}/>
+                                   placeholder={"user@domain.com"} type={"email"} variant={"login"}
+                                   error={errors.email}/>
 
                         <FormInput label={"PASSWORD"} prefix={"02"} value={password}
                                    onChange={(e) => setPassword(e.target.value)}
                                    id={"password"} name={"password"} placeholder={"••••••••"} type={"password"}
-                                   variant={"login"}/>
+                                   variant={"login"} error={errors.password}/>
 
                         <button type="submit" className={styles.btn}>
                             <span>ACCESS VAULT</span>
-                            <span className={styles.btnArrow}>▶▶</span>
+                            <span className={styles.btnArrow}><RiSkipRightLine size={20}/></span>
                         </button>
 
                     </form>
 
                     <div className={styles.footer}>
                         <span className={styles.footerText}>NO TAPE YET?</span>
-                        <Link to="/register" className={styles.footerLink}>REGISTER →</Link>
+                        <Link to="/register" className={styles.footerLink}>REGISTER <RiUserAddLine size={14}/> </Link>
                     </div>
 
                 </div>
 
                 <div className={styles.statusBar}>
-                    <span>SYS:READY</span>
+                    <span className={styles.statusItem}><RiCheckboxCircleLine/> SYS:READY</span>
                     <span className={styles.statusDivider}>◈</span>
-                    <span>MEM:OK</span>
+                    <span className={styles.statusItem}><RiDatabase2Line/> MEM:OK</span>
                     <span className={styles.statusDivider}>◈</span>
-                    <span className={styles.statusBlink}>● REC</span>
+                    <span className={`${styles.statusItem} ${styles.statusBlink}`}><RiRecordCircleLine/> REC</span>
                 </div>
 
             </div>

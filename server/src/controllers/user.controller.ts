@@ -1,5 +1,7 @@
 import type {Request, Response} from "express";
 import {UserService} from "../services/user.service.js";
+import {UserValidationSchema} from "../validators/user.validator.js";
+import {ZodError} from "zod";
 
 export class UserController {
     private userService: UserService;
@@ -10,10 +12,16 @@ export class UserController {
 
     register = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const data = req.body;
+            const validatedData = UserValidationSchema.safeParse(req.body);
+            if (!validatedData.success) {
+                const formatted = validatedData.error.issues.map((issue) => ({
+                    field: issue.path[0],
+                    message: issue.message,
+                }));
+                return res.status(400).json({errors: formatted});
+            }
 
-            //TODO ADD VALIDATION
-            const {confirmPassword, ...userToRegister} = data
+            const {confirmPassword, ...userToRegister} = validatedData.data
             const user = await this.userService.register(userToRegister);
             const {password, ...safeUser} = user;
 
@@ -30,7 +38,6 @@ export class UserController {
 
     login = async (req: Request, res: Response) => {
         try {
-            //TODO ADD VALIDATION
             const user = await this.userService.login(req.body);
             const {password, ...safeUser} = user;
             return res.status(201).json({
