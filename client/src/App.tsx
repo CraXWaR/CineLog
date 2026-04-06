@@ -8,6 +8,7 @@ import Footer from "./components/UI/Footer/Footer.tsx";
 import Login from "./pages/Auth/Login/Login.tsx";
 import Register from "./pages/Auth/Register/Register.tsx";
 import Home from "./pages/Home/HomePage.tsx";
+import Movies from "./pages/Movie/MoviesPage.tsx";
 
 import './App.css'
 
@@ -19,6 +20,7 @@ const Root: React.FC = () => {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
+                <Route path="/trending" element={<Movies/>}/>
             </Routes>
             <Footer/>
         </>

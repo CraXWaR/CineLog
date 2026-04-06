@@ -1,7 +1,6 @@
 import type {Request, Response} from "express";
 import {UserService} from "../services/user.service.js";
 import {UserValidationSchema} from "../validators/user.validator.js";
-import {ZodError} from "zod";
 
 export class UserController {
     private userService: UserService;

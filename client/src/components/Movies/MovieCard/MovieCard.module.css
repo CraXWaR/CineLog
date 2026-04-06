@@ -1,0 +1,154 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    cursor: pointer;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.posterWrapper {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: var(--border-cyan);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-slow);
+}
+
+.card:hover .posterWrapper {
+    border-color: var(--color-neon-pink);
+    box-shadow: var(--glow-pink);
+    transform: translateY(-4px);
+}
+
+.poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform var(--transition-slow);
+}
+
+.card:hover .poster {
+    transform: scale(1.04);
+}
+
+.posterFallback {
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-elevated);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-wide);
+}
+
+.ratingBadge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(10, 10, 26, 0.85);
+    border: 1px solid rgba(255, 230, 0, 0.4);
+    border-radius: var(--radius-pill);
+    padding: 2px var(--space-2);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    color: var(--color-neon-yellow);
+    text-shadow: var(--glow-yellow);
+    backdrop-filter: blur(4px);
+}
+
+/* Hover overlay */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 26, 0.85);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: var(--space-4);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.overview {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-loose);
+    letter-spacing: var(--tracking-wide);
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card:hover .overlay {
+    opacity: 1;
+}
+
+.overlayPlay {
+    font-size: var(--text-3xl);
+    color: var(--color-neon-pink);
+    text-shadow: var(--glow-pink);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: 0 var(--space-1);
+}
+
+.title {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-tight);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.year {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    color: var(--color-neon-cyan);
+    text-shadow: var(--glow-cyan);
+    letter-spacing: var(--tracking-wide);
+    flex-shrink: 0;
+}
+
+.genres {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-wide);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

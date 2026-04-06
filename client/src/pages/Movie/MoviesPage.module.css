@@ -1,0 +1,88 @@
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+}
+
+.header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.label {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-neon-pink);
+    text-shadow: var(--glow-pink);
+}
+
+.title {
+    font-family: var(--font-display), serif;
+    font-size: var(--text-4xl);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-primary);
+    text-shadow: var(--glow-cyan);
+    line-height: 1;
+    position: relative;
+}
+
+.title::before,
+.title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+}
+
+.title::before {
+    color: var(--color-neon-cyan);
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    animation: glitchTop 5s infinite steps(1);
+}
+
+.title::after {
+    color: var(--color-neon-pink);
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    animation: glitchBottom 5s infinite steps(1);
+}
+
+@keyframes glitchTop {
+    0%, 90%, 100% { opacity: 0; transform: translateX(0); }
+    92% { opacity: 1; transform: translateX(-3px); }
+    94% { opacity: 0; }
+}
+
+@keyframes glitchBottom {
+    0%, 90%, 100% { opacity: 0; transform: translateX(0); }
+    93% { opacity: 1; transform: translateX(3px); }
+    95% { opacity: 0; }
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+}
+
+.count {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-muted);
+    border: var(--border-cyan);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+}

@@ -21,8 +21,8 @@ export default function Header() {
                         <NavLink to="/" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             HOME
                         </NavLink>
-                        <NavLink to="/feed" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
-                            FEED
+                        <NavLink to="/trending" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
+                            Trending
                         </NavLink>
                         <NavLink to="/search" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             SEARCH
@@ -63,8 +63,8 @@ export default function Header() {
                         <NavLink to="/" end className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>01 /</span> HOME
                         </NavLink>
-                        <NavLink to="/feed" className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
-                            <span className={styles.drawerPrefix}>02 /</span> FEED
+                        <NavLink to="/trending" className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
+                            <span className={styles.drawerPrefix}>02 /</span> Trending
                         </NavLink>
                         <NavLink to="/search" className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>03 /</span> SEARCH
