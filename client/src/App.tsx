@@ -11,6 +11,7 @@ import Home from "./pages/Home/HomePage.tsx";
 import Movies from "./pages/Movie/MoviesPage.tsx";
 
 import './App.css'
+import {AuthProvider} from "./context/auth.context.tsx";
 
 const Root: React.FC = () => {
     return (
@@ -29,9 +30,11 @@ const Root: React.FC = () => {
 
 function App() {
     return (
-        <BrowserRouter>
-            <Root/>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Root/>
+            </BrowserRouter>
+        </AuthProvider>
     )
 }
 

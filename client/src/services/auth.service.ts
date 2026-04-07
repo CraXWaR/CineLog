@@ -1,4 +1,12 @@
+import type {IUserResponse} from "../types/user.type.ts";
+
 const API_URL = "http://localhost:8080/api";
+
+interface ILoginResponse {
+    message: string;
+    token: string;
+    user: IUserResponse;
+}
 
 export async function loginRequest(data: { email: string; password: string }) {
     const response = await fetch(`${API_URL}/login`, {
@@ -6,8 +14,7 @@ export async function loginRequest(data: { email: string; password: string }) {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
     });
-    console.log(await response.json())
-    const json = await response.json();
+    const json: ILoginResponse = await response.json();
     return {ok: response.ok, json};
 }
 

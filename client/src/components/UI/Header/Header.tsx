@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router";
+import {useState} from "react";
+import {Link, NavLink} from "react-router";
 import {RxCross2, RxHamburgerMenu} from "react-icons/rx";
 import styles from "./Header.module.css";
+import {useAuth} from "../../../context/auth.context.tsx";
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const {user, logout} = useAuth();
 
     return (
         <>
@@ -18,21 +20,37 @@ export default function Header() {
 
                     {/* Desktop nav */}
                     <nav className={styles.nav}>
-                        <NavLink to="/" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
+                        <NavLink to="/" end
+                                 className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             HOME
                         </NavLink>
-                        <NavLink to="/trending" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
+                        <NavLink to="/trending"
+                                 className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             Trending
                         </NavLink>
-                        <NavLink to="/search" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
+                        <NavLink to="/search"
+                                 className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             SEARCH
                         </NavLink>
                     </nav>
 
                     {/* Desktop actions */}
                     <div className={styles.actions}>
-                        <Link to="/login" className={styles.btnGhost}>SIGN IN</Link>
-                        <Link to="/register" className={styles.btnPrimary}>JOIN</Link>
+                        {!user ? (
+                            <>
+                                <Link to="/login" className={styles.btnGhost}>SIGN IN</Link>
+                                <Link to="/register" className={styles.btnPrimary}>JOIN</Link>
+                            </>
+                        ) : (
+                            <div className={styles.userBox}>
+                                <span className={styles.username}>
+                                    {user.username}
+                                </span>
+                                <button onClick={logout} className={styles.btnLogout}>
+                                    LOGOUT
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Hamburger button — mobile only */}
@@ -40,44 +58,68 @@ export default function Header() {
                         className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ""}`}
                         onClick={() => setMenuOpen(!menuOpen)}
                         aria-label="Toggle menu">
-                        {menuOpen ? <RxCross2 /> : <RxHamburgerMenu />}
+                        {menuOpen ? <RxCross2/> : <RxHamburgerMenu/>}
                     </button>
 
                 </div>
 
-                <div className={styles.borderBottom} />
+                <div className={styles.borderBottom}/>
             </header>
 
-            {/* Mobile drawer — slides in from the right */}
+            {/* Mobile drawer */}
             <div className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ""}`}>
                 <div className={styles.drawerInner}>
 
                     <div className={styles.drawerHeader}>
                         <span className={styles.drawerLogo}>CINELOG</span>
                         <button className={styles.drawerClose} onClick={() => setMenuOpen(false)}>
-                            <RxCross2 />
+                            <RxCross2/>
                         </button>
                     </div>
 
                     <nav className={styles.drawerNav}>
-                        <NavLink to="/" end className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
+                        <NavLink to="/" end
+                                 className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
+                                 onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>01 /</span> HOME
                         </NavLink>
-                        <NavLink to="/trending" className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
+                        <NavLink to="/trending"
+                                 className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
+                                 onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>02 /</span> Trending
                         </NavLink>
-                        <NavLink to="/search" className={({ isActive }) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`} onClick={() => setMenuOpen(false)}>
+                        <NavLink to="/search"
+                                 className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
+                                 onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>03 /</span> SEARCH
                         </NavLink>
                     </nav>
 
                     <div className={styles.drawerActions}>
-                        <Link to="/login" className={styles.drawerBtnGhost} onClick={() => setMenuOpen(false)}>SIGN IN</Link>
-                        <Link to="/register" className={styles.drawerBtnPrimary} onClick={() => setMenuOpen(false)}>JOIN</Link>
+                        {!user ? (
+                            <>
+                                <Link to="/login" className={styles.drawerBtnGhost} onClick={() => setMenuOpen(false)}>SIGN
+                                    IN</Link>
+                                <Link to="/register" className={styles.drawerBtnPrimary}
+                                      onClick={() => setMenuOpen(false)}>JOIN</Link>
+                            </>
+                        ) : (
+                            <>
+                                <div className={styles.drawerUsername}>
+                                    {user.username}
+                                </div>
+                                <button onClick={() => {
+                                    logout();
+                                    setMenuOpen(false);
+                                }} className={styles.drawerBtnLogout}>
+                                    LOGOUT
+                                </button>
+                            </>
+                        )}
                     </div>
 
                     <div className={styles.drawerStatus}>
-                        <span className={styles.drawerDot} />
+                        <span className={styles.drawerDot}/>
                         <span>SYS:READY</span>
                         <span className={styles.drawerDivider}>◈</span>
                         <span className={styles.drawerBlink}>● REC</span>
@@ -87,7 +129,7 @@ export default function Header() {
             </div>
 
             {/* Backdrop overlay */}
-            {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)} />}
+            {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)}/>}
         </>
     );
 }

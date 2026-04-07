@@ -1,6 +1,8 @@
 import type {Request, Response} from "express";
 import {UserService} from "../services/user.service.js";
 import {UserValidationSchema} from "../validators/user.validator.js";
+import jwt from 'jsonwebtoken';
+import "dotenv/config";
 
 export class UserController {
     private userService: UserService;
@@ -23,7 +25,7 @@ export class UserController {
             const {confirmPassword, ...userToRegister} = validatedData.data
             const user = await this.userService.register(userToRegister);
             const {password, ...safeUser} = user;
-
+//TODO REMOVE USER RETURN
             return res.status(201).json({
                 message: "User registered",
                 user: safeUser,
@@ -39,9 +41,16 @@ export class UserController {
         try {
             const user = await this.userService.login(req.body);
             const {password, ...safeUser} = user;
+
+            const payload = {user: safeUser};
+            const accessToken = jwt.sign(payload, process.env.JWT_SACRET!, {
+                expiresIn: '1h'
+            });
+
             return res.status(201).json({
                 message: "User login",
                 user: safeUser,
+                token: accessToken,
             })
         } catch (error: any) {
             return res.status(400).json({
