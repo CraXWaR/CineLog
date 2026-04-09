@@ -2,12 +2,15 @@ import MovieGrid from "../../components/Movies/MovieGrid/MovieGrid.tsx";
 
 import {useMovies} from "../../hooks/useMovies.ts";
 
-import styles from "./MoviesPage.module.css";
 import {useState} from "react";
 import GenreFilter from "../../components/Movies/GenreFilter/GenreFilter.tsx";
+import Loading from "../../components/UI/Loading/Loading.tsx";
+import Error from "../../components/UI/Error/Error.tsx";
+
+import styles from "./MoviesPage.module.css";
 
 export default function MoviesPage() {
-    const {movies, genres} = useMovies();
+    const {movies, genres, loading, error} = useMovies();
     const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
 
     const handleToggle = (id: number) => {
@@ -19,6 +22,7 @@ export default function MoviesPage() {
     const handleClear = () => setSelectedGenres([]);
 
     const filteredMovies = selectedGenres.length === 0 ? movies : movies.filter((movie) => selectedGenres.every((id) => movie.genre_ids.includes(id)));
+
 
     return (
         <div className={styles.page}>
@@ -32,15 +36,24 @@ export default function MoviesPage() {
                 </div>
             </div>
 
-            <div className={styles.mobileFilter}>
-                <GenreFilter
-                    genres={genres}
-                    selectedGenres={selectedGenres}
-                    onToggle={handleToggle}
-                    onClear={handleClear}
-                />
-            </div>
-            <MovieGrid movies={filteredMovies} genres={genres}/>
+            {loading ? (
+                <Loading text={'Loading movies...'}/>
+            ) : error ? (
+                <Error text={error}/>
+            ) : (
+                <>
+                    <div className={styles.mobileFilter}>
+                        <GenreFilter
+                            genres={genres}
+                            selectedGenres={selectedGenres}
+                            onToggle={handleToggle}
+                            onClear={handleClear}
+                        />
+                    </div>
+                    <MovieGrid movies={filteredMovies} genres={genres}/>
+                </>
+            )}
+
         </div>
     );
 };

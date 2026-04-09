@@ -25,12 +25,12 @@ type MovieGridProps = {
 
 export default function MovieGrid({movies, genres}: MovieGridProps) {
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-//TODO ADD LOADING / EMPTY / ERROR STATES
+
     if (movies.length === 0) {
         return (
             <div className={styles.empty}>
                 <span className={styles.emptyIcon}>▶</span>
-                <span className={styles.emptyText}>LOADING TITLES...</span>
+                <span className={styles.emptyText}>NO MOVIES FOUND...</span>
             </div>
         );
     }

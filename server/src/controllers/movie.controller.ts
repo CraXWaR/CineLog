@@ -8,7 +8,7 @@ export class MovieController {
         this.movieService = new MovieService();
     }
 
-    getTrendingMovies = async (req: Request, res: Response) => {
+    getTrendingMovies = async (_req: Request, res: Response) => {
         try {
             const movies = await this.movieService.getTrendingMovies();
             return res.status(200).json({movies});
@@ -17,7 +17,7 @@ export class MovieController {
         }
     }
 
-    getMovieGenres = async (req: Request, res: Response) => {
+    getMovieGenres = async (_req: Request, res: Response) => {
         try {
             const genres = await this.movieService.getMovieGenres();
             return res.status(200).json({genres});
