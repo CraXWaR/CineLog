@@ -27,7 +27,7 @@ const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
     const year = movie.release_date?.split("-")[0] ?? "N/A";
     const rating = movie.vote_average?.toFixed(1) ?? "N/A";
-    console.log(genres);
+
     const movieGenres = Array.isArray(genres)
         ? movie.genre_ids
             .map((id) => genres.find((g) => g.id === id)?.name)
