@@ -1,0 +1,88 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-10);
+    flex-wrap: wrap;
+}
+
+.pages {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    min-width: 36px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    line-height: 1;
+}
+
+.page:hover {
+    color: var(--color-neon-cyan);
+    border-color: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    background: rgba(0, 240, 255, 0.05);
+}
+
+.page.active {
+    color: var(--color-neon-pink);
+    border-color: var(--color-neon-pink);
+    box-shadow: var(--glow-pink);
+    background: rgba(255, 45, 120, 0.08);
+}
+
+.arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--color-neon-cyan);
+    background: transparent;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    line-height: 1;
+}
+
+.arrow:hover:not(:disabled) {
+    background: rgba(0, 240, 255, 0.08);
+    border-color: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+.arrow:disabled {
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.ellipsis {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding: var(--space-2) var(--space-1);
+    user-select: none;
+}
+
+@media (max-width: 480px) {
+    .page {
+        min-width: 32px;
+        padding: var(--space-2);
+    }
+}

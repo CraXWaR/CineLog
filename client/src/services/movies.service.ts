@@ -11,3 +11,12 @@ export async function fetchMovieGenres() {
     const data = await response.json();
     return data.genres;
 }
+
+export async function fetchDiscoverMovies(page: number, genres: number[] = []) {
+    const params = new URLSearchParams({ page: String(page) });
+    if (genres.length > 0) params.append("with_genres", genres.join(","));
+
+    const response = await fetch(`${API_URL}/movies/discover?${params}`);
+    const data = await response.json();
+    return data.movies;
+}

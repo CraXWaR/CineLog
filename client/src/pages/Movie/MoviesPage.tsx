@@ -1,34 +1,41 @@
-import MovieGrid from "../../components/Movies/MovieGrid/MovieGrid.tsx";
-
+import {useCallback, useState} from "react";
 import {useMovies} from "../../hooks/useMovies.ts";
 
-import {useState} from "react";
+import MovieGrid from "../../components/Movies/MovieGrid/MovieGrid.tsx";
 import GenreFilter from "../../components/Movies/GenreFilter/GenreFilter.tsx";
 import Loading from "../../components/UI/Loading/Loading.tsx";
 import Error from "../../components/UI/Error/Error.tsx";
+import CustomPagination from "../../components/UI/CustomPagination/CustomPagination.tsx";
 
 import styles from "./MoviesPage.module.css";
 
 export default function MoviesPage() {
-    const {movies, genres, loading, error} = useMovies();
     const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+    const [pendingGenres, setPendingGenres] = useState<number[]>([]);
+    const {movies, genres, page, setPage, loading, error} = useMovies(selectedGenres);
 
     const handleToggle = (id: number) => {
-        setSelectedGenres((prev) =>
+        setPendingGenres((prev) =>
             prev.includes(id) ? prev.filter((genre) => genre !== id) : [...prev, id]
         );
     };
 
-    const handleClear = () => setSelectedGenres([]);
+    const handleOpen = useCallback(() => {
+        setPendingGenres(selectedGenres);
+    }, [selectedGenres]);
 
-    const filteredMovies = selectedGenres.length === 0 ? movies : movies.filter((movie) => selectedGenres.every((id) => movie.genre_ids.includes(id)));
+    const handleClear = () => setPendingGenres([]);
 
+    const handleClose = useCallback(() => {
+        setPage(1);
+        setSelectedGenres(pendingGenres);
+    }, [pendingGenres]);
 
     return (
         <div className={styles.page}>
             <div className={styles.header}>
                 <div className={styles.headerLeft}>
-                    <span className={styles.label}>// TRENDING THIS WEEK</span>
+                    <span className={styles.label}>// discover</span>
                     <h1 className={styles.title} data-text="MOVIES">MOVIES</h1>
                 </div>
                 <div className={styles.headerRight}>
@@ -45,14 +52,18 @@ export default function MoviesPage() {
                     <div className={styles.mobileFilter}>
                         <GenreFilter
                             genres={genres}
-                            selectedGenres={selectedGenres}
+                            selectedGenres={pendingGenres}
                             onToggle={handleToggle}
+                            onOpen={handleOpen}
                             onClear={handleClear}
+                            onClose={handleClose}
                         />
                     </div>
-                    <MovieGrid movies={filteredMovies} genres={genres}/>
+                    <MovieGrid movies={movies} genres={genres}/>
                 </>
             )}
+
+            <CustomPagination currentPage={page} totalPages={500} onPageChange={setPage}/>
 
         </div>
     );

@@ -26,6 +26,7 @@
     letter-spacing: var(--tracking-vhs);
     color: var(--color-neon-pink);
     text-shadow: var(--glow-pink);
+    text-transform: uppercase;
 }
 
 .title {

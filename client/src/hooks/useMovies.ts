@@ -1,9 +1,10 @@
 import {useState, useEffect} from "react";
-import {fetchTrendingMovies, fetchMovieGenres} from "../services/movies.service.ts";
+import {fetchDiscoverMovies, fetchMovieGenres} from "../services/movies.service.ts";
 
-export function useMovies() {
+export function useMovies(selectedGenres: number[] = []) {
     const [movies, setMovies] = useState<any[]>([]);
     const [genres, setGenres] = useState<any[]>([]);
+    const [page, setPage] = useState<number>(1);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
@@ -14,11 +15,11 @@ export function useMovies() {
                 setLoading(true);
                 setError(null);
 
-                // fake delay
+                //fake delay
                 await new Promise((resolve) => setTimeout(resolve, 1500));
 
                 const [moviesData, genresData] = await Promise.all([
-                    fetchTrendingMovies(),
+                    fetchDiscoverMovies(page, selectedGenres),
                     fetchMovieGenres(),
                 ]);
 
@@ -32,7 +33,7 @@ export function useMovies() {
         };
 
         fetchDataMoviesAndGenres();
-    }, []);
+    }, [page, JSON.stringify(selectedGenres)]);
 
-    return {movies, genres, loading, error};
+    return { movies, genres, page, setPage, loading, error };
 }

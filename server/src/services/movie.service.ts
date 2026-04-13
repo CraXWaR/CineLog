@@ -23,4 +23,17 @@ export class MovieService {
         const data: any = await genresResponse.json();
         return data.genres;
     }
+
+    async getDiscoverMovies(page: string, genres?: string) {
+        const params = new URLSearchParams({api_key: TMDB_API_KEY!, page,});
+        if (genres) params.append("with_genres", genres);
+
+        const movieResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?${params}`);
+        if (!movieResponse.ok) {
+            throw new Error("Failed to fetch trending movies");
+        }
+
+        const data: any = await movieResponse.json();
+        return data.results;
+    }
 }

@@ -22,15 +22,15 @@ export default function Header() {
                     <nav className={styles.nav}>
                         <NavLink to="/" end
                                  className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
-                            HOME
+                            Home
                         </NavLink>
-                        <NavLink to="/trending"
+                        <NavLink to="/discover"
                                  className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
-                            Trending
+                            Discover
                         </NavLink>
                         <NavLink to="/search"
                                  className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
-                            SEARCH
+                            Search
                         </NavLink>
                     </nav>
 
@@ -47,7 +47,7 @@ export default function Header() {
                                     {user.username}
                                 </span>
                                 <button onClick={logout} className={styles.btnLogout}>
-                                    LOGOUT
+                                    Logout
                                 </button>
                             </div>
                         )}
@@ -81,17 +81,17 @@ export default function Header() {
                         <NavLink to="/" end
                                  className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
                                  onClick={() => setMenuOpen(false)}>
-                            <span className={styles.drawerPrefix}>01 /</span> HOME
+                            <span className={styles.drawerPrefix}>01 /</span> Home
                         </NavLink>
-                        <NavLink to="/trending"
+                        <NavLink to="/discover"
                                  className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
                                  onClick={() => setMenuOpen(false)}>
-                            <span className={styles.drawerPrefix}>02 /</span> Trending
+                            <span className={styles.drawerPrefix}>02 /</span> Discover
                         </NavLink>
                         <NavLink to="/search"
                                  className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
                                  onClick={() => setMenuOpen(false)}>
-                            <span className={styles.drawerPrefix}>03 /</span> SEARCH
+                            <span className={styles.drawerPrefix}>03 /</span> Search
                         </NavLink>
                     </nav>
 
@@ -112,7 +112,7 @@ export default function Header() {
                                     logout();
                                     setMenuOpen(false);
                                 }} className={styles.drawerBtnLogout}>
-                                    LOGOUT
+                                    Logout
                                 </button>
                             </>
                         )}

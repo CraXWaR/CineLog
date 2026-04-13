@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {RiArrowDownSLine, RiArrowUpSLine} from "react-icons/ri";
 import styles from "./GenreFilter.module.css";
 
@@ -11,15 +11,41 @@ type GenreDropdownProps = {
     genres: Genre[];
     selectedGenres: number[];
     onToggle: (id: number) => void;
+    onOpen: () => void;
     onClear: () => void;
+    onClose: () => void;
 };
 
-export default function GenreFilter({genres, selectedGenres, onToggle, onClear}: GenreDropdownProps) {
+export default function GenreFilter({genres, selectedGenres, onToggle, onOpen, onClear, onClose}: GenreDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
 
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+                onClose();
+            }
+        };
+
+        if (isOpen) document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen, onClose]);
+
+    const handleOpen = () => {
+        setIsOpen(true);
+        onOpen();
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+        onClose();
+    };
+
     return (
-        <div className={styles.wrapper}>
-            <button className={styles.trigger} onClick={() => setIsOpen(!isOpen)}>
+        <div className={styles.wrapper} ref={wrapperRef}>
+            <button className={styles.trigger} onClick={() => isOpen ? handleClose() : handleOpen()}>
                 <span className={styles.triggerLabel}>
                     Selected:{" "}
                     {selectedGenres.length > 0 && (
