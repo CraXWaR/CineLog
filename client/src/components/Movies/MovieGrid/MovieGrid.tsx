@@ -3,21 +3,10 @@ import {useState} from "react";
 import MovieCard from "../MovieCard/MovieCard.tsx";
 import MovieModal from "../MovieModal/MovieModal.tsx";
 
+import type {Movie, Genre} from "../../../types/movies.type.ts";
+
 import styles from "./MovieGrid.module.css";
 
-type Genre = {
-    id: number;
-    name: string;
-};
-type Movie = {
-    id: number;
-    title: string;
-    overview: string;
-    poster_path: string;
-    release_date: string;
-    vote_average: number;
-    genre_ids: number[];
-};
 type MovieGridProps = {
     movies: Movie[];
     genres: Genre[];

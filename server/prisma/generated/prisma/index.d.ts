@@ -14,7 +14,7 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Movie
+ * Model Movies
  * 
  */
 export type Movie = $Result.DefaultSelection<Prisma.$MoviePayload>
@@ -156,7 +156,7 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.movie`: Exposes CRUD operations for the **Movie** model.
+   * `prisma.movie`: Exposes CRUD operations for the **Movies** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Movies
@@ -1219,7 +1219,7 @@ export namespace Prisma {
    */
 
   /**
-   * Model Movie
+   * Model Movies
    */
 
   export type AggregateMovie = {
@@ -1287,7 +1287,7 @@ export namespace Prisma {
 
   export type MovieAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Movie to aggregate.
+     * Filter which Movies to aggregate.
      */
     where?: MovieWhereInput
     /**
@@ -1455,10 +1455,10 @@ export namespace Prisma {
   export interface MovieDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Movie'], meta: { name: 'Movie' } }
     /**
-     * Find zero or one Movie that matches the filter.
-     * @param {MovieFindUniqueArgs} args - Arguments to find a Movie
+     * Find zero or one Movies that matches the filter.
+     * @param {MovieFindUniqueArgs} args - Arguments to find a Movies
      * @example
-     * // Get one Movie
+     * // Get one Movies
      * const movie = await prisma.movie.findUnique({
      *   where: {
      *     // ... provide filter here
@@ -1468,11 +1468,11 @@ export namespace Prisma {
     findUnique<T extends MovieFindUniqueArgs>(args: SelectSubset<T, MovieFindUniqueArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Movie that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Movies that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {MovieFindUniqueOrThrowArgs} args - Arguments to find a Movie
+     * @param {MovieFindUniqueOrThrowArgs} args - Arguments to find a Movies
      * @example
-     * // Get one Movie
+     * // Get one Movies
      * const movie = await prisma.movie.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
@@ -1482,12 +1482,12 @@ export namespace Prisma {
     findUniqueOrThrow<T extends MovieFindUniqueOrThrowArgs>(args: SelectSubset<T, MovieFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Movie that matches the filter.
+     * Find the first Movies that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {MovieFindFirstArgs} args - Arguments to find a Movie
+     * @param {MovieFindFirstArgs} args - Arguments to find a Movies
      * @example
-     * // Get one Movie
+     * // Get one Movies
      * const movie = await prisma.movie.findFirst({
      *   where: {
      *     // ... provide filter here
@@ -1497,13 +1497,13 @@ export namespace Prisma {
     findFirst<T extends MovieFindFirstArgs>(args?: SelectSubset<T, MovieFindFirstArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Movie that matches the filter or
+     * Find the first Movies that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {MovieFindFirstOrThrowArgs} args - Arguments to find a Movie
+     * @param {MovieFindFirstOrThrowArgs} args - Arguments to find a Movies
      * @example
-     * // Get one Movie
+     * // Get one Movies
      * const movie = await prisma.movie.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
@@ -1531,13 +1531,13 @@ export namespace Prisma {
     findMany<T extends MovieFindManyArgs>(args?: SelectSubset<T, MovieFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Movie.
-     * @param {MovieCreateArgs} args - Arguments to create a Movie.
+     * Create a Movies.
+     * @param {MovieCreateArgs} args - Arguments to create a Movies.
      * @example
-     * // Create one Movie
-     * const Movie = await prisma.movie.create({
+     * // Create one Movies
+     * const Movies = await prisma.movie.create({
      *   data: {
-     *     // ... data to create a Movie
+     *     // ... data to create a Movies
      *   }
      * })
      * 
@@ -1583,13 +1583,13 @@ export namespace Prisma {
     createManyAndReturn<T extends MovieCreateManyAndReturnArgs>(args?: SelectSubset<T, MovieCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Movie.
-     * @param {MovieDeleteArgs} args - Arguments to delete one Movie.
+     * Delete a Movies.
+     * @param {MovieDeleteArgs} args - Arguments to delete one Movies.
      * @example
-     * // Delete one Movie
-     * const Movie = await prisma.movie.delete({
+     * // Delete one Movies
+     * const Movies = await prisma.movie.delete({
      *   where: {
-     *     // ... filter to delete one Movie
+     *     // ... filter to delete one Movies
      *   }
      * })
      * 
@@ -1597,10 +1597,10 @@ export namespace Prisma {
     delete<T extends MovieDeleteArgs>(args: SelectSubset<T, MovieDeleteArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Movie.
-     * @param {MovieUpdateArgs} args - Arguments to update one Movie.
+     * Update one Movies.
+     * @param {MovieUpdateArgs} args - Arguments to update one Movies.
      * @example
-     * // Update one Movie
+     * // Update one Movies
      * const movie = await prisma.movie.update({
      *   where: {
      *     // ... provide filter here
@@ -1677,19 +1677,19 @@ export namespace Prisma {
     updateManyAndReturn<T extends MovieUpdateManyAndReturnArgs>(args: SelectSubset<T, MovieUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Movie.
-     * @param {MovieUpsertArgs} args - Arguments to update or create a Movie.
+     * Create or update one Movies.
+     * @param {MovieUpsertArgs} args - Arguments to update or create a Movies.
      * @example
-     * // Update or create a Movie
+     * // Update or create a Movies
      * const movie = await prisma.movie.upsert({
      *   create: {
-     *     // ... data to create a Movie
+     *     // ... data to create a Movies
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Movie we want to update
+     *     // ... the filter for the Movies we want to update
      *   }
      * })
      */
@@ -1720,7 +1720,7 @@ export namespace Prisma {
     >
 
     /**
-     * Allows you to perform aggregations operations on a Movie.
+     * Allows you to perform aggregations operations on a Movies.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
      * @param {MovieAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
@@ -1746,7 +1746,7 @@ export namespace Prisma {
     aggregate<T extends MovieAggregateArgs>(args: Subset<T, MovieAggregateArgs>): Prisma.PrismaPromise<GetMovieAggregateType<T>>
 
     /**
-     * Group by Movie.
+     * Group by Movies.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
      * @param {MovieGroupByArgs} args - Group by arguments.
@@ -1822,13 +1822,13 @@ export namespace Prisma {
         }[OrderFields]
     >(args: SubsetIntersection<T, MovieGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMovieGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Movie model
+   * Fields of the Movies model
    */
   readonly fields: MovieFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Movie.
+   * The delegate class that acts as a "Promise-like" for Movies.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
@@ -1862,7 +1862,7 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Movie model
+   * Fields of the Movies model
    */
   interface MovieFieldRefs {
     readonly id: FieldRef<"Movie", 'String'>
@@ -1876,15 +1876,15 @@ export namespace Prisma {
 
   // Custom InputTypes
   /**
-   * Movie findUnique
+   * Movies findUnique
    */
   export type MovieFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -1892,21 +1892,21 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * Filter, which Movie to fetch.
+     * Filter, which Movies to fetch.
      */
     where: MovieWhereUniqueInput
   }
 
   /**
-   * Movie findUniqueOrThrow
+   * Movies findUniqueOrThrow
    */
   export type MovieFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -1914,21 +1914,21 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * Filter, which Movie to fetch.
+     * Filter, which Movies to fetch.
      */
     where: MovieWhereUniqueInput
   }
 
   /**
-   * Movie findFirst
+   * Movies findFirst
    */
   export type MovieFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -1936,7 +1936,7 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * Filter, which Movie to fetch.
+     * Filter, which Movies to fetch.
      */
     where?: MovieWhereInput
     /**
@@ -1972,15 +1972,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie findFirstOrThrow
+   * Movies findFirstOrThrow
    */
   export type MovieFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -1988,7 +1988,7 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * Filter, which Movie to fetch.
+     * Filter, which Movies to fetch.
      */
     where?: MovieWhereInput
     /**
@@ -2024,15 +2024,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie findMany
+   * Movies findMany
    */
   export type MovieFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2076,15 +2076,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie create
+   * Movies create
    */
   export type MovieCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2092,13 +2092,13 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * The data needed to create a Movie.
+     * The data needed to create a Movies.
      */
     data: XOR<MovieCreateInput, MovieUncheckedCreateInput>
   }
 
   /**
-   * Movie createMany
+   * Movies createMany
    */
   export type MovieCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
@@ -2109,15 +2109,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie createManyAndReturn
+   * Movies createManyAndReturn
    */
   export type MovieCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2128,15 +2128,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie update
+   * Movies update
    */
   export type MovieUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2144,17 +2144,17 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * The data needed to update a Movie.
+     * The data needed to update a Movies.
      */
     data: XOR<MovieUpdateInput, MovieUncheckedUpdateInput>
     /**
-     * Choose, which Movie to update.
+     * Choose, which Movies to update.
      */
     where: MovieWhereUniqueInput
   }
 
   /**
-   * Movie updateMany
+   * Movies updateMany
    */
   export type MovieUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
@@ -2172,15 +2172,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie updateManyAndReturn
+   * Movies updateManyAndReturn
    */
   export type MovieUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2198,15 +2198,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie upsert
+   * Movies upsert
    */
   export type MovieUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2214,29 +2214,29 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * The filter to search for the Movie to update in case it exists.
+     * The filter to search for the Movies to update in case it exists.
      */
     where: MovieWhereUniqueInput
     /**
-     * In case the Movie found by the `where` argument doesn't exist, create a new Movie with this data.
+     * In case the Movies found by the `where` argument doesn't exist, create a new Movies with this data.
      */
     create: XOR<MovieCreateInput, MovieUncheckedCreateInput>
     /**
-     * In case the Movie was found with the provided `where` argument, update it with this data.
+     * In case the Movies was found with the provided `where` argument, update it with this data.
      */
     update: XOR<MovieUpdateInput, MovieUncheckedUpdateInput>
   }
 
   /**
-   * Movie delete
+   * Movies delete
    */
   export type MovieDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**
@@ -2244,13 +2244,13 @@ export namespace Prisma {
      */
     include?: MovieInclude<ExtArgs> | null
     /**
-     * Filter which Movie to delete.
+     * Filter which Movies to delete.
      */
     where: MovieWhereUniqueInput
   }
 
   /**
-   * Movie deleteMany
+   * Movies deleteMany
    */
   export type MovieDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
@@ -2264,7 +2264,7 @@ export namespace Prisma {
   }
 
   /**
-   * Movie.watched
+   * Movies.watched
    */
   export type Movie$watchedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
@@ -2288,15 +2288,15 @@ export namespace Prisma {
   }
 
   /**
-   * Movie without action
+   * Movies without action
    */
   export type MovieDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Movie
+     * Select specific fields to fetch from the Movies
      */
     select?: MovieSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Movie
+     * Omit specific fields from the Movies
      */
     omit?: MovieOmit<ExtArgs> | null
     /**

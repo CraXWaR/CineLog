@@ -1,10 +1,9 @@
 import {useState, useEffect} from "react";
-import {fetchDiscoverMovies, fetchMovieGenres} from "../services/movies.service.ts";
+import {fetchTrendingMovies, fetchMovieGenres} from "../services/movies.service.ts";
 
-export function useMovies(selectedGenres: number[] = []) {
+export function useTrendingMovies() {
     const [movies, setMovies] = useState<any[]>([]);
     const [genres, setGenres] = useState<any[]>([]);
-    const [page, setPage] = useState<number>(1);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
@@ -19,7 +18,7 @@ export function useMovies(selectedGenres: number[] = []) {
                 await new Promise((resolve) => setTimeout(resolve, 1500));
 
                 const [moviesData, genresData] = await Promise.all([
-                    fetchDiscoverMovies(page, selectedGenres),
+                    fetchTrendingMovies(),
                     fetchMovieGenres(),
                 ]);
 
@@ -33,7 +32,7 @@ export function useMovies(selectedGenres: number[] = []) {
         };
 
         fetchDataMoviesAndGenres();
-    }, [page, JSON.stringify(selectedGenres)]);
+    }, []);
 
-    return { movies, genres, page, setPage, loading, error };
+    return {movies, genres, loading, error};
 }

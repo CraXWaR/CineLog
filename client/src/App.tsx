@@ -9,7 +9,8 @@ import Footer from "./components/UI/Footer/Footer.tsx";
 import Login from "./pages/Auth/Login/Login.tsx";
 import Register from "./pages/Auth/Register/Register.tsx";
 import Home from "./pages/Home/HomePage.tsx";
-import MoviesPage from "./pages/Movie/MoviesPage.tsx";
+import DiscoverMoviesPage from "./pages/Movies/DiscoverMoviesPage.tsx";
+import TrendingMoviesPage from "./pages/Movies/TrendingMoviesPage.tsx";
 
 import './App.css'
 
@@ -21,7 +22,8 @@ const Root: React.FC = () => {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
-                <Route path="/discover" element={<MoviesPage/>}/>
+                <Route path="/discover" element={<DiscoverMoviesPage/>}/>
+                <Route path="/trending" element={<TrendingMoviesPage/>}/>
             </Routes>
             <Footer/>
         </>
