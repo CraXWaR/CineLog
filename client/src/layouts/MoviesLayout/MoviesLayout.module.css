@@ -88,8 +88,18 @@
     border-radius: var(--radius-pill);
 }
 
+.mobileFilter {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
 @media (max-width: 576px) {
     .count {
         display: none;
+    }
+
+    .mobileFilter {
+        flex-direction: column;
     }
 }

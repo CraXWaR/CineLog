@@ -7,5 +7,6 @@ const movieController = new MovieController();
 router.get('/trending', movieController.getTrendingMovies);
 router.get('/genres', movieController.getMovieGenres);
 router.get('/discover', movieController.getDiscoverMovies);
+router.get('/search', movieController.searchMovies);
 
 export default router;

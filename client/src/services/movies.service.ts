@@ -20,3 +20,9 @@ export async function fetchDiscoverMovies(page: number, genres: number[] = []) {
     const data = await response.json();
     return data.movies;
 }
+
+export async function searchMovies(query: string) {
+    const response = await fetch(`${API_URL}/movies/search?query=${encodeURIComponent(query)}`);
+    const data = await response.json();
+    return data.searchMovies;
+}
