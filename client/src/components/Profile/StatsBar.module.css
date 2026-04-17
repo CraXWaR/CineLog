@@ -1,0 +1,15 @@
+.bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: var(--border-cyan);
+}
+
+.stat {
+    padding: var(--space-4);
+    text-align: center;
+    border-right: var(--border);
+}
+
+.stat:last-child {
+    border-right: none;
+}

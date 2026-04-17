@@ -47,9 +47,9 @@ export default function Header() {
                             </>
                         ) : (
                             <div className={styles.userBox}>
-                                <span className={styles.username}>
+                                <Link to="/profile" className={styles.username}>
                                     {user.username}
-                                </span>
+                                </Link>
                                 <button onClick={logout} className={styles.btnLogout}>
                                     Logout
                                 </button>
@@ -107,16 +107,19 @@ export default function Header() {
                     <div className={styles.drawerActions}>
                         {!user ? (
                             <>
-                                <Link to="/login" className={styles.drawerBtnGhost} onClick={() => setMenuOpen(false)}>SIGN
-                                    IN</Link>
+                                <Link to="/login" className={styles.drawerBtnGhost} onClick={() => setMenuOpen(false)}>
+                                    SIGN IN
+                                </Link>
                                 <Link to="/register" className={styles.drawerBtnPrimary}
-                                      onClick={() => setMenuOpen(false)}>JOIN</Link>
+                                      onClick={() => setMenuOpen(false)}>
+                                    JOIN
+                                </Link>
                             </>
                         ) : (
                             <>
-                                <div className={styles.drawerUsername}>
+                                <Link to="/profile" className={styles.drawerUsername} onClick={() => setMenuOpen(false)}>
                                     {user.username}
-                                </div>
+                                </Link>
                                 <button onClick={() => {
                                     logout();
                                     setMenuOpen(false);

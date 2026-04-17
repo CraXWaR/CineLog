@@ -11,6 +11,7 @@ import Register from "./pages/Auth/Register/Register.tsx";
 import Home from "./pages/Home/HomePage.tsx";
 import DiscoverMoviesPage from "./pages/Movies/DiscoverMoviesPage.tsx";
 import TrendingMoviesPage from "./pages/Movies/TrendingMoviesPage.tsx";
+import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 
 import './App.css'
 
@@ -24,6 +25,9 @@ const Root: React.FC = () => {
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/discover" element={<DiscoverMoviesPage/>}/>
                 <Route path="/trending" element={<TrendingMoviesPage/>}/>
+
+                {/*TODO ADD PROTECTION ON ROUTES UNDER THIS COMMENT*/}
+                <Route path="/profile" element={<ProfilePage/>}/>
             </Routes>
             <Footer/>
         </>
