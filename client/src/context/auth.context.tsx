@@ -8,7 +8,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const isLoggedIn = !!token;
+    const isLoggedIn = !!token && !!user;
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
