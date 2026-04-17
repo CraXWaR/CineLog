@@ -1,21 +1,33 @@
-import styles from "./StatsBar.module.css";
+import styles from './StatsBar.module.css';
 
-export default function StatsBar() {
-    return (
-        <div className={styles.bar}>
-            <Stat label="watched" value="247" color="cyan" />
-            <Stat label="reviews" value="38" color="pink" />
-            <Stat label="liked" value="91" color="yellow" />
-            <Stat label="watch later" value="54" color="purple" />
-        </div>
-    );
+export interface StatItem {
+    label: string;
+    value: string;
+    tone: 'cyan' | 'pink' | 'yellow' | 'purple';
 }
 
-function Stat({ label, value, color }: any) {
+interface Props {
+    stats?: StatItem[];
+}
+
+const defaultStats: StatItem[] = [
+    { label: 'Movies Logged', value: '184', tone: 'cyan' },
+    { label: 'Reviews', value: '73', tone: 'pink' },
+    { label: 'Avg Rating', value: '4.2', tone: 'yellow' },
+    { label: 'Watchlist', value: '29', tone: 'purple' },
+];
+
+export default function StatsBar({ stats: providedStats }: Props) {
+    const stats = providedStats ?? defaultStats;
+
     return (
-        <div className={styles.stat}>
-            <h3 className={`text-${color}`}>{value}</h3>
-            <span className="label">{label}</span>
-        </div>
+        <section className={styles.bar}>
+            {stats.map((stat) => (
+                <article key={stat.label} className={styles.stat}>
+                    <p className={styles.label}>{stat.label}</p>
+                    <p className={`${styles.value} ${styles[stat.tone]}`}>{stat.value}</p>
+                </article>
+            ))}
+        </section>
     );
 }

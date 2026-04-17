@@ -1,0 +1,60 @@
+.card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-secondary);
+    overflow: hidden;
+}
+
+.header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0.07em;
+}
+
+.list {
+    list-style: none;
+    padding: 8px 0;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+}
+
+.poster {
+    width: 34px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-elevated);
+    flex-shrink: 0;
+}
+
+.info {
+    min-width: 0;
+}
+
+.movieTitle {
+    color: var(--color-text-primary);
+    font-size: 15px;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+}
+
+.meta {
+    font-family: var(--font-mono), monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
