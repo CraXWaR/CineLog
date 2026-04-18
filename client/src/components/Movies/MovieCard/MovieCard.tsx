@@ -1,20 +1,8 @@
 import {RxStarFilled} from "react-icons/rx";
+import type {Movie, Genre} from "../../../types/movies.type.ts";
 
 import styles from "./MovieCard.module.css";
 
-type Genre = {
-    id: number;
-    name: string;
-};
-type Movie = {
-    id: number;
-    title: string;
-    overview: string;
-    poster_path: string;
-    release_date: string;
-    vote_average: number;
-    genre_ids: number[];
-};
 type MovieCardProps = {
     movie: Movie;
     genres: Genre[];
