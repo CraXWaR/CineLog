@@ -1,12 +1,13 @@
 model Movie {
-  id     String @id @default(uuid(4))
-  tmdbId String @unique @map("tmdb_id")
+  id     String   @id @default(uuid(4))
+  tmdbId String   @unique @map("tmdb_id")
   title  String
   poster String
   year   String
-  genre  String
+  genres String[]
 
-  watched UserWatched[]
+  watched    UserWatched[]
+  watchLater UserWatchLater[]
 
   @@map("movies")
 }

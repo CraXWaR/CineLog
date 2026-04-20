@@ -1,12 +1,13 @@
 model Movie {
-  id     String @id @default(uuid(4))
-  tmdbId String @unique @map("tmdb_id")
+  id     String   @id @default(uuid(4))
+  tmdbId String   @unique @map("tmdb_id")
   title  String
   poster String
   year   String
-  genre  String
+  genres String[]
 
-  watched UserWatched[]
+  watched    UserWatched[]
+  watchLater UserWatchLater[]
 
   @@map("movies")
 }
@@ -32,9 +33,10 @@ model User {
   email    String @unique
   password String
 
-  watched  UserWatched[]
-  friends  UserFriends[] @relation("UserFriends")
-  friendOf UserFriends[] @relation("FriendOf")
+  watched    UserWatched[]
+  watchLater UserWatchLater[]
+  friends    UserFriends[]    @relation("UserFriends")
+  friendOf   UserFriends[]    @relation("FriendOf")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -54,15 +56,27 @@ model UserFriends {
   @@map("user_friends")
 }
 
+model UserWatchLater {
+  id      String   @id @default(uuid(4))
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie   Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  userId  String   @map("user_id")
+  movieId String   @map("movie_id")
+  addedAt DateTime @default(now()) @map("added_at")
+
+  @@unique([userId, movieId])
+  @@map("user_watch_later")
+}
+
 model UserWatched {
   id        String   @id @default(uuid(4))
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   userId    String   @map("user_id")
   movieId   String   @map("movie_id")
-  rating    Int
   review    String?
   watchedAt DateTime @default(now()) @map("watched_at")
 
+  @@unique([userId, movieId])
   @@map("user_watched")
 }

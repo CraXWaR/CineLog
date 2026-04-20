@@ -4,9 +4,9 @@ model UserWatched {
   movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   userId    String   @map("user_id")
   movieId   String   @map("movie_id")
-  rating    Int
   review    String?
   watchedAt DateTime @default(now()) @map("watched_at")
 
+  @@unique([userId, movieId])
   @@map("user_watched")
 }

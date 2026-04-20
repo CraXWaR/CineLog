@@ -4,9 +4,10 @@ model User {
   email    String @unique
   password String
 
-  watched  UserWatched[]
-  friends  UserFriends[] @relation("UserFriends")
-  friendOf UserFriends[] @relation("FriendOf")
+  watched    UserWatched[]
+  watchLater UserWatchLater[]
+  friends    UserFriends[]    @relation("UserFriends")
+  friendOf   UserFriends[]    @relation("FriendOf")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

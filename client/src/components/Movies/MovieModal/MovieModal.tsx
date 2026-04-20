@@ -1,20 +1,15 @@
 import {useEffect} from "react";
 import {RxCross2, RxStarFilled} from "react-icons/rx";
+import {RiEyeLine, RiEyeFill, RiBookmarkLine, RiBookmarkFill} from "react-icons/ri";
+
+import {useMovieActions} from "../../../hooks/useMovieActions.ts";
+import type {Movie} from "../../../types/movies.type.ts";
 
 import styles from "./MovieModal.module.css";
 
 type Genre = {
     id: number;
     name: string;
-};
-type Movie = {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-    vote_average: number;
-    genre_ids: number[];
-    overview: string;
 };
 type MovieModalProps = {
     movie: Movie;
@@ -30,9 +25,20 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
 
     const movieGenres = Array.isArray(genres)
         ? movie.genre_ids
-            .map((id) => genres.find((g) => g.id === id)?.name)
-            .filter(Boolean)
+            .map((id) => genres.find((genre) => genre.id === id)?.name)
+            .filter((name): name is string => Boolean(name))
         : [];
+
+    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions({
+        tmdbId: movie.id,
+        moviePayload: {
+            tmdbId: movie.id,
+            title: movie.title,
+            poster: movie.poster_path,
+            year,
+            genres: movieGenres,
+        },
+    });
 
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -62,7 +68,6 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                     <RxCross2/>
                 </button>
 
-                {/* Poster — full width at top */}
                 <div className={styles.posterWrapper}>
                     {movie.poster_path ? (
                         <img
@@ -82,7 +87,6 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                     </div>
                 </div>
 
-                {/* All info below poster */}
                 <div className={styles.content}>
                     <div>
                         <span className={styles.label}>// MOVIE DETAILS</span>
@@ -104,10 +108,32 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                     {movieGenres.length > 0 && (
                         <div className={styles.genres}>
                             {movieGenres.map((genre) => (
-                                <span key={genre as string} className={styles.genre}>
-                  {genre as string}
-                </span>
+                                <span key={genre} className={styles.genre}>
+                                    {genre}
+                                </span>
                             ))}
+                        </div>
+                    )}
+
+                    {!statusLoading && (
+                        <div className={styles.actions}>
+                            <button
+                                className={`${styles.actionBtn} ${isWatched ? styles.actionBtnActive : ""}`}
+                                onClick={handleWatched}
+                                disabled={isWatched || watchedLoading}
+                            >
+                                {isWatched ? <RiEyeFill size={16}/> : <RiEyeLine size={16}/>}
+                                {watchedLoading ? "SAVING..." : isWatched ? "WATCHED" : "MARK WATCHED"}
+                            </button>
+
+                            <button
+                                className={`${styles.actionBtn} ${isWatchLater ? styles.actionBtnWatchLater : ""}`}
+                                onClick={handleWatchLater}
+                                disabled={watchLaterLoading}
+                            >
+                                {isWatchLater ? <RiBookmarkFill size={16}/> : <RiBookmarkLine size={16}/>}
+                                {watchLaterLoading ? "SAVING..." : isWatchLater ? "SAVED" : "WATCH LATER"}
+                            </button>
                         </div>
                     )}
 
@@ -118,7 +144,6 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     );

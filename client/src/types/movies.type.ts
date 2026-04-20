@@ -12,3 +12,11 @@ export type Movie = {
     vote_average: number;
     genre_ids: number[];
 };
+
+export type MoviePayload = {
+    tmdbId: number;
+    title: string;
+    poster: string;
+    year: string;
+    genres: string[];
+};

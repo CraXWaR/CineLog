@@ -126,7 +126,7 @@ exports.Prisma.MovieScalarFieldEnum = {
   title: 'title',
   poster: 'poster',
   year: 'year',
-  genre: 'genre'
+  genres: 'genres'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -145,11 +145,17 @@ exports.Prisma.UserFriendsScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.UserWatchLaterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  movieId: 'movieId',
+  addedAt: 'addedAt'
+};
+
 exports.Prisma.UserWatchedScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   movieId: 'movieId',
-  rating: 'rating',
   review: 'review',
   watchedAt: 'watchedAt'
 };
@@ -174,6 +180,7 @@ exports.Prisma.ModelName = {
   Movie: 'Movie',
   User: 'User',
   UserFriends: 'UserFriends',
+  UserWatchLater: 'UserWatchLater',
   UserWatched: 'UserWatched'
 };
 

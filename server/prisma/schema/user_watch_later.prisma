@@ -1,0 +1,11 @@
+model UserWatchLater {
+  id      String   @id @default(uuid(4))
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie   Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  userId  String   @map("user_id")
+  movieId String   @map("movie_id")
+  addedAt DateTime @default(now()) @map("added_at")
+
+  @@unique([userId, movieId])
+  @@map("user_watch_later")
+}

@@ -1,0 +1,48 @@
+import type {IMovie} from "../interfaces/movie.interface.js";
+import prisma from "../db/prisma.js";
+
+export class WatchedService {
+    private async findOrCreateMovie(movieData: IMovie) {
+        return prisma.movie.upsert({
+            where: {tmdbId: movieData.tmdbId},
+            update: {},
+            create: {
+                tmdbId: movieData.tmdbId,
+                title: movieData.title,
+                poster: movieData.poster,
+                year: movieData.year,
+                genres: movieData.genres,
+            },
+        });
+    }
+
+    async addToWatched(userId: string, movieData: IMovie) {
+        const movie = await this.findOrCreateMovie(movieData);
+
+        const existing = await prisma.userWatched.findUnique({
+            where: {userId_movieId: {userId, movieId: movie.id}},
+        });
+
+        if (existing) {
+            throw new Error("Movie already marked as watched");
+        }
+
+        return prisma.userWatched.create({
+            data: {userId, movieId: movie.id},
+        });
+    }
+
+    async checkWatched(userId: string, tmdbId: string) {
+        const movie = await prisma.movie.findUnique({
+            where: {tmdbId},
+        });
+
+        if (!movie) return false;
+
+        const entry = await prisma.userWatched.findUnique({
+            where: {userId_movieId: {userId, movieId: movie.id}},
+        });
+
+        return !!entry;
+    }
+}
