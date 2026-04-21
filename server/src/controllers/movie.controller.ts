@@ -49,4 +49,15 @@ export class MovieController {
             return res.status(500).json({message: error.message});
         }
     }
+
+    getMovieById = async (req: Request, res: Response) => {
+        try {
+            const {tmdbId} = req.params;
+            const movie = await this.movieService.getMovieById(String(tmdbId));
+
+            return res.status(200).json({movie});
+        } catch (error: any) {
+            return res.status(500).json({message: error.message});
+        }
+    }
 }

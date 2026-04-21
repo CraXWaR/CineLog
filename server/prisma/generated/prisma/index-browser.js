@@ -122,11 +122,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.MovieScalarFieldEnum = {
   id: 'id',
-  tmdbId: 'tmdbId',
-  title: 'title',
-  poster: 'poster',
-  year: 'year',
-  genres: 'genres'
+  tmdbId: 'tmdbId'
 };
 
 exports.Prisma.UserScalarFieldEnum = {

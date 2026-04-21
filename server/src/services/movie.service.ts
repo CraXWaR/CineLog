@@ -44,4 +44,15 @@ export class MovieService {
         const data: any = await searchResponse.json();
         return data.results;
     }
+
+    async getMovieById(tmdbId: string) {
+        const movieResponse = await fetch(`${TMDB_BASE_URL}/movie/${tmdbId}?api_key=${TMDB_API_KEY}`);
+
+        if (!movieResponse.ok) {
+            throw new Error("Failed to fetch movie");
+        }
+
+        const data: any = await movieResponse.json();
+        return data;
+    }
 }

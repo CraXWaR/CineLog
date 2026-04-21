@@ -29,16 +29,7 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
             .filter((name): name is string => Boolean(name))
         : [];
 
-    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions({
-        tmdbId: movie.id,
-        moviePayload: {
-            tmdbId: movie.id,
-            title: movie.title,
-            poster: movie.poster_path,
-            year,
-            genres: movieGenres,
-        },
-    });
+    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id);
 
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {

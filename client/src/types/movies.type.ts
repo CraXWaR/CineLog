@@ -13,10 +13,23 @@ export type Movie = {
     genre_ids: number[];
 };
 
-export type MoviePayload = {
-    tmdbId: number;
-    title: string;
-    poster: string;
-    year: string;
-    genres: string[];
-};
+type MovieResponse = {
+    id: string;
+    tmdbId: string;
+}
+
+export type UserWatched = {
+    id: string;
+    movieId: string;
+    userId: string;
+    watchedAt: string;
+    movie: MovieResponse;
+}
+
+export type UserWatchLater = {
+    id: string;
+    movieId: string;
+    userId: string;
+    addedAt: string;
+    movie: MovieResponse;
+}

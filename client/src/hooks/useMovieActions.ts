@@ -1,13 +1,7 @@
 import {useState, useEffect} from "react";
-import type {MoviePayload} from "../types/movies.type.ts";
-import {checkWatched, checkWatchLater, addToWatchLater, addToWatched, removeFromWatchLater} from "../types/userMovies.service.ts";
+import {checkWatched, checkWatchLater, addToWatchLater, addToWatched, removeFromWatchLater} from "../services/userMovies.service.ts";
 
-type UseMovieActionsProps = {
-    tmdbId: number;
-    moviePayload: MoviePayload;
-};
-
-export function useMovieActions({tmdbId, moviePayload}: UseMovieActionsProps) {
+export function useMovieActions(tmdbId: number) {
     const [isWatched, setIsWatched] = useState(false);
     const [isWatchLater, setIsWatchLater] = useState(false);
     const [watchedLoading, setWatchedLoading] = useState(false);
@@ -39,7 +33,7 @@ export function useMovieActions({tmdbId, moviePayload}: UseMovieActionsProps) {
         if (isWatched || watchedLoading) return;
         try {
             setWatchedLoading(true);
-            await addToWatched(moviePayload);
+            await addToWatched(tmdbId);
             setIsWatched(true);
             if (isWatchLater) {
                 await removeFromWatchLater(tmdbId);
@@ -61,7 +55,7 @@ export function useMovieActions({tmdbId, moviePayload}: UseMovieActionsProps) {
                 await removeFromWatchLater(tmdbId);
                 setIsWatchLater(false);
             } else {
-                await addToWatchLater(moviePayload);
+                await addToWatchLater(tmdbId);
                 setIsWatchLater(true);
             }
         } catch(error: any) {

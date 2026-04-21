@@ -1,5 +1,3 @@
-import type {MoviePayload} from "./movies.type.ts";
-
 // TODO: remove userId from all request URLs and body once auth middleware is wired up
 // userId should come from req.user.id on the backend instead
 const API_URL = "http://localhost:8080/api";
@@ -28,11 +26,11 @@ export async function checkWatched(tmdbId: number): Promise<boolean> {
     return data.watched;
 }
 
-export async function addToWatched(movie: MoviePayload): Promise<void> {
+export async function addToWatched(tmdbId: number): Promise<void> {
     await fetch(`${API_URL}/watched`, {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify({...movie, userId: getUserId()}),
+        body: JSON.stringify({tmdbId: tmdbId, userId: getUserId()}),
     });
 }
 
@@ -44,11 +42,11 @@ export async function checkWatchLater(tmdbId: number): Promise<boolean> {
     return data.watchLater;
 }
 
-export async function addToWatchLater(movie: MoviePayload): Promise<void> {
+export async function addToWatchLater(tmdbId: number): Promise<void> {
     await fetch(`${API_URL}/watch-later`, {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify({...movie, userId: getUserId()}),
+        body: JSON.stringify({tmdbId: tmdbId, userId: getUserId()}),
     });
 }
 
@@ -57,4 +55,15 @@ export async function removeFromWatchLater(tmdbId: number): Promise<void> {
         method: "DELETE",
         headers: authHeaders(),
     });
+}
+
+export async function fetchMovieById(tmdbId: string) {
+    const response = await fetch(`${API_URL}/movies/${tmdbId}`);
+    const data = await response.json();
+
+    // map genre array to genre_ids to match trending/discover TMDB API response
+    return {
+        ...data.movie,
+        genre_ids: data.movie.genres?.map((g: {id: number; name: string}) => g.id) ?? [],
+    };
 }

@@ -1,11 +1,11 @@
-import type {IUserResponse} from "../types/user.type.ts";
+import type {UserResponse} from "../types/user.type.ts";
 
 const API_URL = "http://localhost:8080/api";
 
 interface ILoginResponse {
     message: string;
     token: string;
-    user: IUserResponse;
+    user: UserResponse;
 }
 
 export async function loginRequest(data: { email: string; password: string }) {

@@ -1,10 +1,10 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
-import type {IAuthContext, IUserResponse} from "../types/user.type.ts";
+import type {AuthContext, UserResponse} from "../types/user.type.ts";
 
-const AuthContext = createContext<IAuthContext | undefined>(undefined);
+const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [user, setUser] = useState<IUserResponse | null>(null);
+    const [user, setUser] = useState<UserResponse | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
         }
     }, [user]);
 
-    const setAuthUser = ({token, user}: { token: string; user: IUserResponse }) => {
+    const setAuthUser = ({token, user}: { token: string; user: UserResponse }) => {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
 

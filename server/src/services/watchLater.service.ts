@@ -1,23 +1,16 @@
 import prisma from "../db/prisma.js";
-import type {IMovie} from "../interfaces/movie.interface.js";
 
 export class WatchLaterService {
-    private async findOrCreateMovie(movieData: IMovie) {
+    private async findOrCreateMovie(tmdbId: string) {
         return prisma.movie.upsert({
-            where: {tmdbId: movieData.tmdbId},
+            where: {tmdbId},
             update: {},
-            create: {
-                tmdbId: movieData.tmdbId,
-                title: movieData.title,
-                poster: movieData.poster,
-                year: movieData.year,
-                genres: movieData.genres,
-            },
+            create: {tmdbId},
         });
     }
 
-    async addToWatchLater(userId: string, movieData: IMovie) {
-        const movie = await this.findOrCreateMovie(movieData);
+    async addToWatchLater(userId: string, tmdbId: string) {
+        const movie = await this.findOrCreateMovie(tmdbId);
 
         const existing = await prisma.userWatchLater.findUnique({
             where: {userId_movieId: {userId, movieId: movie.id}},

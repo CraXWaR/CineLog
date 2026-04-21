@@ -10,23 +10,13 @@ export class WatchLaterController {
 
     addToWatchLater = async (req: Request, res: Response) => {
         try {
-            const {tmdbId, title, poster, year, genres} = req.body;
-            if (!tmdbId || !title || !poster || !year || !genres) {
-                return res.status(400).json({message: "Missing required movie fields"});
-            }
+            const {tmdbId, userId} = req.body;
+            if (!tmdbId) return res.status(400).json({message: "Missing tmdbId"});
 
             // TODO: add check and replace if req.user.id once auth middleware is added
-            const userId = req.body.userId;
             if (!userId) return res.status(400).json({message: "Missing userId"});
 
-            const entry = await this.watchLaterService.addToWatchLater(userId, {
-                tmdbId: String(tmdbId),
-                title,
-                poster,
-                year,
-                genres,
-            });
-
+            const entry = await this.watchLaterService.addToWatchLater(userId, String(tmdbId));
             return res.status(201).json({entry});
         } catch (error: any) {
             return res.status(500).json({message: error.message});
