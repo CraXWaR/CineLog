@@ -2,58 +2,49 @@
 // userId should come from req.user.id on the backend instead
 const API_URL = "http://localhost:8080/api";
 
-function getToken(): string {
-    return localStorage.getItem("token") ?? "";
-}
-
-function getUserId(): string {
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user).id : "";
-}
-
-function authHeaders() {
+function authHeaders(token: string) {
     return {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${token}`,
     };
 }
 
-export async function checkWatched(tmdbId: number): Promise<boolean> {
-    const res = await fetch(`${API_URL}/watched/check/${tmdbId}?userId=${getUserId()}`, {
-        headers: authHeaders(),
+export async function checkWatched(tmdbId: number, token: string): Promise<boolean> {
+    const res = await fetch(`${API_URL}/watched/check/${tmdbId}`, {
+        headers: authHeaders(token),
     });
     const data = await res.json();
     return data.watched;
 }
 
-export async function addToWatched(tmdbId: number): Promise<void> {
+export async function addToWatched(tmdbId: number, token: string): Promise<void> {
     await fetch(`${API_URL}/watched`, {
         method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({tmdbId: tmdbId, userId: getUserId()}),
+        headers: authHeaders(token),
+        body: JSON.stringify({tmdbId}),
     });
 }
 
-export async function checkWatchLater(tmdbId: number): Promise<boolean> {
-    const res = await fetch(`${API_URL}/watch-later/check/${tmdbId}?userId=${getUserId()}`, {
-        headers: authHeaders(),
+export async function checkWatchLater(tmdbId: number, token: string): Promise<boolean> {
+    const res = await fetch(`${API_URL}/watch-later/check/${tmdbId}`, {
+        headers: authHeaders(token),
     });
     const data = await res.json();
     return data.watchLater;
 }
 
-export async function addToWatchLater(tmdbId: number): Promise<void> {
+export async function addToWatchLater(tmdbId: number, token: string): Promise<void> {
     await fetch(`${API_URL}/watch-later`, {
         method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({tmdbId: tmdbId, userId: getUserId()}),
+        headers: authHeaders(token),
+        body: JSON.stringify({tmdbId}),
     });
 }
 
-export async function removeFromWatchLater(tmdbId: number): Promise<void> {
-    await fetch(`${API_URL}/watch-later/${tmdbId}?userId=${getUserId()}`, {
+export async function removeFromWatchLater(tmdbId: number, token: string): Promise<void> {
+    await fetch(`${API_URL}/watch-later/${tmdbId}`, {
         method: "DELETE",
-        headers: authHeaders(),
+        headers: authHeaders(token),
     });
 }
 

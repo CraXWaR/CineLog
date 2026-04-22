@@ -1,10 +1,11 @@
 import {useState, useEffect} from "react";
 import {fetchMovieById} from "../services/userMovies.service.ts";
-import type {Genre, Movie} from "../types/movies.type.ts";
-import type {UserResponse} from "../types/user.type.ts";
 import {fetchMovieGenres} from "../services/movies.service.ts";
+import type {Genre, Movie} from "../types/movies.type.ts";
 
-export function useProfileMovies(user: UserResponse | null) {
+const API_URL = "http://localhost:8080/api";
+
+export function useProfileMovies(token: string) {
     const [watched, setWatched] = useState<Movie[]>([]);
     const [watchLater, setWatchLater] = useState<Movie[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
@@ -12,7 +13,7 @@ export function useProfileMovies(user: UserResponse | null) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!user) return;
+        if (!token) return;
 
         const fetchMovies = async () => {
             try {
@@ -22,9 +23,14 @@ export function useProfileMovies(user: UserResponse | null) {
                 //fake delay
                 await new Promise((resolve) => setTimeout(resolve, 1500));
 
+                const res = await fetch(`${API_URL}/me/movies`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+
                 const [watchedMovies, watchLaterMovies, genresData] = await Promise.all([
-                    Promise.all(user.watched.map((entry) => fetchMovieById(entry.movie.tmdbId))),
-                    Promise.all(user.watchLater.map((entry) => fetchMovieById(entry.movie.tmdbId))),
+                    Promise.all(data.watched.map((entry:any) => fetchMovieById(entry.movie.tmdbId))),
+                    Promise.all(data.watchLater.map((entry:any) => fetchMovieById(entry.movie.tmdbId))),
                     fetchMovieGenres(),
                 ]);
 
@@ -39,7 +45,7 @@ export function useProfileMovies(user: UserResponse | null) {
         };
 
         fetchMovies();
-    }, [user]);
+    }, [token]);
 
     return {watched, watchLater, genres, loading, error};
 }

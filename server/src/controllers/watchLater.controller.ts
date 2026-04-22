@@ -1,4 +1,5 @@
 import type {Request, Response} from "express";
+import type {JwtPayload} from "jsonwebtoken";
 import {WatchLaterService} from "../services/watchLater.service.js";
 
 export class WatchLaterController {
@@ -10,13 +11,13 @@ export class WatchLaterController {
 
     addToWatchLater = async (req: Request, res: Response) => {
         try {
-            const {tmdbId, userId} = req.body;
+            const {tmdbId} = req.body;
             if (!tmdbId) return res.status(400).json({message: "Missing tmdbId"});
 
-            // TODO: add check and replace if req.user.id once auth middleware is added
-            if (!userId) return res.status(400).json({message: "Missing userId"});
+            const user = req.user as JwtPayload;
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
-            const entry = await this.watchLaterService.addToWatchLater(userId, String(tmdbId));
+            const entry = await this.watchLaterService.addToWatchLater(user.id, String(tmdbId));
             return res.status(201).json({entry});
         } catch (error: any) {
             return res.status(500).json({message: error.message});
@@ -26,10 +27,12 @@ export class WatchLaterController {
     checkWatchLater = async (req: Request, res: Response) => {
         try {
             const tmdbId = String(req.params.tmdbId);
-            const userId = req.query.userId as string;
-            if (!userId) return res.status(400).json({message: "Missing userId"});
+            if (!tmdbId) return res.status(400).json({message: "Missing tmdbId"});
 
-            const watchLater = await this.watchLaterService.checkWatchLater(userId, tmdbId);
+            const user = req.user as JwtPayload;
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
+
+            const watchLater = await this.watchLaterService.checkWatchLater(user.id, tmdbId);
             return res.status(200).json({watchLater});
         } catch (error: any) {
             return res.status(500).json({message: error.message});
@@ -39,12 +42,12 @@ export class WatchLaterController {
     removeFromWatchLater = async (req: Request, res: Response) => {
         try {
             const tmdbId = String(req.params.tmdbId);
+            if (!tmdbId) return res.status(400).json({message: "Missing tmdbId"});
 
-            // TODO: add check and replace if req.user.id once auth middleware is added
-            const userId = req.query.userId as string;
-            if (!userId) return res.status(400).json({message: "Missing userId"});
+            const user = req.user as JwtPayload;
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
-            await this.watchLaterService.removeFromWatchLater(userId, tmdbId);
+            await this.watchLaterService.removeFromWatchLater(user.id, tmdbId);
             return res.status(200).json({message: "Removed from watch later"});
         } catch (error: any) {
             return res.status(500).json({message: error.message});

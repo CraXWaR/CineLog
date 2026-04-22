@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {RxCross2, RxStarFilled} from "react-icons/rx";
 import {RiEyeLine, RiEyeFill, RiBookmarkLine, RiBookmarkFill} from "react-icons/ri";
 
+import {useAuth} from "../../../context/auth.context.tsx";
 import {useMovieActions} from "../../../hooks/useMovieActions.ts";
 import type {Movie} from "../../../types/movies.type.ts";
 
@@ -29,7 +30,8 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
             .filter((name): name is string => Boolean(name))
         : [];
 
-    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id);
+    const {token} = useAuth();
+    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id, token as string);
 
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -111,7 +113,7 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                             <button
                                 className={`${styles.actionBtn} ${isWatched ? styles.actionBtnActive : ""}`}
                                 onClick={handleWatched}
-                                disabled={isWatched || watchedLoading}
+                                disabled={!token || isWatched || watchedLoading}
                             >
                                 {isWatched ? <RiEyeFill size={16}/> : <RiEyeLine size={16}/>}
                                 {watchedLoading ? "SAVING..." : isWatched ? "WATCHED" : "MARK WATCHED"}
@@ -120,7 +122,7 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                             <button
                                 className={`${styles.actionBtn} ${isWatchLater ? styles.actionBtnWatchLater : ""}`}
                                 onClick={handleWatchLater}
-                                disabled={watchLaterLoading}
+                                disabled={!token || watchLaterLoading}
                             >
                                 {isWatchLater ? <RiBookmarkFill size={16}/> : <RiBookmarkLine size={16}/>}
                                 {watchLaterLoading ? "SAVING..." : isWatchLater ? "SAVED" : "WATCH LATER"}

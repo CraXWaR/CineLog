@@ -17,10 +17,6 @@ export class UserService {
 
         const user = await prisma.user.findUnique({
             where: {email: email},
-            include: {
-                watchLater: {include: {movie: true}},
-                watched: {include: {movie: true}},
-            }
         })
 
         if (!user) {
@@ -34,5 +30,15 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async getUserMovies(userId: string) {
+        return prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                watchLater: { include: { movie: true } },
+                watched: { include: { movie: true } },
+            }
+        });
     }
 }

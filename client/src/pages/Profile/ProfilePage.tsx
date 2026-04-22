@@ -24,9 +24,10 @@ export default function ProfilePage() {
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const {user} = useAuth();
+    const {user, token} = useAuth();
     if (!user) return <Error text="// ACCESS DENIED — YOU MUST BE LOGGED IN"/>;
-    const {watched, watchLater, genres, loading, error} = useProfileMovies(user);
+
+    const {watched, watchLater, genres, loading, error} = useProfileMovies(token as string);
 
     const friend = FRIENDS.find((f) => f.id === selectedFriend) ?? null;
     const handleFriendSelect = (id: string) => {

@@ -1,8 +1,7 @@
 import type {Request, Response} from "express";
 import {UserService} from "../services/user.service.js";
 import {UserValidationSchema} from "../validators/user.validator.js";
-import jwt from 'jsonwebtoken';
-import "dotenv/config";
+import jwt, {type JwtPayload} from 'jsonwebtoken';
 
 export class UserController {
     private userService: UserService;
@@ -40,10 +39,10 @@ export class UserController {
     login = async (req: Request, res: Response) => {
         try {
             const user = await this.userService.login(req.body);
-            const {password, ...safeUser} = user;
+            const { password, ...safeUser } = user;
 
-            const payload = {user: safeUser};
-            const accessToken = jwt.sign(payload, process.env.JWT_SACRET!, {
+            const payload = { id: safeUser.id, email: safeUser.email };
+            const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
                 expiresIn: '1h'
             });
 
@@ -58,4 +57,16 @@ export class UserController {
             })
         }
     };
+
+    getUserMovies = async (req: Request, res: Response) => {
+        try {
+            const user = req.user as JwtPayload;
+            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+
+            const data = await this.userService.getUserMovies(user.id);
+            return res.status(200).json(data);
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
 }
