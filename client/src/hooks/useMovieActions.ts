@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import {checkWatched, checkWatchLater, addToWatchLater, addToWatched, removeFromWatchLater} from "../services/userMovies.service.ts";
 
-export function useMovieActions(tmdbId: number, token: string) {
+export function useMovieActions(tmdbId: number, token: string, onWatched?: (movieId: number) => void, onWatchLater?: (movieId: number, added: boolean) => void) {
     const [isWatched, setIsWatched] = useState(false);
     const [isWatchLater, setIsWatchLater] = useState(false);
     const [watchedLoading, setWatchedLoading] = useState(false);
@@ -40,6 +40,7 @@ export function useMovieActions(tmdbId: number, token: string) {
             setWatchedLoading(true);
             await addToWatched(tmdbId, token);
             setIsWatched(true);
+            onWatched?.(tmdbId);
             if (isWatchLater) {
                 await removeFromWatchLater(tmdbId, token);
                 setIsWatchLater(false);
@@ -59,9 +60,11 @@ export function useMovieActions(tmdbId: number, token: string) {
             if (isWatchLater) {
                 await removeFromWatchLater(tmdbId, token);
                 setIsWatchLater(false);
+                onWatchLater?.(tmdbId, false);
             } else {
                 await addToWatchLater(tmdbId, token);
                 setIsWatchLater(true);
+                onWatchLater?.(tmdbId, true);
             }
         } catch(error: any) {
             setError(error);

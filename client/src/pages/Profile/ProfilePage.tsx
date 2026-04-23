@@ -27,7 +27,19 @@ export default function ProfilePage() {
     const {user, token} = useAuth();
     if (!user) return <Error text="// ACCESS DENIED — YOU MUST BE LOGGED IN"/>;
 
-    const {watched, watchLater, genres, loading, error} = useProfileMovies(token as string);
+    const {watched, setWatched, watchLater, setWatchLater, genres, loading, error} = useProfileMovies(token as string);
+
+    const handleMovieWatched = (movieId: number) => {
+        setWatched(prev => [...prev, selectedMovie!]);
+        setWatchLater(prev => prev.filter(movie => movie.id !== movieId));
+    };
+    const handleMovieWatchLater = (movieId: number, added: boolean) => {
+        if (added) {
+            setWatchLater(prev => [...prev, selectedMovie!]);
+        } else {
+            setWatchLater(prev => prev.filter(m => m.id !== movieId));
+        }
+    };
 
     const friend = FRIENDS.find((f) => f.id === selectedFriend) ?? null;
     const handleFriendSelect = (id: string) => {
@@ -111,6 +123,8 @@ export default function ProfilePage() {
                     movie={selectedMovie}
                     genres={genres}
                     onClose={() => setSelectedMovie(null)}
+                    onWatched={handleMovieWatched}
+                    onWatchLater={handleMovieWatchLater}
                 />
             )}
         </div>

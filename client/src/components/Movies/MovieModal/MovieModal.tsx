@@ -16,11 +16,13 @@ type MovieModalProps = {
     movie: Movie;
     genres: Genre[];
     onClose: () => void;
+    onWatched?: (movieId: number) => void;
+    onWatchLater?: (movieId: number, added: boolean) => void;
 };
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
+export default function MovieModal({movie, genres, onClose, onWatched, onWatchLater}: MovieModalProps) {
     const year = movie.release_date?.split("-")[0] ?? "N/A";
     const rating = movie.vote_average?.toFixed(1) ?? "N/A";
 
@@ -31,7 +33,7 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
         : [];
 
     const {token} = useAuth();
-    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id, token as string);
+    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id, token as string, onWatched, onWatchLater);
 
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -122,7 +124,7 @@ export default function MovieModal({movie, genres, onClose}: MovieModalProps) {
                             <button
                                 className={`${styles.actionBtn} ${isWatchLater ? styles.actionBtnWatchLater : ""}`}
                                 onClick={handleWatchLater}
-                                disabled={!token || watchLaterLoading}
+                                disabled={!token || watchLaterLoading || isWatched}
                             >
                                 {isWatchLater ? <RiBookmarkFill size={16}/> : <RiBookmarkLine size={16}/>}
                                 {watchLaterLoading ? "SAVING..." : isWatchLater ? "SAVED" : "WATCH LATER"}

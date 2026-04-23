@@ -48,5 +48,5 @@ export function useProfileMovies(token: string) {
         fetchMovies();
     }, [token]);
 
-    return {watched, watchLater, genres, loading, error};
+    return {watched, setWatched, watchLater, setWatchLater, genres, loading, error};
 }

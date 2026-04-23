@@ -32,10 +32,11 @@ export default function Header() {
                                  className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             Trending
                         </NavLink>
-                        <NavLink to="/search"
-                                 className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
-                            Search
-                        </NavLink>
+                        {/*TODO ADD AI SEARCH SUGGESTION*/}
+                        {/*<NavLink to="/search"*/}
+                        {/*         className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>*/}
+                        {/*    Search*/}
+                        {/*</NavLink>*/}
                     </nav>
 
                     {/* Desktop actions */}
@@ -97,11 +98,12 @@ export default function Header() {
                                  onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>03 /</span> Trending
                         </NavLink>
-                        <NavLink to="/search"
-                                 className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
-                                 onClick={() => setMenuOpen(false)}>
-                            <span className={styles.drawerPrefix}>04 /</span> Search
-                        </NavLink>
+                        {/*TODO ADD AI SEARCH SUGGESTION*/}
+                        {/*<NavLink to="/search"*/}
+                        {/*         className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}*/}
+                        {/*         onClick={() => setMenuOpen(false)}>*/}
+                        {/*    <span className={styles.drawerPrefix}>04 /</span> Search*/}
+                        {/*</NavLink>*/}
                     </nav>
 
                     <div className={styles.drawerActions}>
