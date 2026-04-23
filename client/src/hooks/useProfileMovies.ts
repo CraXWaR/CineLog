@@ -27,6 +27,7 @@ export function useProfileMovies(token: string) {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await res.json();
+                if (!data) throw new Error("No data returned");
 
                 const [watchedMovies, watchLaterMovies, genresData] = await Promise.all([
                     Promise.all(data.watched.map((entry:any) => fetchMovieById(entry.movie.tmdbId))),
