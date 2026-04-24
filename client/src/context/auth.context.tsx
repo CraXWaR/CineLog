@@ -1,6 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import type {AuthContext, UserResponse} from "../types/user.type.ts";
 
+import {refreshTokenRequest} from "../services/auth.service.ts";
+
 const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
@@ -41,12 +43,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+
         setToken(null);
         setUser(null);
     };
 
+    const refreshToken = async (): Promise<string | null> => {
+        const { ok, json } = await refreshTokenRequest();
+        if (!ok) {
+            logout();
+            return null;
+        }
+
+        setToken(json.token);
+        localStorage.setItem("token", json.token);
+        return json.token;
+    };
+
     return (
-        <AuthContext.Provider value={{isLoggedIn, token, user, setUser, loading, setAuthUser, logout}}>
+        <AuthContext.Provider value={{isLoggedIn, token, user, setUser, loading, setAuthUser, logout, refreshToken}}>
             {children}
         </AuthContext.Provider>
     );

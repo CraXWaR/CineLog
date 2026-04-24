@@ -18,12 +18,7 @@ export async function loginRequest(data: { email: string; password: string }) {
     return {ok: response.ok, json};
 }
 
-export async function registerRequest(data: {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}) {
+export async function registerRequest(data: { username: string; email: string; password: string; confirmPassword: string; }) {
     const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -32,4 +27,13 @@ export async function registerRequest(data: {
 
     const json = await response.json();
     return {ok: response.ok, json};
+}
+
+export async function refreshTokenRequest() {
+    const response = await fetch(`${API_URL}/refresh`, {
+        method: "POST",
+        credentials: "include",
+    });
+    const json = await response.json();
+    return { ok: response.ok, json };
 }

@@ -7,6 +7,7 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({message: 'Unauthorized'});
     }
+
     const token = authHeader.slice(7);
     if (!token) {
         return res.status(401).json({message: "Authorization token missing"});

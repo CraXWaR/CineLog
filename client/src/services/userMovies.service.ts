@@ -1,5 +1,3 @@
-// TODO: remove userId from all request URLs and body once auth middleware is wired up
-// userId should come from req.user.id on the backend instead
 const API_URL = "http://localhost:8080/api";
 
 function authHeaders(token: string) {

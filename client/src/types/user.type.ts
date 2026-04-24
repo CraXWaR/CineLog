@@ -19,4 +19,5 @@ export type AuthContext = {
     setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>;
     setAuthUser: (payload: { token: string; user: UserResponse }) => void;
     logout: () => void;
+    refreshToken: () => Promise<string | null>;
 }

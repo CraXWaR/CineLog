@@ -37,24 +37,35 @@ export class UserController {
     };
 
     login = async (req: Request, res: Response) => {
+        console.log(process.env.JWT_SECRET)
         try {
-            const user = await this.userService.login(req.body);
+            const { user, refreshToken } = await this.userService.login(req.body);
             const { password, ...safeUser } = user;
 
-            const payload = { id: safeUser.id, email: safeUser.email };
-            const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-                expiresIn: '1h'
-            });
+            const accessToken = jwt.sign(
+                { id: safeUser.id, email: safeUser.email },
+                process.env.JWT_SECRET!,
+                { expiresIn: '15m' }
+            );
 
-            return res.status(201).json({
-                message: "User login",
-                user: safeUser,
-                token: accessToken,
-            })
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' });
+            return res.status(201).json({ user: safeUser, token: accessToken });
         } catch (error: any) {
             return res.status(400).json({
                 message: error.message,
             })
+        }
+    };
+
+    refresh = async (req: Request, res: Response) => {
+        try {
+            const token = req.cookies.refreshToken;
+            if (!token) return res.status(401).json({ message: "No refresh token" });
+
+            const newAccessToken = await this.userService.refresh(token);
+            return res.json({ token: newAccessToken });
+        } catch (error: any) {
+            return res.status(401).json({ message: error.message });
         }
     };
 
