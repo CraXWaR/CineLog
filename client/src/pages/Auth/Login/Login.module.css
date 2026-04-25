@@ -23,8 +23,6 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- Header ---- */
-
 .header {
     text-align: center;
     display: flex;
@@ -102,8 +100,6 @@
     letter-spacing: var(--tracking-wide);
 }
 
-/* ---- Card ---- */
-
 .card {
     width: 100%;
     background: var(--gradient-card);
@@ -113,7 +109,6 @@
     position: relative;
 }
 
-/* Corner decorations */
 .cardCornerTL,
 .cardCornerTR,
 .cardCornerBL,
@@ -129,8 +124,6 @@
 .cardCornerTR { top: -1px; right: -1px;   border-width: 2px 2px 0 0; }
 .cardCornerBL { bottom: -1px; left: -1px;   border-width: 0 0 2px 2px; }
 .cardCornerBR { bottom: -1px; right: -1px;  border-width: 0 2px 2px 0; }
-
-/* ---- Card Header ---- */
 
 .cardHeader {
     display: flex;
@@ -154,15 +147,32 @@
     background: linear-gradient(90deg, rgba(255,45,120,0.4), transparent);
 }
 
-/* ---- Form ---- */
+.successMessage {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    color: var(--color-text-primary);
+    text-shadow: var(--glow-cyan);
+    border: 1px solid var(--color-neon-pink);
+    padding: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-4);
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: typewriter 0.8s steps(40) 0.6s forwards;
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
 
 .form {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
 }
-
-/* ---- Button ---- */
 
 .btn {
     margin-top: var(--space-2);
@@ -188,8 +198,6 @@
     background: transparent;
     color: var(--color-neon-cyan);
 }
-
-/* ---- Footer ---- */
 
 .footer {
     margin-top: var(--space-8);
@@ -224,8 +232,6 @@
     color: var(--color-neon-cyan);
     text-shadow: var(--glow-cyan);
 }
-
-/* ---- Status Bar ---- */
 
 .statusBar {
     display: flex;

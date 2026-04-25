@@ -37,6 +37,7 @@ export function useLogin() {
 
 export function useRegister() {
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent, data: {
         username: string;
@@ -55,7 +56,9 @@ export function useRegister() {
                 return;
             }
 
-            console.log(json);
+            navigate('/login', {
+                state: { message: "Registration successful, please login!" }
+            });
         } catch (err) {
             setErrors({general: "Something went wrong"});
         }

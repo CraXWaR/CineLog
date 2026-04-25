@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Link} from "react-router";
+import {Link, useLocation} from "react-router";
 import FormInput from "../../../components/FormInput/FormInput.tsx";
 import {
     RiSkipRightLine,
@@ -16,6 +16,9 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {handleSubmit, errors} = useLogin();
+
+    const location = useLocation();
+    const message = location.state?.message;
 
     return (
         <div className={styles.page}>
@@ -39,8 +42,9 @@ export default function Login() {
                         <span className={styles.cardLine}/>
                     </div>
 
-                    <form className={styles.form} onSubmit={(e) => handleSubmit(e, {email, password})}>
+                    {message && <p className={styles.successMessage}>{message}</p>}
 
+                    <form className={styles.form} onSubmit={(e) => handleSubmit(e, {email, password})}>
                         <FormInput label={'EMAIL'} prefix={'01'} value={email}
                                    onChange={(e) => setEmail(e.target.value)} id={"email"} name={"email"}
                                    placeholder={"user@domain.com"} type={"email"} variant={"login"}
@@ -55,7 +59,6 @@ export default function Login() {
                             <span>ACCESS VAULT</span>
                             <span className={styles.btnArrow}><RiSkipRightLine size={20}/></span>
                         </button>
-
                     </form>
 
                     <div className={styles.footer}>

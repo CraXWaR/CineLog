@@ -13,6 +13,7 @@ export async function loginRequest(data: { email: string; password: string }) {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
+        credentials: "include",
     });
     const json: ILoginResponse = await response.json();
     return {ok: response.ok, json};

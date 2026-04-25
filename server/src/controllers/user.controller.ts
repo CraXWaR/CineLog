@@ -22,12 +22,10 @@ export class UserController {
             }
 
             const {confirmPassword, ...userToRegister} = validatedData.data
-            const user = await this.userService.register(userToRegister);
-            const {password, ...safeUser} = user;
-//TODO REMOVE USER RETURN
+            await this.userService.register(userToRegister);
+
             return res.status(201).json({
                 message: "User registered",
-                user: safeUser,
             })
         } catch (error: any) {
             return res.status(400).json({
@@ -37,7 +35,6 @@ export class UserController {
     };
 
     login = async (req: Request, res: Response) => {
-        console.log(process.env.JWT_SECRET)
         try {
             const { user, refreshToken } = await this.userService.login(req.body);
             const { password, ...safeUser } = user;
@@ -48,7 +45,7 @@ export class UserController {
                 { expiresIn: '15m' }
             );
 
-            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' });
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict', secure: false, path: "/" });
             return res.status(201).json({ user: safeUser, token: accessToken });
         } catch (error: any) {
             return res.status(400).json({
