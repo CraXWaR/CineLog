@@ -66,12 +66,22 @@ export class UserController {
         }
     };
 
-    getUserMovies = async (req: Request, res: Response) => {
+    getPublicProfile = async (req: Request, res: Response) => {
         try {
-            const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            const publicId = req.params.publicId as string;
+            if (!publicId) return res.status(400).json({ message: "Invalid profile id" });
 
-            const data = await this.userService.getUserMovies(user.id);
+            const profile = await this.userService.getPublicProfile(publicId);
+            return res.status(200).json(profile);
+        } catch (error: any) {
+            return res.status(404).json({ message: error.message });
+        }
+    }
+
+    getProfileMovies = async (req: Request, res: Response) => {
+        try {
+            const publicId = req.params.publicId as string;
+            const data = await this.userService.getUserMovies(publicId);
             return res.status(200).json(data);
         } catch (error: any) {
             return res.status(500).json({ message: error.message });

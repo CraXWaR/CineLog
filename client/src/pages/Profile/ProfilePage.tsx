@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Movie } from "../../types/movies.type.ts";
+import {useParams} from "react-router";
 
 import FriendCard from "../../components/Profile/FriendCard.tsx";
 import MovieRow from "../../components/Profile/MovieRow.tsx";
@@ -9,6 +10,7 @@ import Loading from "../../components/UI/Loading/Loading.tsx";
 
 import {useAuth} from "../../context/auth.context.tsx";
 import {useProfileMovies} from "../../hooks/useProfileMovies.ts";
+import {usePublicProfile} from "../../hooks/usePublicProfile.ts";
 
 import styles from "./ProfilePage.module.css";
 
@@ -18,16 +20,24 @@ const FRIENDS = [
     { id: "u-003", username: "dmitri_p",  avatar: "DP" },
     { id: "u-004", username: "sofia_l",   avatar: "SL" },
 ];
+import { MdVideocamOff } from "react-icons/md";
 
 export default function ProfilePage() {
     const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const {user, token} = useAuth();
-    if (!user) return <Error text="// ACCESS DENIED — YOU MUST BE LOGGED IN"/>;
+    const {user} = useAuth();
 
-    const {watched, setWatched, watchLater, setWatchLater, genres, loading, error} = useProfileMovies(token as string);
+    const { publicId } = useParams<{ publicId: string }>();
+    if (!publicId) return <Error text="// INVALID PROFILE LINK"/>;
+    const isOwnProfile = user?.publicId === publicId;
+
+    const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
+    const {watched, setWatched, watchLater, setWatchLater, genres, loading, error} = useProfileMovies(publicId as string);
+
+    if (profileLoading || loading) return <Loading text="Loading profile..."/>;
+    if (profileError || error) return <Error text={profileError || error!}/>;
 
     const handleMovieWatched = (movieId: number) => {
         setWatched(prev => [...prev, selectedMovie!]);
@@ -47,20 +57,22 @@ export default function ProfilePage() {
         setDropdownOpen(false);
     };
 
-    if (error) return <Error text={error}/>;
-    if (loading) return <Loading text="Loading profile..."/>;
-
     return (
         <div className={styles.page}>
             <header className={styles.header}>
                 <div className={styles.userInfo}>
-                    <div className={styles.avatar}>{user.username.slice(0, 2).toUpperCase()}</div>
+                    <div className={styles.avatar}>{profile?.username.slice(0, 2).toUpperCase()}</div>
                     <div>
-                        <h1 className={styles.username}>{user.username}</h1>
-                        <span className={styles.email}>{user.email}</span>
+                        <h1 className={styles.username}>{profile?.username}</h1>
+                        {isOwnProfile && <span className={styles.email}>{user.email}</span>}
                     </div>
                 </div>
-                <span className={styles.badge}>{FRIENDS.length} friends</span>
+                {!isOwnProfile && (
+                    <button className="btn btn--secondary">+ ADD FRIEND</button>
+                )}
+                {isOwnProfile && (
+                    <span className={styles.badge}>{FRIENDS.length} friends</span>
+                )}
             </header>
 
             <div className={styles.layout}>
@@ -113,8 +125,18 @@ export default function ProfilePage() {
                         </div>
                     )}
 
-                    <MovieRow title="Recently Watched" icon="🎬" movies={watched} genres={genres} onMovieClick={setSelectedMovie}/>
-                    <MovieRow title="Watch Later" icon="🕐" movies={watchLater} genres={genres} onMovieClick={setSelectedMovie}/>
+                    {watched.length === 0 && watchLater.length === 0 ? (
+                        <div className={styles.empty}>
+                            <MdVideocamOff className={styles.emptyIcon}/>
+                            <p className={styles.emptyText}>NO SIGNAL</p>
+                            <p className={styles.emptySubtext}>// NO MOVIES FOUND IN THIS TAPE</p>
+                        </div>
+                    ) : (
+                        <>
+                            <MovieRow title="Recently Watched" icon="🎬" movies={watched} genres={genres} onMovieClick={setSelectedMovie}/>
+                            <MovieRow title="Watch Later" icon="🕐" movies={watchLater} genres={genres} onMovieClick={setSelectedMovie}/>
+                        </>
+                    )}
                 </main>
             </div>
 

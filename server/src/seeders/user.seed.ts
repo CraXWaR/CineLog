@@ -1,5 +1,8 @@
 import {PrismaClient} from "../../prisma/generated/prisma/index.js";
 import bcrypt from "bcrypt";
+import { customAlphabet } from 'nanoid';
+
+const nanoid = customAlphabet('0123456789', 11);
 
 export async function seedUser(prismaClient: PrismaClient): Promise<void> {
     console.log("Seeding user...");
@@ -11,6 +14,7 @@ export async function seedUser(prismaClient: PrismaClient): Promise<void> {
             username: "test user",
             password: password,
             email: "test@abv.bg",
+            publicId: nanoid(),
         }
     });
 

@@ -48,7 +48,7 @@ export default function Header() {
                             </>
                         ) : (
                             <div className={styles.userBox}>
-                                <Link to="/profile" className={styles.username}>
+                                <Link to={`/profile/${user.publicId}`} className={styles.username}>
                                     {user.username}
                                 </Link>
                                 <button onClick={logout} className={styles.btnLogout}>
@@ -119,7 +119,7 @@ export default function Header() {
                             </>
                         ) : (
                             <>
-                                <Link to="/profile" className={styles.drawerUsername} onClick={() => setMenuOpen(false)}>
+                                <Link to={`/profile/${user.publicId}`} className={styles.drawerUsername} onClick={() => setMenuOpen(false)}>
                                     {user.username}
                                 </Link>
                                 <button onClick={() => {

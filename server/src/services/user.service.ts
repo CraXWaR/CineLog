@@ -2,11 +2,15 @@ import type {User} from "../../prisma/generated/prisma/index.js";
 import bcrypt from "bcrypt";
 import prisma from "../db/prisma.js";
 import jwt from "jsonwebtoken";
+import { customAlphabet } from 'nanoid';
+
+const nanoid = customAlphabet('0123456789', 11);
 
 export class UserService {
     async register(data: any): Promise<User> {
         const userData = data;
         userData.password = await bcrypt.hash(data.password, 12);
+        userData.publicId = nanoid();
 
         return prisma.user.create({
             data: userData,
@@ -56,13 +60,26 @@ export class UserService {
         );
     }
 
-    async getUserMovies(userId: string) {
+    async getUserMovies(publicId: string) {
         return prisma.user.findUnique({
-            where: { id: userId },
+            where: { publicId },
             include: {
                 watchLater: { include: { movie: true } },
                 watched: { include: { movie: true } },
             }
         });
+    }
+
+    async getPublicProfile(publicId: string) {
+        const user = await prisma.user.findUnique({
+            where: { publicId },
+            select: {
+                username: true,
+                publicId: true,
+            }
+        });
+
+        if (!user) throw new Error("User not found");
+        return user;
     }
 }

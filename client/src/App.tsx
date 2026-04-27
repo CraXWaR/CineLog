@@ -6,7 +6,7 @@ import {AuthProvider} from "./context/auth.context.tsx";
 import Header from "./components/UI/Header/Header.tsx";
 import Footer from "./components/UI/Footer/Footer.tsx";
 
-import Protected from "./components/Protected.tsx";
+// import Protected from "./components/Protected.tsx";
 
 import Login from "./pages/Auth/Login/Login.tsx";
 import Register from "./pages/Auth/Register/Register.tsx";
@@ -28,9 +28,7 @@ const Root: React.FC = () => {
                 <Route path="/discover" element={<DiscoverMoviesPage/>}/>
                 <Route path="/trending" element={<TrendingMoviesPage/>}/>
 
-                <Route element={<Protected />}>
-                    <Route path="/profile" element={<ProfilePage/>}/>
-                </Route>
+                <Route path="/profile/:publicId" element={<ProfilePage/>}/>
             </Routes>
             <Footer/>
         </>

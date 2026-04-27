@@ -8,7 +8,8 @@ export type UserResponse = {
     watchLater: UserWatchLater[];
     watched: UserWatched[]
     createdAt?: string;
-    updatedAt?: string;
+    updatedAt: string;
+    publicId: string;
 }
 
 export type AuthContext = {

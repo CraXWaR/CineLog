@@ -13,6 +13,7 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   refreshToken String? @map("refresh_token")
+  publicId     String  @unique @map("public_id")
 
   @@map("users")
 }

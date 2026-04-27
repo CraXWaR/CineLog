@@ -12,9 +12,6 @@ interface Props {
 }
 
 export default function MovieRow({ title, icon, movies, genres, onMovieClick }: Props) {
-    //TODO ADD SMTH TO TELL USER THERE ARE NO MOVIES
-    if (movies.length === 0) return null;
-
     return (
         <section className={styles.section}>
             <h3 className={styles.heading}>

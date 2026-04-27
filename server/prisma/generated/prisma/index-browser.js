@@ -132,7 +132,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  refreshToken: 'refreshToken'
+  refreshToken: 'refreshToken',
+  publicId: 'publicId'
 };
 
 exports.Prisma.UserFriendsScalarFieldEnum = {
