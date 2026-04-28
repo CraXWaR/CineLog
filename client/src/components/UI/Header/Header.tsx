@@ -1,12 +1,30 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Link, NavLink} from "react-router";
 import {RxCross2, RxHamburgerMenu} from "react-icons/rx";
-import styles from "./Header.module.css";
+import {MdNotifications} from "react-icons/md";
+
 import {useAuth} from "../../../context/auth.context.tsx";
+import {useNotifications} from "../../../hooks/useNotifications.ts";
+
+import styles from "./Header.module.css";
 
 export default function Header() {
+    const [bellOpen, setBellOpen] = useState(false);
+    const bellRef = useRef<HTMLDivElement>(null);
+    const {notifications, unreadCount, handleDismiss} = useNotifications();
+
     const [menuOpen, setMenuOpen] = useState(false);
     const {user, logout} = useAuth();
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (bellRef.current && !bellRef.current.contains(e.target as Node)) {
+                setBellOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -48,6 +66,44 @@ export default function Header() {
                             </>
                         ) : (
                             <div className={styles.userBox}>
+                                <div className={styles.bellWrapper} ref={bellRef}>
+                                    <button className={styles.bellBtn} onClick={() => setBellOpen(o => !o)}>
+                                        <MdNotifications/>
+                                        {unreadCount > 0 && (
+                                            <span className={styles.bellBadge}>{unreadCount}</span>
+                                        )}
+                                    </button>
+
+                                    {bellOpen && (
+                                        <div className={styles.bellDropdown}>
+                                            {notifications.length === 0 && (
+                                                <p className={styles.bellEmpty}>// NO NOTIFICATIONS</p>
+                                            )}
+                                            {notifications.map(n => (
+                                                <div key={n.id} className={styles.bellItem}>
+                                                    {n.type === "friend_request" ? (
+                                                        <Link
+                                                            to={`/profile/${n.from.publicId}`}
+                                                            className={styles.bellLink}
+                                                            onClick={() => setBellOpen(false)}>
+                                                            <span className={styles.bellUsername}>{n.from.username}</span>
+                                                            <span className={styles.bellText}> wants to be friends</span>
+                                                        </Link>
+                                                    ) : (
+                                                        <div className={styles.bellAccepted}>
+                                                            <span className={styles.bellUsername}>{n.from.username}</span>
+                                                            <span className={styles.bellText}> accepted your request</span>
+                                                            <button className={styles.bellDismiss} onClick={() => handleDismiss(n.id)}>
+                                                                <RxCross2/>
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
                                 <Link to={`/profile/${user.publicId}`} className={styles.username}>
                                     {user.username}
                                 </Link>

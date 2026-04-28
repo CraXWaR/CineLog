@@ -125,6 +125,15 @@ exports.Prisma.MovieScalarFieldEnum = {
   tmdbId: 'tmdbId'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fromId: 'fromId',
+  type: 'type',
+  read: 'read',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
@@ -176,6 +185,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Movie: 'Movie',
+  Notification: 'Notification',
   User: 'User',
   UserFriends: 'UserFriends',
   UserWatchLater: 'UserWatchLater',

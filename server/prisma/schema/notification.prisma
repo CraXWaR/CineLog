@@ -1,0 +1,14 @@
+model Notification {
+  id        String   @id @default(uuid(4))
+  userId    String   @map("user_id")
+  fromId    String   @map("from_id")
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  from User @relation("NotificationFrom", fields: [fromId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, fromId, type])
+  @@map("notifications")
+}

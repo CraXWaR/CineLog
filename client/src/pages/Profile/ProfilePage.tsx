@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Movie } from "../../types/movies.type.ts";
 import {useParams} from "react-router";
+import { MdVideocamOff } from "react-icons/md";
 
 import FriendCard from "../../components/Profile/FriendCard.tsx";
 import MovieRow from "../../components/Profile/MovieRow.tsx";
@@ -11,6 +12,7 @@ import Loading from "../../components/UI/Loading/Loading.tsx";
 import {useAuth} from "../../context/auth.context.tsx";
 import {useProfileMovies} from "../../hooks/useProfileMovies.ts";
 import {usePublicProfile} from "../../hooks/usePublicProfile.ts";
+import {useFriendRequest} from "../../hooks/useFriendRequest.ts";
 
 import styles from "./ProfilePage.module.css";
 
@@ -20,8 +22,8 @@ const FRIENDS = [
     { id: "u-003", username: "dmitri_p",  avatar: "DP" },
     { id: "u-004", username: "sofia_l",   avatar: "SL" },
 ];
-import { MdVideocamOff } from "react-icons/md";
 
+//TODO SPLIT PAGE INTO COMPONENTS AND LOGIC INTO CUSTOM-HOOK
 export default function ProfilePage() {
     const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
@@ -33,10 +35,12 @@ export default function ProfilePage() {
     if (!publicId) return <Error text="// INVALID PROFILE LINK"/>;
     const isOwnProfile = user?.publicId === publicId;
 
-    const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
-    const {watched, setWatched, watchLater, setWatchLater, genres, loading, error} = useProfileMovies(publicId as string);
+    const {handleSendRequest, handleRemoveRequest, handleAcceptRequest, loading: loadingFriendRequest, statusLoading, status} = useFriendRequest(publicId!);
 
-    if (profileLoading || loading) return <Loading text="Loading profile..."/>;
+    const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
+    const {watched, setWatched, watchLater, setWatchLater, genres, loading: loadingMovies, error} = useProfileMovies(publicId as string);
+
+    if (profileLoading || loadingMovies) return <Loading text="Loading profile..."/>;
     if (profileError || error) return <Error text={profileError || error!}/>;
 
     const handleMovieWatched = (movieId: number) => {
@@ -67,8 +71,35 @@ export default function ProfilePage() {
                         {isOwnProfile && <span className={styles.email}>{user.email}</span>}
                     </div>
                 </div>
-                {!isOwnProfile && (
-                    <button className="btn btn--secondary">+ ADD FRIEND</button>
+                {!isOwnProfile && user && (
+                    <div className={styles.friendActionButtons}>
+                        <button
+                            className={`btn ${
+                                status === "pending" ? "btn--ghost" :
+                                    status === "accepted" ? "btn--primary" : "btn--secondary"}`}
+                            onClick={
+                                status === "pending" ? handleRemoveRequest
+                                    : status === "received" ? handleAcceptRequest
+                                        : handleSendRequest
+                            }
+                            disabled={loadingFriendRequest || statusLoading || status === "accepted"}>
+                            {statusLoading ? "..."
+                                : status === "pending" ? "⏳ PENDING"
+                                    : status === "received" ? "✓ ACCEPT"
+                                        : status === "accepted" ? "✓ FRIENDS"
+                                            : loadingFriendRequest ? "SENDING..."
+                                                : "+ ADD FRIEND"}
+                        </button>
+
+                        {status === "received" && (
+                            <button
+                                className="btn btn--ghost"
+                                onClick={handleRemoveRequest}
+                                disabled={loadingFriendRequest}>
+                                ✗ DECLINE
+                            </button>
+                        )}
+                    </div>
                 )}
                 {isOwnProfile && (
                     <span className={styles.badge}>{FRIENDS.length} friends</span>

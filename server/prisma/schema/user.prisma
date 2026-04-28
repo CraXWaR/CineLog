@@ -9,6 +9,9 @@ model User {
   friends    UserFriends[]    @relation("UserFriends")
   friendOf   UserFriends[]    @relation("FriendOf")
 
+  notifications     Notification[] @relation("UserNotifications")
+  notificationsSent Notification[] @relation("NotificationFrom")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

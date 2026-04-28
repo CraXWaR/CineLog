@@ -8,6 +8,21 @@ model Movie {
   @@map("movies")
 }
 
+model Notification {
+  id        String   @id @default(uuid(4))
+  userId    String   @map("user_id")
+  fromId    String   @map("from_id")
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  from User @relation("NotificationFrom", fields: [fromId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, fromId, type])
+  @@map("notifications")
+}
+
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -33,6 +48,9 @@ model User {
   watchLater UserWatchLater[]
   friends    UserFriends[]    @relation("UserFriends")
   friendOf   UserFriends[]    @relation("FriendOf")
+
+  notifications     Notification[] @relation("UserNotifications")
+  notificationsSent Notification[] @relation("NotificationFrom")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
