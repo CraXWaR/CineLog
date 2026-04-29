@@ -112,5 +112,29 @@ export class FriendsService {
         });
     }
 
-    //TODO ADD REMOVE FRIEND LOGIC
+    async removeFriend(userId: string, friendPublicId: string) {
+        const friend = await prisma.user.findUnique({
+            where: { publicId: friendPublicId },
+        });
+
+        if (!friend) throw new Error("User not found");
+
+        await prisma.userFriends.deleteMany({
+            where: {
+                OR: [
+                    { userId, friendId: friend.id },
+                    { userId: friend.id, friendId: userId }
+                ]
+            }
+        });
+
+        await prisma.notification.deleteMany({
+            where: {
+                OR: [
+                    { userId, fromId: friend.id },
+                    { userId: friend.id, fromId: userId }
+                ]
+            }
+        });
+    }
 }

@@ -47,3 +47,14 @@ export async function acceptFriendRequest(publicId: string, token: string) {
     if (!res.ok) throw new Error("Failed to accept friend request");
     return res.json();
 }
+
+export async function removeFriend(publicId: string, token: string) {
+    const res = await fetch(`${API_URL}/friends/${publicId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) throw new Error("Failed to remove friend");
+}

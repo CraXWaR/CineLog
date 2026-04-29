@@ -87,4 +87,17 @@ export class FriendsController {
             return res.status(400).json({ message: error.message });
         }
     }
+
+    removeFriend = async (req: Request, res: Response) => {
+        try {
+            const user = req.user as JwtPayload;
+            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+
+            const publicId = req.params.publicId as string;
+            await this.friendsService.removeFriend(user.id, publicId);
+            return res.status(200).json({ message: "Friend removed" });
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
 }

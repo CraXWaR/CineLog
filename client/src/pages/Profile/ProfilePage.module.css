@@ -19,6 +19,18 @@
     gap: var(--space-2);
 }
 
+.friendBtn:hover .friendBtnText {
+    display: none;
+}
+
+.friendBtn:hover .friendBtnHover {
+    display: inline;
+}
+
+.friendBtnHover {
+    display: none;
+}
+
 .userInfo {
     display: flex;
     align-items: center;

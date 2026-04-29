@@ -35,7 +35,7 @@ export default function ProfilePage() {
     if (!publicId) return <Error text="// INVALID PROFILE LINK"/>;
     const isOwnProfile = user?.publicId === publicId;
 
-    const {handleSendRequest, handleRemoveRequest, handleAcceptRequest, loading: loadingFriendRequest, statusLoading, status} = useFriendRequest(publicId!);
+    const {handleSendRequest, handleRemoveRequest, handleAcceptRequest, handleRemoveFriend, loading: loadingFriendRequest, statusLoading, status} = useFriendRequest(publicId!);
 
     const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
     const {watched, setWatched, watchLater, setWatchLater, genres, loading: loadingMovies, error} = useProfileMovies(publicId as string);
@@ -76,21 +76,26 @@ export default function ProfilePage() {
                         <button
                             className={`btn ${
                                 status === "pending" ? "btn--ghost" :
-                                    status === "accepted" ? "btn--primary" : "btn--secondary"}`}
+                                    status === "accepted" ? `btn--primary ${styles.friendBtn}` : "btn--secondary"}`}
                             onClick={
                                 status === "pending" ? handleRemoveRequest
                                     : status === "received" ? handleAcceptRequest
-                                        : handleSendRequest
+                                        : status === "accepted" ? handleRemoveFriend
+                                            : handleSendRequest
                             }
-                            disabled={loadingFriendRequest || statusLoading || status === "accepted"}>
+                            disabled={loadingFriendRequest || statusLoading}>
                             {statusLoading ? "..."
                                 : status === "pending" ? "⏳ PENDING"
                                     : status === "received" ? "✓ ACCEPT"
-                                        : status === "accepted" ? "✓ FRIENDS"
+                                        : status === "accepted" ? (
+                                                <>
+                                                    <span className={styles.friendBtnText}>✓ FRIENDS</span>
+                                                    <span className={styles.friendBtnHover}>✗ UNFRIEND</span>
+                                                </>
+                                            )
                                             : loadingFriendRequest ? "SENDING..."
                                                 : "+ ADD FRIEND"}
                         </button>
-
                         {status === "received" && (
                             <button
                                 className="btn btn--ghost"

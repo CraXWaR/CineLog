@@ -20,11 +20,10 @@ export default function Login() {
     const location = useLocation();
     const message = location.state?.message;
 // TODO ADD Error SHOWS
+    console.log(errors);
     return (
         <div className={styles.page}>
-
             <div className={styles.container}>
-
                 <div className={styles.header}>
                     <span className={styles.recBadge}>● REC</span>
                     <h1 className={styles.logo} data-text="CINELOG">CINELOG</h1>
@@ -43,7 +42,8 @@ export default function Login() {
                     </div>
 
                     {message && <p className={styles.successMessage}>{message}</p>}
-
+                    {errors.general && <p className={styles.errorMessage}>{errors.general}</p>}
+                    
                     <form className={styles.form} onSubmit={(e) => handleSubmit(e, {email, password})}>
                         <FormInput label={'EMAIL'} prefix={'01'} value={email}
                                    onChange={(e) => setEmail(e.target.value)} id={"email"} name={"email"}

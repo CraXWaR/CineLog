@@ -1,6 +1,12 @@
 import {useState, useEffect} from "react";
 import {useAuth} from "../context/auth.context.tsx";
-import {sendFriendRequest, fetchFriendStatus, removeFriendRequest, acceptFriendRequest} from "../services/friends.service.ts";
+import {
+    sendFriendRequest,
+    fetchFriendStatus,
+    removeFriendRequest,
+    acceptFriendRequest,
+    removeFriend
+} from "../services/friends.service.ts";
 
 export function useFriendRequest(publicId: string) {
     const [loading, setLoading] = useState(false);
@@ -68,5 +74,18 @@ export function useFriendRequest(publicId: string) {
         }
     };
 
-    return {handleSendRequest, handleRemoveRequest, handleAcceptRequest, loading, statusLoading, error, status};
+    const handleRemoveFriend = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            await removeFriend(publicId, token as string);
+            setStatus(null);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return {handleSendRequest, handleRemoveRequest, handleAcceptRequest, handleRemoveFriend, loading, statusLoading, error, status};
 }

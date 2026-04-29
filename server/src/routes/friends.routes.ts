@@ -11,5 +11,6 @@ router.delete('/request/:publicId', authenticate, friendsController.removeReques
 router.patch('/accept/:publicId', authenticate, friendsController.acceptRequest);
 router.get('/notifications', authenticate, friendsController.getNotifications);
 router.delete('/notifications/:id', authenticate, friendsController.dismissNotification);
+router.delete('/:publicId', authenticate, friendsController.removeFriend);
 
 export default router;
