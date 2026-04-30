@@ -1,14 +1,10 @@
 import {useState, useEffect} from "react";
 import {fetchPublicProfile} from "../services/userProfile.service.ts";
-
-interface PublicProfile {
-    username: string;
-    publicId: string;
-}
+import type {PublicProfile} from "../types/publicProfile.type.ts";
 
 export function usePublicProfile(publicId: string) {
     const [profile, setProfile] = useState<PublicProfile | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {

@@ -1,5 +1,5 @@
-import MovieCard from "../Movies/MovieCard/MovieCard.tsx";
-import type {Movie, Genre} from "../../types/movies.type.ts";
+import MovieCard from "../../Movies/MovieCard/MovieCard.tsx";
+import type {Movie, Genre} from "../../../types/movies.type.ts";
 
 import styles from "./MovieRow.module.css";
 

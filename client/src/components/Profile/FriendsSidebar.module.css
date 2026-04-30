@@ -1,0 +1,90 @@
+.sidebar {
+    background: var(--color-bg-card);
+    border: var(--border-cyan);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    position: sticky;
+    top: var(--space-8);
+}
+
+.sidebarTitle {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.friendList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.dropdownTrigger {
+    display: none;
+}
+
+.dropdown {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .sidebar {
+        display: none;
+    }
+
+    .dropdownTrigger {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        background: var(--color-bg-elevated);
+        border: var(--border-cyan);
+        border-radius: var(--radius-sm);
+        color: var(--color-neon-cyan);
+        font-family: var(--font-mono), serif;
+        font-size: var(--text-xs);
+        letter-spacing: var(--tracking-vhs);
+        padding: var(--space-2) var(--space-3);
+        cursor: pointer;
+        transition: box-shadow var(--transition-base);
+        flex-shrink: 0;
+    }
+
+    .dropdownTrigger:hover {
+        box-shadow: var(--glow-cyan);
+    }
+
+    .chevron {
+        display: inline-block;
+        transition: transform var(--transition-base);
+        font-size: var(--text-base);
+        line-height: 1;
+    }
+
+    .chevronOpen {
+        transform: rotate(180deg);
+    }
+
+    .dropdown {
+        display: block;
+        background: var(--color-bg-card);
+        border: var(--border-cyan);
+        border-radius: var(--radius-md);
+        padding: var(--space-3);
+        margin-top: calc(-1 * var(--space-8));
+    }
+
+    .dropdownList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+}

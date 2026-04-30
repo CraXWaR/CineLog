@@ -19,8 +19,7 @@ export default function Login() {
 
     const location = useLocation();
     const message = location.state?.message;
-// TODO ADD Error SHOWS
-    console.log(errors);
+
     return (
         <div className={styles.page}>
             <div className={styles.container}>

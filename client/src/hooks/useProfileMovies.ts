@@ -42,6 +42,18 @@ export function useProfileMovies(publicId: string) {
         fetchMovies();
     }, [publicId]);
 
+    const handleMovieWatched = (movieId: number, movie: Movie) => {
+        setWatched(prev => [...prev, movie]);
+        setWatchLater(prev => prev.filter(m => m.id !== movieId));
+    };
 
-    return {watched, setWatched, watchLater, setWatchLater, genres, loading, error};
+    const handleMovieWatchLater = (movieId: number, movie: Movie, added: boolean) => {
+        if (added) {
+            setWatchLater(prev => [...prev, movie]);
+        } else {
+            setWatchLater(prev => prev.filter(m => m.id !== movieId));
+        }
+    };
+
+    return {watched, watchLater, genres, loading, error, handleMovieWatched, handleMovieWatchLater};
 }

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import type { Movie } from "../../types/movies.type.ts";
 import {useParams} from "react-router";
-import { MdVideocamOff } from "react-icons/md";
-
-import FriendCard from "../../components/Profile/FriendCard.tsx";
-import MovieRow from "../../components/Profile/MovieRow.tsx";
-import MovieModal from "../../components/Movies/MovieModal/MovieModal.tsx";
-import Error from "../../components/UI/Error/Error.tsx";
-import Loading from "../../components/UI/Loading/Loading.tsx";
 
 import {useAuth} from "../../context/auth.context.tsx";
 import {useProfileMovies} from "../../hooks/useProfileMovies.ts";
 import {usePublicProfile} from "../../hooks/usePublicProfile.ts";
 import {useFriendRequest} from "../../hooks/useFriendRequest.ts";
+
+import ProfileHeader from "../../components/Profile/ProfileHeader.tsx";
+import FriendsSidebar from "../../components/Profile/FriendsSidebar.tsx";
+import MovieSection from "../../components/Profile/MovieSection.tsx";
+import MovieModal from "../../components/Movies/MovieModal/MovieModal.tsx";
+import Error from "../../components/UI/Error/Error.tsx";
+import Loading from "../../components/UI/Loading/Loading.tsx";
 
 import styles from "./ProfilePage.module.css";
 
@@ -23,13 +23,9 @@ const FRIENDS = [
     { id: "u-004", username: "sofia_l",   avatar: "SL" },
 ];
 
-//TODO SPLIT PAGE INTO COMPONENTS AND LOGIC INTO CUSTOM-HOOK
 export default function ProfilePage() {
-    const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
-    const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
     const {user} = useAuth();
+    const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
     const { publicId } = useParams<{ publicId: string }>();
     if (!publicId) return <Error text="// INVALID PROFILE LINK"/>;
@@ -38,142 +34,37 @@ export default function ProfilePage() {
     const {handleSendRequest, handleRemoveRequest, handleAcceptRequest, handleRemoveFriend, loading: loadingFriendRequest, statusLoading, status} = useFriendRequest(publicId!);
 
     const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
-    const {watched, setWatched, watchLater, setWatchLater, genres, loading: loadingMovies, error} = useProfileMovies(publicId as string);
+    const {watched, watchLater, genres, loading: loadingMovies, error, handleMovieWatched, handleMovieWatchLater} = useProfileMovies(publicId as string);
 
     if (profileLoading || loadingMovies) return <Loading text="Loading profile..."/>;
     if (profileError || error) return <Error text={profileError || error!}/>;
 
-    const handleMovieWatched = (movieId: number) => {
-        setWatched(prev => [...prev, selectedMovie!]);
-        setWatchLater(prev => prev.filter(movie => movie.id !== movieId));
-    };
-    const handleMovieWatchLater = (movieId: number, added: boolean) => {
-        if (added) {
-            setWatchLater(prev => [...prev, selectedMovie!]);
-        } else {
-            setWatchLater(prev => prev.filter(m => m.id !== movieId));
-        }
-    };
-
-    const friend = FRIENDS.find((f) => f.id === selectedFriend) ?? null;
-    const handleFriendSelect = (id: string) => {
-        setSelectedFriend(id);
-        setDropdownOpen(false);
-    };
 
     return (
         <div className={styles.page}>
-            <header className={styles.header}>
-                <div className={styles.userInfo}>
-                    <div className={styles.avatar}>{profile?.username.slice(0, 2).toUpperCase()}</div>
-                    <div>
-                        <h1 className={styles.username}>{profile?.username}</h1>
-                        {isOwnProfile && <span className={styles.email}>{user.email}</span>}
-                    </div>
-                </div>
-                {!isOwnProfile && user && (
-                    <div className={styles.friendActionButtons}>
-                        <button
-                            className={`btn ${
-                                status === "pending" ? "btn--ghost" :
-                                    status === "accepted" ? `btn--primary ${styles.friendBtn}` : "btn--secondary"}`}
-                            onClick={
-                                status === "pending" ? handleRemoveRequest
-                                    : status === "received" ? handleAcceptRequest
-                                        : status === "accepted" ? handleRemoveFriend
-                                            : handleSendRequest
-                            }
-                            disabled={loadingFriendRequest || statusLoading}>
-                            {statusLoading ? "..."
-                                : status === "pending" ? "⏳ PENDING"
-                                    : status === "received" ? "✓ ACCEPT"
-                                        : status === "accepted" ? (
-                                                <>
-                                                    <span className={styles.friendBtnText}>✓ FRIENDS</span>
-                                                    <span className={styles.friendBtnHover}>✗ UNFRIEND</span>
-                                                </>
-                                            )
-                                            : loadingFriendRequest ? "SENDING..."
-                                                : "+ ADD FRIEND"}
-                        </button>
-                        {status === "received" && (
-                            <button
-                                className="btn btn--ghost"
-                                onClick={handleRemoveRequest}
-                                disabled={loadingFriendRequest}>
-                                ✗ DECLINE
-                            </button>
-                        )}
-                    </div>
-                )}
-                {isOwnProfile && (
-                    <span className={styles.badge}>{FRIENDS.length} friends</span>
-                )}
-            </header>
+            <ProfileHeader
+                profile={profile!}
+                isOwnProfile={isOwnProfile}
+                user={user}
+                friendsCount={FRIENDS.length}
+                status={status}
+                loadingFriendRequest={loadingFriendRequest}
+                statusLoading={statusLoading}
+                onSendRequest={handleSendRequest}
+                onRemoveRequest={handleRemoveRequest}
+                onAcceptRequest={handleAcceptRequest}
+                onRemoveFriend={handleRemoveFriend}/>
 
             <div className={styles.layout}>
-                {/* Desktop sidebar */}
-                <aside className={styles.sidebar}>
-                    <h2 className={styles.sidebarTitle}>Friends</h2>
-                    <ul className={styles.friendList}>
-                        {FRIENDS.map((friend) => (
-                            <FriendCard
-                                key={friend.id}
-                                friend={friend}
-                                active={friend.id === selectedFriend}
-                                onClick={() => handleFriendSelect(friend.id)}
-                            />
-                        ))}
-                    </ul>
-                </aside>
+                <FriendsSidebar friends={FRIENDS}/>
 
-                <main className={styles.main}>
-                    {/* Mobile dropdown trigger */}
-                    <button
-                        className={styles.dropdownTrigger}
-                        onClick={() => setDropdownOpen((o) => !o)}
-                        aria-expanded={dropdownOpen}
-                    >
-                        <span>FRIENDS</span>
-                        <span className={`${styles.chevron} ${dropdownOpen ? styles.chevronOpen : ""}`}>▾</span>
-                    </button>
-
-                    {/* Mobile dropdown list */}
-                    {dropdownOpen && (
-                        <div className={styles.dropdown}>
-                            <ul className={styles.dropdownList}>
-                                {FRIENDS.map((friend) => (
-                                    <FriendCard
-                                        key={friend.id}
-                                        friend={friend}
-                                        active={friend.id === selectedFriend}
-                                        onClick={() => handleFriendSelect(friend.id)}
-                                    />
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {friend && (
-                        <div className={styles.friendHeader}>
-                            <div className={styles.friendAvatar}>{friend.avatar}</div>
-                            <h2 className={styles.friendName}>{friend.username}</h2>
-                        </div>
-                    )}
-
-                    {watched.length === 0 && watchLater.length === 0 ? (
-                        <div className={styles.empty}>
-                            <MdVideocamOff className={styles.emptyIcon}/>
-                            <p className={styles.emptyText}>NO SIGNAL</p>
-                            <p className={styles.emptySubtext}>// NO MOVIES FOUND IN THIS TAPE</p>
-                        </div>
-                    ) : (
-                        <>
-                            <MovieRow title="Recently Watched" icon="🎬" movies={watched} genres={genres} onMovieClick={setSelectedMovie}/>
-                            <MovieRow title="Watch Later" icon="🕐" movies={watchLater} genres={genres} onMovieClick={setSelectedMovie}/>
-                        </>
-                    )}
-                </main>
+                <MovieSection
+                    friends={FRIENDS}
+                    watched={watched}
+                    watchLater={watchLater}
+                    genres={genres}
+                    onMovieClick={setSelectedMovie}
+                />
             </div>
 
             {selectedMovie && (
@@ -181,8 +72,8 @@ export default function ProfilePage() {
                     movie={selectedMovie}
                     genres={genres}
                     onClose={() => setSelectedMovie(null)}
-                    onWatched={handleMovieWatched}
-                    onWatchLater={handleMovieWatchLater}
+                    onWatched={(movieId) => handleMovieWatched(movieId, selectedMovie!)}
+                    onWatchLater={(movieId, added) => handleMovieWatchLater(movieId, selectedMovie!, added)}
                 />
             )}
         </div>
