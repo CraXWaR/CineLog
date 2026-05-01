@@ -9,7 +9,7 @@ interface ILoginResponse {
 }
 
 export async function loginRequest(data: { email: string; password: string }) {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/user/login`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
@@ -20,7 +20,7 @@ export async function loginRequest(data: { email: string; password: string }) {
 }
 
 export async function registerRequest(data: { username: string; email: string; password: string; confirmPassword: string; }) {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${API_URL}/user/register`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
@@ -30,8 +30,9 @@ export async function registerRequest(data: { username: string; email: string; p
     return {ok: response.ok, json};
 }
 
+//TODO TEST WHEN ON DEV
 export async function refreshTokenRequest() {
-    const response = await fetch(`${API_URL}/refresh`, {
+    const response = await fetch(`${API_URL}/user/refresh`, {
         method: "POST",
         credentials: "include",
     });

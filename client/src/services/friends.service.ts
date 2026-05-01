@@ -58,3 +58,10 @@ export async function removeFriend(publicId: string, token: string) {
 
     if (!res.ok) throw new Error("Failed to remove friend");
 }
+
+export async function fetchFriends(publicId: string) {
+    const res = await fetch(`${API_URL}/friends/get-friends/${publicId}`);
+
+    if (!res.ok) throw new Error("Failed to fetch friends");
+    return res.json();
+}

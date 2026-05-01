@@ -6,6 +6,7 @@ import {useAuth} from "../../context/auth.context.tsx";
 import {useProfileMovies} from "../../hooks/useProfileMovies.ts";
 import {usePublicProfile} from "../../hooks/usePublicProfile.ts";
 import {useFriendRequest} from "../../hooks/useFriendRequest.ts";
+import {useFriends} from "../../hooks/useFriends.ts";
 
 import ProfileHeader from "../../components/Profile/ProfileHeader.tsx";
 import FriendsSidebar from "../../components/Profile/FriendsSidebar.tsx";
@@ -15,13 +16,6 @@ import Error from "../../components/UI/Error/Error.tsx";
 import Loading from "../../components/UI/Loading/Loading.tsx";
 
 import styles from "./ProfilePage.module.css";
-
-//TODO FEAT REAL DATA INSTEAD OF AI GENERATED DUMMY DATA
-const FRIENDS = [
-    { id: "u-002", username: "marina_k",  avatar: "MK" },
-    { id: "u-003", username: "dmitri_p",  avatar: "DP" },
-    { id: "u-004", username: "sofia_l",   avatar: "SL" },
-];
 
 export default function ProfilePage() {
     const {user} = useAuth();
@@ -35,10 +29,10 @@ export default function ProfilePage() {
 
     const { profile, loading: profileLoading, error: profileError } = usePublicProfile(publicId);
     const {watched, watchLater, genres, loading: loadingMovies, error, handleMovieWatched, handleMovieWatchLater} = useProfileMovies(publicId as string);
+    const {friends, loading: loadingFriends, error: friendsError} = useFriends(publicId);
 
-    if (profileLoading || loadingMovies) return <Loading text="Loading profile..."/>;
-    if (profileError || error) return <Error text={profileError || error!}/>;
-
+    if (profileLoading || loadingMovies || loadingFriends) return <Loading text="Loading profile data..."/>;
+    if (profileError || error || friendsError) return <Error text={profileError || error! || friendsError!}/>;
 
     return (
         <div className={styles.page}>
@@ -46,7 +40,7 @@ export default function ProfilePage() {
                 profile={profile!}
                 isOwnProfile={isOwnProfile}
                 user={user}
-                friendsCount={FRIENDS.length}
+                friendsCount={friends.length}
                 status={status}
                 loadingFriendRequest={loadingFriendRequest}
                 statusLoading={statusLoading}
@@ -56,10 +50,10 @@ export default function ProfilePage() {
                 onRemoveFriend={handleRemoveFriend}/>
 
             <div className={styles.layout}>
-                <FriendsSidebar friends={FRIENDS}/>
+                <FriendsSidebar friends={friends}/>
 
                 <MovieSection
-                    friends={FRIENDS}
+                    friends={friends}
                     watched={watched}
                     watchLater={watchLater}
                     genres={genres}

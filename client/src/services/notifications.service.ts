@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:8080/api";
 
 export async function fetchNotifications(token: string) {
-    const res = await fetch(`${API_URL}/friends/notifications`, {
+    const res = await fetch(`${API_URL}/notification`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -12,7 +12,7 @@ export async function fetchNotifications(token: string) {
 }
 
 export async function dismissNotification(id: string, token: string) {
-    const res = await fetch(`${API_URL}/friends/notifications/${id}`, {
+    const res = await fetch(`${API_URL}/notification/${id}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`,

@@ -27,7 +27,6 @@ const Root: React.FC = () => {
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/discover" element={<DiscoverMoviesPage/>}/>
                 <Route path="/trending" element={<TrendingMoviesPage/>}/>
-
                 <Route path="/profile/:publicId" element={<ProfilePage/>}/>
             </Routes>
             <Footer/>

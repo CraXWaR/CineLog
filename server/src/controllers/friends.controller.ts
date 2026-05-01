@@ -12,92 +12,78 @@ export class FriendsController {
     sendRequest = async (req: Request, res: Response) => {
         try {
             const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
-            const { publicId } = req.body;
-            if (!publicId) return res.status(400).json({ message: "Missing publicId" });
+            const {publicId} = req.body;
+            if (!publicId) return res.status(400).json({message: "Missing publicId"});
 
             await this.friendsService.sendRequest(user.id, publicId);
-            return res.status(201).json({ message: "Friend request sent" });
+            return res.status(201).json({message: "Friend request sent"});
         } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
         }
     }
 
     getStatus = async (req: Request, res: Response) => {
         try {
             const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
             const publicId = req.params.publicId as string;
             const status = await this.friendsService.getStatus(user.id, publicId);
             return res.status(200).json(status);
         } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
         }
     }
 
     removeRequest = async (req: Request, res: Response) => {
         try {
             const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
             const publicId = req.params.publicId as string;
             await this.friendsService.removeRequest(user.id, publicId);
-            return res.status(200).json({ message: "Friend request removed" });
+            return res.status(200).json({message: "Friend request removed"});
         } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
         }
     }
 
     acceptRequest = async (req: Request, res: Response) => {
         try {
             const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
             const publicId = req.params.publicId as string;
             await this.friendsService.acceptRequest(user.id, publicId);
-            return res.status(200).json({ message: "Friend request accepted" });
+            return res.status(200).json({message: "Friend request accepted"});
         } catch (error: any) {
-            return res.status(400).json({ message: error.message });
-        }
-    }
-
-    getNotifications = async (req: Request, res: Response) => {
-        try {
-            const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
-
-            const notifications = await this.friendsService.getNotifications(user.id);
-            return res.status(200).json(notifications);
-        } catch (error: any) {
-            return res.status(400).json({ message: error.message });
-        }
-    }
-
-    dismissNotification = async (req: Request, res: Response) => {
-        try {
-            const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
-
-            const id = req.params.id as string;
-            await this.friendsService.dismissNotification(id, user.id);
-            return res.status(200).json({ message: "Notification dismissed" });
-        } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
         }
     }
 
     removeFriend = async (req: Request, res: Response) => {
         try {
             const user = req.user as JwtPayload;
-            if (!user?.id) return res.status(401).json({ message: "Unauthorized" });
+            if (!user?.id) return res.status(401).json({message: "Unauthorized"});
 
             const publicId = req.params.publicId as string;
             await this.friendsService.removeFriend(user.id, publicId);
-            return res.status(200).json({ message: "Friend removed" });
+            return res.status(200).json({message: "Friend removed"});
         } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
+        }
+    }
+
+    getFriends = async (req: Request, res: Response) => {
+        try {
+            const publicId = req.params.publicId as string;
+
+            const friends = await this.friendsService.getFriends(publicId);
+            return res.status(200).json(friends);
+        } catch (error: any) {
+            return res.status(400).json({message: error.message});
         }
     }
 }

@@ -1,16 +1,17 @@
+import {Link} from "react-router";
+import type {Friend} from "../../../types/friend.type.ts";
+
 import styles from "./FriendCard.module.css";
 
-interface Props {
-    friend: { id: string; username: string; avatar: string };
-    active: boolean;
-    onClick: () => void;
+interface FriendProps {
+    friend: Friend;
 }
 
-export default function FriendCard({ friend, active, onClick }: Props) {
+export default function FriendCard({ friend }: FriendProps) {
     return (
-        <li className={`${styles.card} ${active ? styles.active : ""}`} onClick={onClick}>
-            <div className={styles.avatar}>{friend.avatar}</div>
+        <Link to={`/profile/${friend.publicId}`} className={`${styles.card}`}>
+            <span className={styles.avatar}>{friend.username.slice(0, 2).toUpperCase()}</span>
             <span className={styles.username}>{friend.username}</span>
-        </li>
+        </Link>
     );
 }

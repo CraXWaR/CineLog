@@ -7,7 +7,6 @@ const userController = new UserController();
 
 router.post('/register', userController.register);
 router.post('/login', userController.login);
-// router.get('/me/movies', authenticate, userController.getUserMovies);
 router.post('/refresh', userController.refresh);
 
 router.get('/:publicId', userController.getPublicProfile)

@@ -14,21 +14,6 @@
     border-color: var(--color-border);
 }
 
-.active {
-    background: var(--color-bg-elevated);
-    border-color: rgba(0, 240, 255, 0.3);
-}
-
-.active .username {
-    color: var(--color-neon-cyan);
-}
-
-.active .avatar {
-    border-color: var(--color-neon-cyan);
-    color: var(--color-neon-cyan);
-    box-shadow: var(--glow-cyan);
-}
-
 .avatar {
     width: 30px;
     height: 30px;
@@ -46,6 +31,11 @@
     transition: all var(--transition-base);
 }
 
+.card:hover .avatar {
+    border-color: var(--color-neon-cyan);
+    color: var(--color-neon-cyan);
+}
+
 .username {
     font-family: var(--font-mono), serif;
     font-size: var(--text-xs);
@@ -55,6 +45,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.card:hover .username {
+    color: var(--color-text-primary);
 }
 
 @media (max-width: 640px) {

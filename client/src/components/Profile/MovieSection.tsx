@@ -2,13 +2,12 @@ import { useState } from "react";
 import { MdVideocamOff } from "react-icons/md";
 
 import type { Movie, Genre } from "../../types/movies.type.ts";
+import type {Friend} from "../../types/friend.type.ts";
 
 import MovieRow from "./subComponents/MovieRow.tsx";
 import FriendCard from "./subComponents/FriendCard.tsx";
 
 import styles from "./MovieSection.module.css";
-
-type Friend = { id: string; username: string; avatar: string };
 
 interface MovieSectionProps {
     friends: Friend[];
@@ -19,14 +18,7 @@ interface MovieSectionProps {
 }
 
 export default function MovieSection({ friends, watched, watchLater, genres, onMovieClick }: MovieSectionProps) {
-    const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    //TODO ADD DYNAMIC FRIEND PAGE
-    const handleSelect = (id: string) => {
-        setSelectedFriend(id);
-        setDropdownOpen(false);
-    };
 
     return (
         <main className={styles.main}>
@@ -44,10 +36,8 @@ export default function MovieSection({ friends, watched, watchLater, genres, onM
                     <ul className={styles.dropdownList}>
                         {friends.map((friend) => (
                             <FriendCard
-                                key={friend.id}
+                                key={friend.publicId}
                                 friend={friend}
-                                active={friend.id === selectedFriend}
-                                onClick={() => handleSelect(friend.id)}
                             />
                         ))}
                     </ul>
