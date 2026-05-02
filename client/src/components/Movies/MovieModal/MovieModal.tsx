@@ -4,14 +4,10 @@ import {RiEyeLine, RiEyeFill, RiBookmarkLine, RiBookmarkFill} from "react-icons/
 
 import {useAuth} from "../../../context/auth.context.tsx";
 import {useMovieActions} from "../../../hooks/useMovieActions.ts";
-import type {Movie} from "../../../types/movies.type.ts";
+import type {Movie, Genre} from "../../../types/movies.type.ts";
 
 import styles from "./MovieModal.module.css";
 
-type Genre = {
-    id: number;
-    name: string;
-};
 type MovieModalProps = {
     movie: Movie;
     genres: Genre[];
@@ -21,7 +17,7 @@ type MovieModalProps = {
 };
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-
+//TODO ADD OPTION FOR POPUP BTN WITH REVIEW WRITE
 export default function MovieModal({movie, genres, onClose, onWatched, onWatchLater}: MovieModalProps) {
     const year = movie.release_date?.split("-")[0] ?? "N/A";
     const rating = movie.vote_average?.toFixed(1) ?? "N/A";
