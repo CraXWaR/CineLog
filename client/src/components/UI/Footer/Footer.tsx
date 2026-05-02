@@ -27,7 +27,7 @@ export default function Footer() {
                 <nav className={styles.links}>
                     <span className={styles.linksTitle}>// NAVIGATE</span>
                     <Link to="/" className={styles.link}>HOME</Link>
-                    <Link to="/#" onClick={handleDisableLink} className={styles.link}>FEED</Link>
+                    <Link to="/activities" className={styles.link}>FEED</Link>
                     <Link to="/#" onClick={handleDisableLink} className={styles.link}>SEARCH</Link>
                     <Link to="/register" className={styles.link}>REGISTER</Link>
                     <Link to="/login" className={styles.link}>SIGN IN</Link>

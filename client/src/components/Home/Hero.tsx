@@ -20,7 +20,7 @@ export default function Hero() {
                 </h1>
 
                 <p className={styles.subtitle}>
-                    Track every film you watch. Rate it. Review it.<br />
+                    Track every film you watch. Review it. Log it.<br />
                     See what your friends are obsessing over.
                 </p>
 
@@ -42,7 +42,7 @@ export default function Hero() {
                     <span className={styles.statDivider}>◈</span>
                     <div className={styles.stat}>
                         <span className={styles.statNum}>24/7</span>
-                        <span className={styles.statLabel}>STREAMING</span>
+                        <span className={styles.statLabel}>LIVE FEED</span>
                     </div>
                 </div>
             </div>

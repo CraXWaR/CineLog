@@ -4,8 +4,11 @@ import {fetchMovieGenres} from "../services/movies.service.ts";
 import {fetchProfileMovies} from "../services/userProfile.service.ts";
 
 import type {Genre, Movie} from "../types/movies.type.ts";
+import {useAuth} from "../context/auth.context.tsx";
 
 export function useProfileMovies(publicId: string) {
+    const { token } = useAuth();
+
     const [watched, setWatched] = useState<Movie[]>([]);
     const [watchLater, setWatchLater] = useState<Movie[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
@@ -13,14 +16,14 @@ export function useProfileMovies(publicId: string) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!publicId) return;
+        if (!publicId || !token) return;
 
         const fetchMovies = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                const data = await fetchProfileMovies(publicId);
+                const data = await fetchProfileMovies(publicId, token!);
                 if (!data) throw new Error("No data returned");
 
                 const [watchedMovies, watchLaterMovies, genresData] = await Promise.all([
@@ -40,7 +43,7 @@ export function useProfileMovies(publicId: string) {
         };
 
         fetchMovies();
-    }, [publicId]);
+    }, [publicId, token]);
 
     const handleMovieWatched = (movieId: number, movie: Movie) => {
         setWatched(prev => [...prev, movie]);

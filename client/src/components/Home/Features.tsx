@@ -10,8 +10,8 @@ const features = [
     {
         icon: "★",
         accent: "cyan",
-        title: "RATE & REVIEW",
-        desc: "Score films from 1 to 5 and write short reviews. Your opinions, preserved forever.",
+        title: "SHARE YOUR TAKE",
+        desc: "Write short reviews for every film you watch. Your opinions, preserved forever",
     },
     {
         icon: "◈",

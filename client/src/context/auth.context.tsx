@@ -21,7 +21,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
             setUser(JSON.parse(storedUser));
         }
 
+        const handleStorage = () => {
+            const newToken = localStorage.getItem("token");
+            setToken(newToken);
+        };
+
+        window.addEventListener("storage", handleStorage);
         setLoading(false);
+
+        return () => window.removeEventListener("storage", handleStorage);
     }, []);
 
     useEffect(() => {

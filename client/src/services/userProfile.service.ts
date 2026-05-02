@@ -1,3 +1,5 @@
+import {fetchWithAuth} from "../utils/fetchWithAuth.ts";
+
 const API_URL = "http://localhost:8080/api";
 
 export async function fetchPublicProfile(publicId: string) {
@@ -6,8 +8,8 @@ export async function fetchPublicProfile(publicId: string) {
     return res.json();
 }
 
-export async function fetchProfileMovies(publicId: string) {
-    const res = await fetch(`${API_URL}/user/${publicId}/movies`);
+export async function fetchProfileMovies(publicId: string, token: string) {
+    const res = await fetchWithAuth(`${API_URL}/user/${publicId}/movies`, token);
     if (!res.ok) throw new Error("Failed to fetch movies");
     return res.json();
 }

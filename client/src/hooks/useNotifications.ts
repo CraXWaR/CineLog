@@ -14,11 +14,11 @@ interface Notification {
 }
 
 export function useNotifications() {
+    const {token} = useAuth();
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const {token} = useAuth();
 
     useEffect(() => {
         if (!token) return;
