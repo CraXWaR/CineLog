@@ -9,7 +9,7 @@ function buildHeaders(token: string, options: RequestInit): HeadersInit {
 
 async function tryRefreshToken(): Promise<string> {
     const { ok, json } = await refreshTokenRequest();
-
+   
     if (!ok) {
         window.location.href = "/login";
         throw new Error("Session expired");

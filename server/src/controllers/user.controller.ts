@@ -45,7 +45,7 @@ export class UserController {
                 { expiresIn: '15m' }
             );
 
-            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict', secure: false, path: "/" });
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'lax', secure: false, path: "/" });
             return res.status(201).json({ user: safeUser, token: accessToken });
         } catch (error: any) {
             return res.status(400).json({
