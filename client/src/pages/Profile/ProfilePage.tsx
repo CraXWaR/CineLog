@@ -53,7 +53,6 @@ export default function ProfilePage() {
                 <FriendsSidebar friends={friends}/>
 
                 <MovieSection
-                    friends={friends}
                     watched={watched}
                     watchLater={watchLater}
                     genres={genres}

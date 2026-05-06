@@ -1,5 +1,3 @@
-import { refreshTokenRequest } from "../services/auth.service.ts";
-
 function buildHeaders(token: string, options: RequestInit): HeadersInit {
     return {
         ...options.headers,
@@ -7,17 +5,24 @@ function buildHeaders(token: string, options: RequestInit): HeadersInit {
     };
 }
 
-async function tryRefreshToken(): Promise<string> {
-    const { ok, json } = await refreshTokenRequest();
-   
-    if (!ok) {
-        window.location.href = "/login";
-        throw new Error("Session expired");
-    }
+let refreshTokenFn: (() => Promise<string | null>) | null = null;
 
-    localStorage.setItem("token", json.token);
-    return json.token;
+export function setRefreshTokenFn(fn: () => Promise<string | null>) {
+    refreshTokenFn = fn;
 }
+//TODO TEST WITHOUTH IT
+// import { refreshTokenRequest } from "../services/auth.service.ts";
+// async function tryRefreshToken(): Promise<string> {
+//     const { ok, json } = await refreshTokenRequest();
+//     console.log("REFRESH ok:", ok);
+//     console.log("REFRESH json:", json);
+//     if (!ok) {
+//         // window.location.href = "/login";
+//         throw new Error("Session expired");
+//     }
+//     localStorage.setItem("token", json.token);
+//     return json.token;
+// }
 
 export async function fetchWithAuth(url: string, token: string, options: RequestInit = {}): Promise<Response> {
     const res = await fetch(url, {
@@ -27,7 +32,10 @@ export async function fetchWithAuth(url: string, token: string, options: Request
 
     if (res.status !== 401) return res;
 
-    const newToken = await tryRefreshToken();
+    if (!refreshTokenFn) throw new Error("No refresh function");
+
+    const newToken = await refreshTokenFn();
+    if (!newToken) throw new Error("Session expired");
 
     return fetch(url, {
         ...options,

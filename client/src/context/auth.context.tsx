@@ -2,6 +2,7 @@ import React, {createContext, useContext, useEffect, useState} from "react";
 import type {AuthContext, UserResponse} from "../types/user.type.ts";
 
 import {refreshTokenRequest} from "../services/auth.service.ts";
+import {setRefreshTokenFn} from "../utils/fetchWithAuth.ts";
 
 const AuthContext = createContext<AuthContext | undefined>(undefined);
 
@@ -39,6 +40,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
             localStorage.removeItem("user");
         }
     }, [user]);
+
+    useEffect(() => {
+        setRefreshTokenFn(refreshToken);
+    }, []);
 
     const setAuthUser = ({token, user}: { token: string; user: UserResponse }) => {
         localStorage.setItem("token", token);
