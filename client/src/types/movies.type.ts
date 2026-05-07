@@ -23,6 +23,7 @@ export type UserWatched = {
     movieId: string;
     userId: string;
     watchedAt: string;
+    review: string | null;
     movie: MovieResponse;
 }
 

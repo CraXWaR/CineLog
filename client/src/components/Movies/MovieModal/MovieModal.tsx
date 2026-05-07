@@ -1,10 +1,12 @@
 import {useEffect} from "react";
 import {RxCross2, RxStarFilled} from "react-icons/rx";
-import {RiEyeLine, RiEyeFill, RiBookmarkLine, RiBookmarkFill} from "react-icons/ri";
+import {RiEyeLine, RiEyeFill, RiBookmarkLine, RiBookmarkFill, RiEditLine} from "react-icons/ri";
 
 import {useAuth} from "../../../context/auth.context.tsx";
 import {useMovieActions} from "../../../hooks/useMovieActions.ts";
 import type {Movie, Genre} from "../../../types/movies.type.ts";
+
+import ReviewPopup from "../ReviewPopup/ReviewPopup.tsx";
 
 import styles from "./MovieModal.module.css";
 
@@ -17,7 +19,7 @@ type MovieModalProps = {
 };
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-//TODO ADD OPTION FOR POPUP BTN WITH REVIEW WRITE
+
 export default function MovieModal({movie, genres, onClose, onWatched, onWatchLater}: MovieModalProps) {
     const year = movie.release_date?.split("-")[0] ?? "N/A";
     const rating = movie.vote_average?.toFixed(1) ?? "N/A";
@@ -29,7 +31,7 @@ export default function MovieModal({movie, genres, onClose, onWatched, onWatchLa
         : [];
 
     const {token} = useAuth();
-    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater,} = useMovieActions(movie.id, token as string, onWatched, onWatchLater);
+    const {isWatched, isWatchLater, watchedLoading, watchLaterLoading, statusLoading, handleWatched, handleWatchLater, reviewText, setReviewText, reviewOpen, setReviewOpen, reviewLoading, hasReview, handleSubmitReview,} = useMovieActions(movie.id, token as string, onWatched, onWatchLater);
 
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -41,9 +43,7 @@ export default function MovieModal({movie, genres, onClose, onWatched, onWatchLa
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = "";
-        };
+        return () => { document.body.style.overflow = ""; };
     }, []);
 
     return (
@@ -117,15 +117,36 @@ export default function MovieModal({movie, genres, onClose, onWatched, onWatchLa
                                 {watchedLoading ? "SAVING..." : isWatched ? "WATCHED" : "MARK WATCHED"}
                             </button>
 
-                            <button
-                                className={`${styles.actionBtn} ${isWatchLater ? styles.actionBtnWatchLater : ""}`}
-                                onClick={handleWatchLater}
-                                disabled={!token || watchLaterLoading || isWatched}
-                            >
-                                {isWatchLater ? <RiBookmarkFill size={16}/> : <RiBookmarkLine size={16}/>}
-                                {watchLaterLoading ? "SAVING..." : isWatchLater ? "SAVED" : "WATCH LATER"}
-                            </button>
+                            {isWatched ? (
+                                <button
+                                    className={`${styles.actionBtn} ${hasReview ? styles.actionBtnActive : ""}`}
+                                    onClick={() => setReviewOpen(o => !o)}
+                                    disabled={!token}
+                                >
+                                    <RiEditLine size={16}/>
+                                    {hasReview ? "EDIT REVIEW" : "WRITE REVIEW"}
+                                </button>
+                            ) : (
+                                <button
+                                    className={`${styles.actionBtn} ${isWatchLater ? styles.actionBtnWatchLater : ""}`}
+                                    onClick={handleWatchLater}
+                                    disabled={!token || watchLaterLoading}
+                                >
+                                    {isWatchLater ? <RiBookmarkFill size={16}/> : <RiBookmarkLine size={16}/>}
+                                    {watchLaterLoading ? "SAVING..." : isWatchLater ? "SAVED" : "WATCH LATER"}
+                                </button>
+                            )}
                         </div>
+                    )}
+
+                    {reviewOpen && (
+                        <ReviewPopup
+                            reviewText={reviewText}
+                            onChange={setReviewText}
+                            onSave={handleSubmitReview}
+                            onCancel={() => setReviewOpen(false)}
+                            loading={reviewLoading}
+                        />
                     )}
 
                     <div className={styles.overviewWrapper}>

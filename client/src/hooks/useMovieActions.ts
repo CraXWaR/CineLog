@@ -1,13 +1,20 @@
 import {useState, useEffect} from "react";
 import {checkWatched, checkWatchLater, addToWatchLater, addToWatched, removeFromWatchLater} from "../services/userMovies.service.ts";
+import {saveReview, getReview} from "../services/review.service.ts";
 
 export function useMovieActions(tmdbId: number, token: string, onWatched?: (movieId: number) => void, onWatchLater?: (movieId: number, added: boolean) => void) {
     const [isWatched, setIsWatched] = useState(false);
     const [isWatchLater, setIsWatchLater] = useState(false);
+    const [reviewText, setReviewText] = useState("");
+    const [reviewOpen, setReviewOpen] = useState(false);
+
     const [watchedLoading, setWatchedLoading] = useState(false);
     const [watchLaterLoading, setWatchLaterLoading] = useState(false);
     const [statusLoading, setStatusLoading] = useState(true);
+    const [reviewLoading, setReviewLoading] = useState(false);
+
     const [error, setError] = useState<any>(null);
+    const hasReview = Boolean(reviewText);
 
     useEffect(() => {
         if (!token) {
@@ -24,7 +31,11 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                 ]);
                 setIsWatched(watched);
                 setIsWatchLater(watchLater);
-            } catch(error: any) {
+                if (watched) {
+                    const review = await getReview(tmdbId, token);
+                    setReviewText(review ?? "");
+                }
+            } catch (error: any) {
                 setError(error);
                 console.log(error);
             } finally {
@@ -45,7 +56,7 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                 await removeFromWatchLater(tmdbId, token);
                 setIsWatchLater(false);
             }
-        } catch(error: any) {
+        } catch (error: any) {
             setError(error);
             console.log(error);
         } finally {
@@ -66,7 +77,7 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                 setIsWatchLater(true);
                 onWatchLater?.(tmdbId, true);
             }
-        } catch(error: any) {
+        } catch (error: any) {
             setError(error);
             console.log(error);
         } finally {
@@ -74,14 +85,20 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
         }
     };
 
-    return {
-        isWatched,
-        isWatchLater,
-        watchedLoading,
-        watchLaterLoading,
-        statusLoading,
-        handleWatched,
-        handleWatchLater,
-        error
+    const handleSubmitReview = async () => {
+        try {
+            setReviewLoading(true);
+            await saveReview(tmdbId, reviewText, token);
+            setReviewOpen(false);
+        } catch (err: any) {
+            setError(err);
+        } finally {
+            setReviewLoading(false);
+        }
     };
+
+    return {isWatched, isWatchLater, watchedLoading, watchLaterLoading,
+        statusLoading, handleWatched, handleWatchLater, reviewText,
+        setReviewText, reviewOpen, setReviewOpen, reviewLoading,
+        hasReview, handleSubmitReview, error};
 }

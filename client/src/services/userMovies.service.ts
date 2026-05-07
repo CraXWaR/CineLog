@@ -41,6 +41,6 @@ export async function fetchMovieById(tmdbId: string) {
     const data = await response.json();
     return {
         ...data.movie,
-        genre_ids: data.movie.genres?.map((g: {id: number; name: string}) => g.id) ?? [],
+        genre_ids: data.movie.genres?.map((genre: {id: number; name: string}) => genre.id) ?? [],
     };
 }

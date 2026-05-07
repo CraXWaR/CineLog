@@ -92,9 +92,10 @@
     color: var(--color-text-secondary);
     text-align: right;
     max-width: 260px;
-    line-height: var(--leading-loose);
     font-style: italic;
-    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .noReview {
@@ -103,13 +104,15 @@
     color: var(--color-text-muted);
     letter-spacing: var(--tracking-vhs);
     font-style: italic;
+    text-transform: uppercase;
 }
 
 .time {
     font-family: var(--font-mono), serif;
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--leading-tight);
+    text-transform: uppercase;
 }
 
 @media (max-width: 480px) {

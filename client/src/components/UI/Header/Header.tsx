@@ -4,17 +4,17 @@ import {RxCross2, RxHamburgerMenu} from "react-icons/rx";
 import {MdNotifications} from "react-icons/md";
 
 import {useAuth} from "../../../context/auth.context.tsx";
-import {useNotifications} from "../../../hooks/useNotifications.ts";
+import {useNotificationsContext} from "../../../context/notification.context.tsx";
 
 import styles from "./Header.module.css";
 
 export default function Header() {
     const [bellOpen, setBellOpen] = useState(false);
-    const bellRef = useRef<HTMLDivElement>(null);
-    const {notifications, unreadCount, handleDismiss} = useNotifications();
-
     const [menuOpen, setMenuOpen] = useState(false);
+    const bellRef = useRef<HTMLDivElement>(null);
+
     const {user, logout} = useAuth();
+    const {notifications, unreadCount, handleDismiss} = useNotificationsContext();
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -79,21 +79,21 @@ export default function Header() {
                                             {notifications.length === 0 && (
                                                 <p className={styles.bellEmpty}>// NO NOTIFICATIONS</p>
                                             )}
-                                            {notifications.map(n => (
-                                                <div key={n.id} className={styles.bellItem}>
-                                                    {n.type === "friend_request" ? (
+                                            {notifications.map(notification => (
+                                                <div key={notification.id} className={styles.bellItem}>
+                                                    {notification.type === "friend_request" ? (
                                                         <Link
-                                                            to={`/profile/${n.from.publicId}`}
+                                                            to={`/profile/${notification.from.publicId}`}
                                                             className={styles.bellLink}
                                                             onClick={() => setBellOpen(false)}>
-                                                            <span className={styles.bellUsername}>{n.from.username}</span>
+                                                            <span className={styles.bellUsername}>{notification.from.username}</span>
                                                             <span className={styles.bellText}> wants to be friends</span>
                                                         </Link>
                                                     ) : (
                                                         <div className={styles.bellAccepted}>
-                                                            <span className={styles.bellUsername}>{n.from.username}</span>
+                                                            <span className={styles.bellUsername}>{notification.from.username}</span>
                                                             <span className={styles.bellText}> accepted your request</span>
-                                                            <button className={styles.bellDismiss} onClick={() => handleDismiss(n.id)}>
+                                                            <button className={styles.bellDismiss} onClick={() => handleDismiss(notification.id)}>
                                                                 <RxCross2/>
                                                             </button>
                                                         </div>

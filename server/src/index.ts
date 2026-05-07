@@ -11,6 +11,7 @@ import watchLaterRouter from "./routes/watchLater.routes.js";
 import friendsRouter from "./routes/friends.routes.js";
 import notificationRouter from "./routes/notification.routes.js";
 import activityRouter from "./routes/activity.routes.js";
+import reviewRouter from "./routes/review.routes.js";
 
 const app = express();
 
@@ -25,7 +26,9 @@ app.use('/api/watched', watchedRouter);
 app.use('/api/watch-later', watchLaterRouter);
 app.use('/api/friends', friendsRouter);
 app.use('/api/notification', notificationRouter);
+app.use('/api/notification', notificationRouter);
 app.use('/api/activity', activityRouter);
+app.use('/api/review', reviewRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`);

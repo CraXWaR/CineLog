@@ -1,5 +1,7 @@
 import {useState, useEffect} from "react";
 import {useAuth} from "../context/auth.context.tsx";
+import {useNotificationsContext} from "../context/notification.context.tsx";
+
 import {
     sendFriendRequest,
     fetchFriendStatus,
@@ -15,6 +17,7 @@ export function useFriendRequest(publicId: string) {
     const [status, setStatus] = useState<string | null>(null);
 
     const {token} = useAuth();
+    const {removeByPublicId} = useNotificationsContext();
 
     useEffect(() => {
         if (!token || !publicId) return;
@@ -54,6 +57,7 @@ export function useFriendRequest(publicId: string) {
             setError(null);
             await removeFriendRequest(publicId, token as string);
             setStatus(null);
+            removeByPublicId(publicId);
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -67,6 +71,7 @@ export function useFriendRequest(publicId: string) {
             setError(null);
             await acceptFriendRequest(publicId, token as string);
             setStatus("accepted");
+            removeByPublicId(publicId);
         } catch (err: any) {
             setError(err.message);
         } finally {

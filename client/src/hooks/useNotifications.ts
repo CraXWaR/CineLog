@@ -19,7 +19,6 @@ export function useNotifications() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-
     useEffect(() => {
         if (!token) return;
 
@@ -49,5 +48,9 @@ export function useNotifications() {
 
     const unreadCount = notifications.filter(n => !n.read).length;
 
-    return {notifications, unreadCount, handleDismiss, loading, error};
+    const removeByPublicId = (publicId: string) => {
+        setNotifications(prev => prev.filter(n => n.from.publicId !== publicId));
+    };
+
+    return {notifications, unreadCount, handleDismiss, loading, error, removeByPublicId};
 }

@@ -2,6 +2,7 @@ import React from "react";
 
 import {BrowserRouter, Route, Routes} from "react-router";
 import {AuthProvider} from "./context/auth.context.tsx";
+import {NotificationsProvider} from "./context/notification.context.tsx";
 
 import Header from "./components/UI/Header/Header.tsx";
 import Footer from "./components/UI/Footer/Footer.tsx";
@@ -39,9 +40,11 @@ const Root: React.FC = () => {
 function App() {
     return (
         <AuthProvider>
-            <BrowserRouter>
-                <Root/>
-            </BrowserRouter>
+            <NotificationsProvider>
+                <BrowserRouter>
+                    <Root/>
+                </BrowserRouter>
+            </NotificationsProvider>
         </AuthProvider>
     )
 }
