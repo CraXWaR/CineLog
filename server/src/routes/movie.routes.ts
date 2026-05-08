@@ -10,4 +10,6 @@ router.get('/discover', movieController.getDiscoverMovies);
 router.get('/search', movieController.searchMovies);
 router.get("/:tmdbId", movieController.getMovieById);
 
+router.post("/ai-suggest", movieController.aiSuggest);
+
 export default router;

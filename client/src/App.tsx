@@ -18,6 +18,7 @@ import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import ActivityFeedPage from "./pages/ActivityFeed/ActivityFeedPage.tsx";
 
 import './App.css'
+import AiSuggestPage from "./pages/AiSuggest/AiSuggest.tsx";
 
 const Root: React.FC = () => {
     return (
@@ -31,6 +32,7 @@ const Root: React.FC = () => {
                 <Route path="/trending" element={<TrendingMoviesPage/>}/>
                 <Route path="/profile/:publicId" element={<ProfilePage/>}/>
                 <Route path="/activities" element={<ActivityFeedPage/>}/>
+                <Route path="/ai-suggestions" element={<AiSuggestPage/>}/>
             </Routes>
             <Footer/>
         </>

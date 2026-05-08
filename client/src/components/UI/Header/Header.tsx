@@ -50,11 +50,11 @@ export default function Header() {
                                  className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
                             Trending
                         </NavLink>
-                        {/*TODO ADD AI SEARCH SUGGESTION*/}
-                        {/*<NavLink to="/search"*/}
-                        {/*         className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>*/}
-                        {/*    Search*/}
-                        {/*</NavLink>*/}
+
+                        <NavLink to="/ai-suggestions"
+                                 className={({isActive}) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}>
+                            AI Oracle
+                        </NavLink>
                     </nav>
 
                     {/* Desktop actions */}
@@ -154,12 +154,12 @@ export default function Header() {
                                  onClick={() => setMenuOpen(false)}>
                             <span className={styles.drawerPrefix}>03 /</span> Trending
                         </NavLink>
-                        {/*TODO ADD AI SEARCH SUGGESTION*/}
-                        {/*<NavLink to="/search"*/}
-                        {/*         className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}*/}
-                        {/*         onClick={() => setMenuOpen(false)}>*/}
-                        {/*    <span className={styles.drawerPrefix}>04 /</span> Search*/}
-                        {/*</NavLink>*/}
+
+                        <NavLink to="/ai-suggestions"
+                                 className={({isActive}) => `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`}
+                                 onClick={() => setMenuOpen(false)}>
+                            <span className={styles.drawerPrefix}>04 /</span> AI Oracle
+                        </NavLink>
                     </nav>
 
                     <div className={styles.drawerActions}>

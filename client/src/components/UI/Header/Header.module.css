@@ -375,7 +375,7 @@
     color: var(--color-neon-pink);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 868px) {
     .nav,
     .actions {
         display: none;

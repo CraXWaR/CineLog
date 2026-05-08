@@ -36,7 +36,7 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                     setReviewText(review ?? "");
                 }
             } catch (error: any) {
-                setError(error);
+                setError(error.message || "Something went wrong");
                 console.log(error);
             } finally {
                 setStatusLoading(false);
@@ -57,7 +57,7 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                 setIsWatchLater(false);
             }
         } catch (error: any) {
-            setError(error);
+            setError(error.message || "Something went wrong");
             console.log(error);
         } finally {
             setWatchedLoading(false);
@@ -78,7 +78,7 @@ export function useMovieActions(tmdbId: number, token: string, onWatched?: (movi
                 onWatchLater?.(tmdbId, true);
             }
         } catch (error: any) {
-            setError(error);
+            setError(error.message || "Something went wrong");
             console.log(error);
         } finally {
             setWatchLaterLoading(false);

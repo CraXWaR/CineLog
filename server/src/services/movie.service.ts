@@ -24,9 +24,11 @@ export class MovieService {
         return data.genres;
     }
 
-    async getDiscoverMovies(page: string, genres?: string) {
+    async getDiscoverMovies(page: string, genres?: string, keywords?: string) {
         const params = new URLSearchParams({api_key: TMDB_API_KEY!, page,});
         if (genres) params.append("with_genres", genres);
+        if (keywords) params.append("with_keywords", keywords);
+        params.append("sort_by", "popularity.desc");
 
         const movieResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?${params}`);
         if (!movieResponse.ok) throw new Error("Failed to fetch trending movies");

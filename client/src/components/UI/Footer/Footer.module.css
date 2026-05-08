@@ -31,8 +31,6 @@
     }
 }
 
-/* ---- Brand ---- */
-
 .brand {
     display: flex;
     flex-direction: column;
@@ -107,12 +105,11 @@
     50%       { opacity: 0; }
 }
 
-/* ---- Links ---- */
-
 .links {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    text-transform: uppercase;
 }
 
 .linksTitle {
@@ -137,8 +134,6 @@
     color: var(--color-neon-pink);
     text-shadow: var(--glow-pink);
 }
-
-/* ---- Status ---- */
 
 .status {
     display: flex;
@@ -169,7 +164,7 @@
 
 @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.4; }
+    50% { opacity: 0.4; }
 }
 
 .statusText {
@@ -178,8 +173,6 @@
     letter-spacing: var(--tracking-wide);
     color: var(--color-text-muted);
 }
-
-/* ---- Bottom bar ---- */
 
 .bottomBar {
     max-width: 1100px;

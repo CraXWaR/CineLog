@@ -1,11 +1,15 @@
 import {MovieService} from "../services/movie.service.js";
+import {AiService} from "../services/ai.service.js";
 import type {Request, Response} from "express";
 
 export class MovieController {
     private movieService: MovieService;
+    private aiService: AiService;
 
     constructor() {
         this.movieService = new MovieService();
+        this.aiService = new AiService();
+
     }
 
     getTrendingMovies = async (_req: Request, res: Response) => {
@@ -58,6 +62,18 @@ export class MovieController {
             return res.status(200).json({movie});
         } catch (error: any) {
             return res.status(500).json({message: error.message});
+        }
+    }
+
+    aiSuggest = async (req: Request, res: Response) => {
+        try {
+            const { prompt } = req.body;
+            if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+
+            const results = await this.aiService.suggestMovies(prompt);
+            res.json(results);
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message });
         }
     }
 }
