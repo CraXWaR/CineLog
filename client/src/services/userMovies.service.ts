@@ -1,6 +1,6 @@
 import {fetchWithAuth} from "../utils/fetchWithAuth.ts";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function checkWatched(tmdbId: number, token: string): Promise<boolean> {
     const res = await fetchWithAuth(`${API_URL}/watched/check/${tmdbId}`, token);

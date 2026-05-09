@@ -1,6 +1,6 @@
 import {fetchWithAuth} from "../utils/fetchWithAuth.ts";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function saveReview(tmdbId: number, review: string, token: string): Promise<void> {
     await fetchWithAuth(`${API_URL}/review/${tmdbId}`, token, {

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function sendFriendRequest(publicId: string, token: string) {
     const res = await fetch(`${API_URL}/friends/request`, {

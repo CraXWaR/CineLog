@@ -1,6 +1,6 @@
 import {fetchWithAuth} from "../utils/fetchWithAuth.ts";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchNotifications(token: string) {
     const res = await fetchWithAuth(`${API_URL}/notification`, token);
