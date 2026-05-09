@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {Link, useLocation} from "react-router";
+import {useEffect, useState} from "react";
+import {Link, useLocation, useNavigate} from "react-router";
 import FormInput from "../../../components/FormInput/FormInput.tsx";
 import {
     RiSkipRightLine,
@@ -11,6 +11,7 @@ import {
 import {useLogin} from "../../../hooks/useAuth.ts";
 
 import styles from "./Login.module.css";
+import {useAuth} from "../../../context/auth.context.tsx";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -19,6 +20,13 @@ export default function Login() {
 
     const location = useLocation();
     const message = location.state?.message;
+
+    const {token} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token) navigate("/");
+    }, [token]);
 
     return (
         <div className={styles.page}>

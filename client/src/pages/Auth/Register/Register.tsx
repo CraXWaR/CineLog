@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {Link} from "react-router";
+import {useState, useEffect} from "react";
+import {Link, useNavigate} from "react-router";
 import FormInput from "../../../components/FormInput/FormInput.tsx";
 import {
     RiSkipRightLine,
@@ -12,6 +12,7 @@ import {
 import {useRegister} from "../../../hooks/useAuth.ts";
 
 import styles from "./Register.module.css";
+import {useAuth} from "../../../context/auth.context.tsx";
 
 export default function Register() {
     const [username, setUsername] = useState("");
@@ -19,6 +20,13 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const {handleSubmit, errors} = useRegister();
+
+    const {token} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token) navigate("/");
+    }, [token]);
 
     return (
         <div className={styles.page}>
