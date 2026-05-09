@@ -12,6 +12,4 @@ router.delete('/request/:publicId', authenticate, friendsController.removeReques
 router.patch('/accept/:publicId', authenticate, friendsController.acceptRequest);
 router.delete('/:publicId', authenticate, friendsController.removeFriend);
 
-
-
 export default router;

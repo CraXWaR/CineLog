@@ -13,7 +13,7 @@ export async function seedUser(prismaClient: PrismaClient): Promise<void> {
         data: {
             username: "test user",
             password: password,
-            email: "test@gmail.bg",
+            email: "test@gmail.com",
             publicId: nanoid(),
         }
     });

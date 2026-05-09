@@ -1,27 +1,29 @@
 # 🎬 CineLog
-> Your personal movie diary and social watch tracker. Log what you've watched and see what everyone is watching.
-
+> Your personal movie diary and social watch tracker. Log what you've watched, share your thoughts, and let the Oracle find your next obsession.
 ---
 
 ## What it does
  
 - **Movie Logging** — Search any movie and add it to your Watched list or save it to Watch Later.
-- **Social Feed** — See what all users are watching in real time.
-- **Friends** — Send and remove friend requests to connect with other users.
-- **Profile** — View your watched movies and watch later list on your profile.
+- **Reviews** – Write your own thoughts and personal reviews on any movie you've watched.
+- **AI Oracle** – Get personalized movie suggestions powered by AI, based on your taste and watch history.
+- **Social Feed** – See what all users are watching in real time.
+- **Friends** – Send and remove friend requests to connect with other users.
+- **Profile** – View your watched movies and watch later list on your profile.
 
 ---
 
 ## Stack
 
-| Layer | Tech |
-|-------|------|
-| Language | TypeScript |
-| Backend | Node.js, Express |
-| Database | PostgreSQL, Prisma |
-| Frontend | React |
-| Auth | JWT |
-| Movie Data | TMDB API |
+| Layer      | Tech                |
+|------------|---------------------|
+| Language   | TypeScript          |
+| Backend    | Node.js, Express    |
+| Database   | PostgreSQL, Prisma  |
+| Frontend   | React               |
+| Auth       | JWT                 |
+| Movie Data | TMDB API            |
+| AI         | Groq                |
 
 ---
 
@@ -33,7 +35,7 @@ git clone https://github.com/your-username/cinelog.git
 
 # Backend
 cd server && npm install
-cp .env.example .env   # fill in PORT, DATABASE_URL, JWT_SECRET, JWT_REFRESH_SECRET, TMDB_API_KEY
+cp .env.example .env   # fill in PORT, DATABASE_URL, JWT_SECRET, JWT_REFRESH_SECRET, TMDB_API_KEY, GROQ_API_KEY
 npx prisma migrate dev
 npm run dev
 
@@ -67,10 +69,11 @@ Password: 123
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/cinelog
-JWT_SECRET=your_secret_here
-JWT_REFRESH_SECRET=your_refresh_secret_here
-PORT=8080
-TMDB_API_KEY=your_tmdb_api_key_here
+JWT_SECRET="your_secret_here"
+JWT_REFRESH_SECRET="your_refresh_secret_here"
+PORT="your_db_port_here"
+TMDB_API_KEY="your_tmdb_api_key_here"
+GROQ_API_KEY="your_key_here"
 ```
 
 ---
@@ -110,7 +113,7 @@ cinelog/
 ---
 
 ## API Endpoints
- 
+
 **User**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -119,7 +122,7 @@ cinelog/
 | POST | `/api/user/refresh` | Refresh JWT token | No |
 | GET | `/api/user/:publicId` | Get public profile | No |
 | GET | `/api/user/:publicId/movies` | Get profile movies | No |
- 
+
 **Movies**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -128,20 +131,27 @@ cinelog/
 | GET | `/api/movies/discover` | Discover movies | No |
 | GET | `/api/movies/search` | Search movies | No |
 | GET | `/api/movies/:tmdbId` | Get movie by ID | No |
- 
+| POST | `/api/movies/ai-suggest` | Get AI movie suggestions | No |
+
 **Watched**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | POST | `/api/watched` | Add to watched list | Yes |
 | GET | `/api/watched/check/:tmdbId` | Check if watched | Yes |
- 
+
 **Watch Later**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | POST | `/api/watch-later` | Add to watch later | Yes |
 | GET | `/api/watch-later/check/:tmdbId` | Check if in watch later | Yes |
 | DELETE | `/api/watch-later/:tmdbId` | Remove from watch later | Yes |
- 
+
+**Reviews**
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| PATCH | `/api/reviews/:tmdbId` | Save a review | Yes |
+| GET | `/api/reviews/:tmdbId` | Get a review | Yes |
+
 **Friends**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -151,13 +161,13 @@ cinelog/
 | DELETE | `/api/friends/request/:publicId` | Cancel friend request | Yes |
 | PATCH | `/api/friends/accept/:publicId` | Accept friend request | Yes |
 | DELETE | `/api/friends/:publicId` | Remove friend | Yes |
- 
+
 **Notifications**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | GET | `/api/notification` | Get notifications | Yes |
 | DELETE | `/api/notification/:id` | Dismiss notification | Yes |
- 
+
 **Activity**
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -175,5 +185,5 @@ cinelog/
 - [x] Profile with add/remove friends
 - [x] Notifications
 - [x] Dynamic social feed
-- [ ] AI movie suggestions
-- [ ] Personal reviews
+- [x] Personal reviews
+- [x] AI movie suggestions
