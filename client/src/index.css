@@ -326,6 +326,7 @@ a:hover {
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
+  justify-content: center;
 }
 
 .btn--primary {
@@ -362,6 +363,12 @@ a:hover {
   color: var(--color-text-primary);
   border-color: var(--color-neon-purple);
   box-shadow: var(--glow-purple);
+}
+
+@media (max-width: 640px) {
+  .btn {
+    padding: var(--space-2) var(--space-3);
+  }
 }
 
 

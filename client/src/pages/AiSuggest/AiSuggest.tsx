@@ -69,7 +69,7 @@ export default function AiSuggestPage() {
                         autoFocus
                     />
                     <button
-                        className={styles.submitBtn}
+                        className={`${styles.submitBtn} btn btn--primary`}
                         onClick={handleSubmit}
                         disabled={loading || !prompt.trim()}>
                         {loading ? <span className={styles.loadingDots}><span/><span/><span/></span> : <><FaWandMagicSparkles /> SUGGEST</>}

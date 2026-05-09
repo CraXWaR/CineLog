@@ -138,27 +138,6 @@
     cursor: not-allowed;
 }
 
-.submitBtn {
-    font-family: var(--font-mono), serif;
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-vhs);
-    text-transform: uppercase;
-    color: var(--color-text-inverse);
-    background: var(--color-neon-pink);
-    border: 1px solid var(--color-neon-pink);
-    border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-5);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    box-shadow: var(--glow-pink);
-    flex-shrink: 0;
-    min-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-}
-
 .submitBtn:hover:not(:disabled) {
     background: transparent;
     color: var(--color-neon-pink);
@@ -189,7 +168,7 @@
 
 @keyframes vhsDot {
     0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-    40% { opacity: 1;   transform: scale(1.2); }
+    40% { opacity: 1; transform: scale(1.2); }
 }
 
 .chips {
@@ -284,10 +263,12 @@
     }
 
     .searchBox {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-5);
     }
 
-    .submitBtn {
-        width: 100%;
+    .cursor {
+        display: none;
     }
 }
