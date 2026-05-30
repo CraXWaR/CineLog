@@ -1,22 +1,22 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router";
-import FormInput from "../../../components/FormInput/FormInput.tsx";
 import {
     RiSkipRightLine,
     RiCheckboxCircleLine,
     RiDatabase2Line,
     RiRecordCircleLine, RiUserAddLine
 } from "react-icons/ri";
-
 import {useLogin} from "../../../hooks/useAuth.ts";
+import {useAuth} from "../../../context/auth.context.tsx";
+
+import FormInput from "../../../components/FormInput/FormInput.tsx";
 
 import styles from "./Login.module.css";
-import {useAuth} from "../../../context/auth.context.tsx";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {handleSubmit, errors} = useLogin();
+    const {handleSubmit, errors, loading} = useLogin();
 
     const location = useLocation();
     const message = location.state?.message;
@@ -27,6 +27,7 @@ export default function Login() {
     useEffect(() => {
         if (token) navigate("/");
     }, [token]);
+
 
     return (
         <div className={styles.page}>
@@ -50,7 +51,7 @@ export default function Login() {
 
                     {message && <p className={styles.successMessage}>{message}</p>}
                     {errors.general && <p className={styles.errorMessage}>{errors.general}</p>}
-                    
+
                     <form className={styles.form} onSubmit={(e) => handleSubmit(e, {email, password})}>
                         <FormInput label={'EMAIL'} prefix={'01'} value={email}
                                    onChange={(e) => setEmail(e.target.value)} id={"email"} name={"email"}
@@ -62,8 +63,8 @@ export default function Login() {
                                    id={"password"} name={"password"} placeholder={"••••••••"} type={"password"}
                                    variant={"login"} error={errors.password}/>
 
-                        <button type="submit" className={styles.btn}>
-                            <span>ACCESS VAULT</span>
+                        <button type="submit" className={styles.btn} disabled={loading}>
+                            <span>{loading ? "AUTHENTICATING..." : "ACCESS VAULT"}</span>
                             <span className={styles.btnArrow}><RiSkipRightLine size={20}/></span>
                         </button>
                     </form>

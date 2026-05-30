@@ -1,25 +1,26 @@
 import {useState, useEffect} from "react";
 import {Link, useNavigate} from "react-router";
-import FormInput from "../../../components/FormInput/FormInput.tsx";
 import {
     RiSkipRightLine,
     RiCheckboxCircleLine,
     RiDatabase2Line,
     RiRecordCircleLine,
     RiLoginBoxLine
-} from "react-icons/ri";
-
+} from "react-icons/ri"
 import {useRegister} from "../../../hooks/useAuth.ts";
+import {useAuth} from "../../../context/auth.context.tsx";
+
+import FormInput from "../../../components/FormInput/FormInput.tsx";
+import Loading from "../../../components/UI/Loading/Loading.tsx";
 
 import styles from "./Register.module.css";
-import {useAuth} from "../../../context/auth.context.tsx";
 
 export default function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const {handleSubmit, errors} = useRegister();
+    const {handleSubmit, errors, loading} = useRegister();
 
     const {token} = useAuth();
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ export default function Register() {
     useEffect(() => {
         if (token) navigate("/");
     }, [token]);
+
+    if (loading) return <Loading text="Registering..." />;
 
     return (
         <div className={styles.page}>
