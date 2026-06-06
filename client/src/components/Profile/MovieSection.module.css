@@ -1,46 +1,35 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
 }
 
 .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-10) 0;
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-10) 0;
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
 }
 
 .emptyIcon {
-    color: var(--color-text-muted);
-    width: 48px;
-    height: 48px;
+  color: var(--color-text-muted);
+  width: 48px;
+  height: 48px;
 }
 
 .emptyText {
-    font-family: var(--font-display), serif;
-    font-size: var(--text-xl);
-    color: var(--color-text-muted);
-    letter-spacing: var(--tracking-vhs);
+  font-family: var(--font-display), serif;
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-vhs);
 }
 
 .emptySubtext {
-    font-family: var(--font-mono), serif;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    letter-spacing: var(--tracking-wide);
-}
-
-@media (max-width: 640px) {
-    .friendHeader {
-        justify-content: space-between;
-    }
-
-    .friendName {
-        font-size: var(--text-2xl);
-        flex: 1;
-    }
+  font-family: var(--font-mono), serif;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-wide);
 }

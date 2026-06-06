@@ -31,6 +31,17 @@
   --glow-purple:  0 0 8px #bf5fff, 0 0 20px rgba(191, 95, 255, 0.4);
   --glow-yellow:  0 0 8px #ffe600, 0 0 20px rgba(255, 230, 0, 0.4);
 
+  /* --- RGB Channels (for rgba() usage) --- */
+  --color-neon-pink-rgb:     255, 45, 120;
+  --color-neon-cyan-rgb:     0, 240, 255;
+  --color-neon-yellow-rgb:   255, 230, 0;
+  --color-neon-purple-rgb:   191, 95, 255;
+
+  --color-bg-rgb:            10, 10, 26;
+  --color-bg-secondary-rgb:  15, 15, 42;
+  --color-bg-card-rgb:       18, 16, 43;
+  --color-bg-elevated-rgb:   26, 21, 53;
+
   /* --- Typography --- */
   --font-display: 'Bebas Neue', 'VT323', cursive;       /* headers, logo */
   --font-mono:    'Share Tech Mono', 'VT323', monospace; /* ui, labels, ratings */

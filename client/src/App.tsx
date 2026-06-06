@@ -1,13 +1,12 @@
 import React from "react";
 
-import {BrowserRouter, Route, Routes} from "react-router";
-import {AuthProvider} from "./context/auth.context.tsx";
-import {NotificationsProvider} from "./context/notification.context.tsx";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AuthProvider } from "./context/auth.context.tsx";
+import { NotificationsProvider } from "./context/notification.context.tsx";
 
 import Header from "./components/UI/Header/Header.tsx";
 import Footer from "./components/UI/Footer/Footer.tsx";
-
-// TODO CHECK IF NEED -> REMOVE import Protected from "./components/Protected.tsx";
+import ColdStartToast from "./components/UI/ColdStartModal/ColdStartToast.tsx";
 
 import Login from "./pages/Auth/Login/Login.tsx";
 import Register from "./pages/Auth/Register/Register.tsx";
@@ -16,39 +15,43 @@ import DiscoverMoviesPage from "./pages/Movies/DiscoverMoviesPage.tsx";
 import TrendingMoviesPage from "./pages/Movies/TrendingMoviesPage.tsx";
 import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import ActivityFeedPage from "./pages/ActivityFeed/ActivityFeedPage.tsx";
-
-import './App.css'
 import AiSuggestPage from "./pages/AiSuggest/AiSuggest.tsx";
+import NotFoundPage from "./pages/NotFound/NotFoundPage.tsx";
+
+import "./App.css";
 
 const Root: React.FC = () => {
-    return (
-        <>
-            <Header/>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/discover" element={<DiscoverMoviesPage/>}/>
-                <Route path="/trending" element={<TrendingMoviesPage/>}/>
-                <Route path="/profile/:publicId" element={<ProfilePage/>}/>
-                <Route path="/activities" element={<ActivityFeedPage/>}/>
-                <Route path="/ai-suggestions" element={<AiSuggestPage/>}/>
-            </Routes>
-            <Footer/>
-        </>
-    );
-}
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/discover" element={<DiscoverMoviesPage />} />
+        <Route path="/trending" element={<TrendingMoviesPage />} />
+        <Route path="/profile/:publicId" element={<ProfilePage />} />
+        <Route path="/activities" element={<ActivityFeedPage />} />
+        <Route path="/ai-suggestions" element={<AiSuggestPage />} />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
 
 function App() {
-    return (
-        <AuthProvider>
-            <NotificationsProvider>
-                <BrowserRouter>
-                    <Root/>
-                </BrowserRouter>
-            </NotificationsProvider>
-        </AuthProvider>
-    )
+  return (
+    <AuthProvider>
+      <NotificationsProvider>
+        <BrowserRouter>
+          <Root />
+          <ColdStartToast />
+        </BrowserRouter>
+      </NotificationsProvider>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

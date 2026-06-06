@@ -1,105 +1,105 @@
 .sidebar {
-    background: var(--color-bg-card);
-    border: var(--border-cyan);
-    border-radius: var(--radius-md);
-    padding: var(--space-5);
-    position: sticky;
-    top: var(--space-8);
+  background: var(--gradient-card);
+  border: var(--border-cyan);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  position: sticky;
+  top: var(--space-8);
 }
 
 .sidebarTitle {
-    margin: 0 0 var(--space-4);
-    font-family: var(--font-mono), serif;
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-vhs);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-mono), serif;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-vhs);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 .friendList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.noFriends {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-vhs);
+}
+
+.dropdownTrigger {
+  display: none;
+}
+
+.dropdown {
+  display: none;
+}
+
+.mobileWrapper {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobileWrapper {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+
+  .dropdownTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--color-bg-elevated);
+    border: var(--border-cyan);
+    border-radius: var(--radius-sm);
+    color: var(--color-neon-cyan);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-vhs);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .dropdownTrigger:hover {
+    box-shadow: var(--glow-cyan);
+  }
+
+  .chevron {
+    display: inline-block;
+    transition: transform var(--transition-base);
+    font-size: var(--text-base);
+    line-height: 1;
+  }
+
+  .chevronOpen {
+    transform: rotate(180deg);
+  }
+
+  .dropdown {
+    display: block;
+    background: var(--gradient-card);
+    border: var(--border-cyan);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .dropdownList {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-}
-
-.noFriends {
-    color: var(--color-text-muted);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-vhs);
-}
-
-.dropdownTrigger {
-    display: none;
-}
-
-.dropdown {
-    display: none;
-}
-
-.mobileWrapper {
-    display: none;
-}
-
-@media (max-width: 640px) {
-    .sidebar {
-        display: none;
-    }
-
-    .mobileWrapper {
-        display: block;
-        margin-bottom: var(--space-4);
-    }
-
-    .dropdownTrigger {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        background: var(--color-bg-elevated);
-        border: var(--border-cyan);
-        border-radius: var(--radius-sm);
-        color: var(--color-neon-cyan);
-        font-family: var(--font-mono), serif;
-        font-size: var(--text-xs);
-        letter-spacing: var(--tracking-vhs);
-        padding: var(--space-3) var(--space-4);
-        cursor: pointer;
-        transition: box-shadow var(--transition-base);
-    }
-
-    .dropdownTrigger:hover {
-        box-shadow: var(--glow-cyan);
-    }
-
-    .chevron {
-        display: inline-block;
-        transition: transform var(--transition-base);
-        font-size: var(--text-base);
-        line-height: 1;
-    }
-
-    .chevronOpen {
-        transform: rotate(180deg);
-    }
-
-    .dropdown {
-        display: block;
-        background: var(--color-bg-card);
-        border: var(--border-cyan);
-        border-top: none;
-        border-radius: 0 0 var(--radius-md) var(--radius-md);
-        padding: var(--space-3) var(--space-4);
-    }
-
-    .dropdownList {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-2);
-    }
+    gap: var(--space-2);
+  }
 }
