@@ -15,7 +15,7 @@ import reviewRouter from "./routes/review.routes.js";
 
 const app = express();
 
-app.use(cors({origin: true, credentials: true}));
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -26,9 +26,12 @@ app.use('/api/watched', watchedRouter);
 app.use('/api/watch-later', watchLaterRouter);
 app.use('/api/friends', friendsRouter);
 app.use('/api/notification', notificationRouter);
-app.use('/api/notification', notificationRouter);
 app.use('/api/activity', activityRouter);
 app.use('/api/review', reviewRouter);
+
+app.use((_req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`);
