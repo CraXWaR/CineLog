@@ -29,7 +29,7 @@ export class AiService {
     // Ask AI to extract genres and keywords from the user prompt
     private async parseUserPrompt(userPrompt: string): Promise<ParsedPrompt> {
         const result = await groq.chat.completions.create({
-            model: "llama-3.3-70b-versatile",
+            model: "openai/gpt-oss-20b",
             max_tokens: 500,
             messages: [{
                 role: "user",
@@ -126,7 +126,7 @@ export class AiService {
             .map((m) => ({ id: m.id, title: m.title, overview: m.overview, release_date: m.release_date }));
 
         const result = await groq.chat.completions.create({
-            model: "llama-3.3-70b-versatile",
+            model: "openai/gpt-oss-20b",
             max_tokens: 500,
             messages: [{
                 role: "user",
