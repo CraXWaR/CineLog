@@ -141,6 +141,7 @@ vite.config.ts.timestamp-*
 #Ide folders
 .idea
 
-# TypeScript build output
-server/dist/
-client/dist/
+# Build output
+dist/
+build/
+**/prisma/generated/
